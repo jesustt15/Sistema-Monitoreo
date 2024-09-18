@@ -1,0 +1,77 @@
+//codigo del esp
+#include <WiFi.h>
+#include <HTTPClient.h>
+#include <DHT.h>
+
+#define DHTPIN 4     // Pin donde está conectado el sensor DHT
+#define DHTTYPE DHT11   // Tipo de sensor DHT
+
+const char* ssid = "tu_SSID";
+const char* password = "tu_contraseña";
+const char* serverName = "http://192.168.1.100:3000/temperaturas"; // Cambia esto a la URL de tu servidor
+
+DHT dht(DHTPIN, DHTTYPE);
+const char* espID = "ESP32_1"; // Identificador único para este ESP32
+
+void setup() {
+  Serial.begin(115200);
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println("Conectando a WiFi...");
+  }
+
+  Serial.println("Conectado a la red WiFi");
+  dht.begin();
+}
+
+void loop() {
+  if (WiFi.status() == WL_CONNECTED) {
+    HTTPClient http;
+    http.begin(serverName);
+    http.addHeader("Content-Type", "application/json");
+
+    float temperatura = dht.readTemperature();
+    if (isnan(temperatura)) {
+      Serial.println("Error al leer el sensor DHT");
+      return;
+    }
+
+    String jsonPayload = "{\"temperaturas\": " + String(temperatura) + "}";
+    int httpResponseCode = http.POST(jsonPayload);
+
+    if (httpResponseCode > 0) {
+      String response = http.getString();
+      Serial.println(httpResponseCode);
+      Serial.println(response);
+    } else {
+      Serial.print("Error en la solicitud POST: ");
+      Serial.println(httpResponseCode);
+    }
+
+    http.end();
+  } else {
+    Serial.println("Error en la conexión WiFi");
+  }
+
+  delay(60000); // Enviar datos cada minuto
+} 
+
+//codigo del server
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+const port = 3000;
+
+app.use(bodyParser.json());
+
+app.post('/api/temperatura', (req, res) => {
+  const { temperatura } = req.body;
+  console.log(`Temperatura recibida: ${temperatura}°C`);
+  res.status(200).send('Datos recibidos');
+});
+
+app.listen(port, () => {
+  console.log(`Servidor escuchando en http://localhost:${port}`);
+});
