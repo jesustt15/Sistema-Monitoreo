@@ -15,7 +15,9 @@ app.use(express.json()); // Middleware para parsear JSON
 
 dbConnection();
 
-app.use('/temperaturas', require('./routes/temperaturas'))
+//Rutas
+app.use('/sensor/auth', require('./routes/auth'));
+app.use('/sensor/valores', require('./routes/valores'))
 
 // Configurar la tarea cron para eliminar registros antiguos
 // const job = new cron.CronJob('0 0 * * *', async () => {

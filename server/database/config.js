@@ -6,7 +6,7 @@ const dbConnection = async() =>{
 
     try {
 
-         await mongoose.connect( 'mongodb+srv://jesustt:VCpWrlM7awZcx90l@sensordb.l8cegdv.mongodb.net/');
+         await mongoose.connect( 'mongodb+srv://masisajt:Alessia15@sensordb.l8cegdv.mongodb.net/');
         console.log('db online');
         
     } catch (error) {
