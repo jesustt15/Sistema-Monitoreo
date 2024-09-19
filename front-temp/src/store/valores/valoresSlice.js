@@ -6,10 +6,12 @@ export const fetchSensorData = createAsyncThunk('valores/fetchSensorData', async
   return response.data;
 });
 
+
 const valoresSlice = createSlice({
   name: 'valores',
   initialState: {
     data: [],
+    filteredData: [],
     status: 'idle',
     error: null,
   },
@@ -17,7 +19,7 @@ const valoresSlice = createSlice({
     addSensorData: (state, action) => {
         state.data.push(action.payload);
       },
-  },
+      
   extraReducers: (builder) => {
     builder
       .addCase(fetchSensorData.pending, (state) => {
@@ -32,8 +34,8 @@ const valoresSlice = createSlice({
         state.error = action.error.message;
       });
   },
-});
+}});
 
-export const { addSensorDataa } = valoresSlice.actions;
+export const { addSensorDataa, filtrando } = valoresSlice.actions;
 
 export default valoresSlice.reducer;

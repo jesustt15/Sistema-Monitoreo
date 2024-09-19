@@ -1,6 +1,9 @@
 import  { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSensorData } from '../../store';
+import Navbar from './NavBar';
+import './components.css';
+import { Loading } from './Loading';
 
 
 export const ValoresList = () => {
@@ -16,7 +19,7 @@ export const ValoresList = () => {
       }, [valuesStatus, dispatch]);
     
       if (valuesStatus === 'loading') {
-        return <div>Loading...</div>;
+        return <Loading />;
       }
     
       if (valuesStatus === 'failed') {
@@ -26,18 +29,20 @@ export const ValoresList = () => {
 
 
   return (
+    <>
+          <Navbar />
+    
+    
+    
+        <ul>
+            {valuesData.map((data) => (
+            <li key={data.ids}>
+                ID: {data.id}, Temperature: {data.tempValue}, Humidity: {data.humValue}
+            </li>
+            ))}
+      </ul> 
+    </>
 
-    
-    
-    
-    
-    <ul>
-        {valuesData.map((data) => (
-        <li key={data.ids}>
-            ID: {data.id}, Temperature: {data.tempValue}, Humidity: {data.humValue}
-        </li>
-        ))}
-  </ul>
 
   )
 }
