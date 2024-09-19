@@ -1,18 +1,14 @@
 import { Link } from 'react-router-dom';
-import {useDispatch } from 'react-redux';
-import { filterData } from '../../store/valores';
+
 
 
 
 
 const Navbar = () => {
 
-  const dispatch = useDispatch();
-
-
   const handleFilterChange = (e) =>{
       const { value } = e.target;
-      dispatch(filterData(value));
+      console.log(value);
   }
 
   return (

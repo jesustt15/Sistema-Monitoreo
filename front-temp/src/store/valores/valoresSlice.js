@@ -1,17 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-
 export const fetchSensorData = createAsyncThunk('valores/fetchSensorData', async () => {
   const response = await axios.get('http://localhost:3000/sensor/valores');
   return response.data;
 });
-
-
 const valoresSlice = createSlice({
   name: 'valores',
   initialState: {
     data: [],
-    filteredData: [],
     status: 'idle',
     error: null,
   },
@@ -19,7 +15,7 @@ const valoresSlice = createSlice({
     addSensorData: (state, action) => {
         state.data.push(action.payload);
       },
-      
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchSensorData.pending, (state) => {
@@ -34,8 +30,6 @@ const valoresSlice = createSlice({
         state.error = action.error.message;
       });
   },
-}});
-
-export const { addSensorDataa, filtrando } = valoresSlice.actions;
-
+});
+export const { addSensorDataa } = valoresSlice.actions;
 export default valoresSlice.reducer;
