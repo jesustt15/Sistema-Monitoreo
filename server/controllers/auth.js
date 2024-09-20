@@ -21,6 +21,7 @@ const crearUsuario = async(req,res = response) => {
         }
         
         usuario = new Usuario(req.body);
+        console.log(usuario.password , usuario.name);
         //Encriptar Contraseña
         const salt = bcrypt.genSaltSync();
         usuario.password = bcrypt.hashSync(password, salt);
@@ -38,7 +39,11 @@ const crearUsuario = async(req,res = response) => {
         }    
         )
     } catch (error) {
-
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: 'Esa es tu vida'
+        })
         
     }
 }
