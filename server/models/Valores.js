@@ -2,7 +2,7 @@ const {Schema, model, SchemaTypes} = require('mongoose');
 
 
 const valoresSchema = Schema({
-    id:{
+    lugar:{
         type:String,
         required: true
     },

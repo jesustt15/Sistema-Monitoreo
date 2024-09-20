@@ -12,14 +12,14 @@ const transporter = nodemailer.createTransport({
 
  const saveValores = async (req , res = response) =>{
     
-    const {id , tempValue, humValue} = req.body;
+    const {lugar , tempValue, humValue} = req.body;
     try {
 
         const valores = new Valores(req.body);
         await valores.save();
 
         res.status(201).json({
-            id: valores.id,
+            lugar: valores.lugar,
             tempValue: valores.tempValue, 
             humValue: valores.humValue,
             mensaje: 'dATOS CALIDAD'});
@@ -54,7 +54,10 @@ const transporter = nodemailer.createTransport({
 
 
  const getValores = async (req, res = response) =>{
-    const valores = await Valores.find()
+  
+
+
+      const valores = await Valores.find()
                                         
     res.json(valores);
  };
