@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { LoginPage } from '../auth';
 import { Home  } from '../valores/pages/Home';
+import { Config } from '../valores/pages/Config';
 
 
 export const AppRouter = () => {
@@ -18,6 +19,7 @@ export const AppRouter = () => {
             }
 
             <Route path="/*" element={ <Navigate to="/auth/login" /> } />
+            <Route path="/config" element={ <Config /> } />
         </Routes>
     )
 }

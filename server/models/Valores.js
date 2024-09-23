@@ -1,11 +1,8 @@
-const {Schema, model, SchemaTypes} = require('mongoose');
+const {Schema, model, SchemaTypes, default: mongoose} = require('mongoose');
 
 
 const valoresSchema = Schema({
-    lugar:{
-        type:String,
-        required: true
-    },
+    lugar:{type: mongoose.ObjectId , ref: 'Lugar'},
     tempValue: {
         type: Number,
         required:true

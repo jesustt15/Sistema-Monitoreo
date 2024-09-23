@@ -8,7 +8,7 @@
 
 const char* ssid = "tu_SSID";
 const char* password = "tu_contraseña";
-const char* serverName = "http://192.168.1.100:3000/temperaturas"; // Cambia esto a la URL de tu servidor
+const char* serverName = "http://192.168.1.100:3000/sensor/valores"; // Cambia esto a la URL de tu servidor
 
 DHT dht(DHTPIN, DHTTYPE);
 const char* espID = "ESP32_1"; // Identificador único para este ESP32

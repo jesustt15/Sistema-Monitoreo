@@ -7,7 +7,7 @@ import Navbar from '../components/NavBar';
 
 export const Home = () => {
   const [valoresData, setvaloresData] = useState([]);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState("Guayana");
 
   ;
 
@@ -28,13 +28,13 @@ export const Home = () => {
     console.log(e.target.value);
   }
 
-  //metodo filtrado
+  // metodo filtrado
   let results = [];
 
   if(!search){
     results = valoresData;
   }else {
-    results =  valoresData.filter((dato) => dato.lugar.includes(search))
+    results =  valoresData.filter((dato) => dato.lugar.lugar.includes(search))
   }
 
   return (
@@ -46,7 +46,7 @@ export const Home = () => {
         <ul>
           {results.map((data, index) => (
             <li key={index}>
-              Lugar: {data.lugar}, Temperature: {data.tempValue}°C, Humidity: {data.humValue}%, Fecha: {data.valueFecha}
+              Lugar: {data.lugar.lugar}, Temperature: {data.tempValue}°C, Humidity: {data.humValue}%, Fecha: {data.valueFecha}
             </li>
           ))}
         </ul>

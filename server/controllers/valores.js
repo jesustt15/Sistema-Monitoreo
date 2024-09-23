@@ -6,7 +6,7 @@ const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: 'jevicleoknock@gmail.com',
-      pass: process.env.GMAIL_PASS
+      pass: 'incl bfko rpwi xlsm'
     }
   });
 
@@ -24,27 +24,32 @@ const transporter = nodemailer.createTransport({
             humValue: valores.humValue,
             mensaje: 'dATOS CALIDAD'});
 
-            // if( tempValue > 50) 
-            //    { // Ajusta este valor según tus necesidades
-            //       const mailOptions = {
-            //         from: 'jevicleoknock@gmail.com',
-            //         to: 'dalucyfuentes@gmail.com',
-            //         subject: 'Alerta de Temperatura Alta',
-            //         text: `La temperatura ha alcanzado ${tempValue}°C.`
-            //       };
+     
+
+
+            // if( tempValue > 50) {
+            //console.log('es arrecho');
+            // }'
+              //  { // Ajusta este valor según tus necesidades
+              //     const mailOptions = {
+              //       from: 'jevicleoknock@gmail.com',
+              //       to: 'somozaeduardo@gmail.com',
+              //       subject: 'Alerta de Temperatura Alta',
+              //       text: `La temperatura ha alcanzado ${tempValue}°C.`
+              //     };
               
-            //       transporter.sendMail(mailOptions, (error, info) => {
-            //         if (error) {
-            //           console.log('Error al enviar el correo:', error);
-            //           res.status(500).send('Error al enviar el correo');
-            //         } else {
-            //           console.log('Correo enviado:', info.response);
-            //           res.status(200).send('Correo enviado');
-            //         }
-            //       });
-            //     } else {
-            //       res.status(200).send('Temperatura normal');
-            //     }
+              //     transporter.sendMail(mailOptions, (error, info) => {
+              //       if (error) {
+              //         console.log('Error al enviar el correo:', error);
+              //         res.status(500).send('Error al enviar el correo');
+              //       } else {
+              //         console.log('Correo enviado:', info.response);
+              //         res.status(200).send('Correo enviado');
+              //       }
+              //     });
+              //   } else {
+              // //     res.status(200).send('Temperatura normal');
+              //   }
         
     } catch (error) {
         console.log(error);
@@ -57,7 +62,7 @@ const transporter = nodemailer.createTransport({
   
 
 
-      const valores = await Valores.find()
+      const valores = await Valores.find().populate('lugar','lugar');
                                         
     res.json(valores);
  };
