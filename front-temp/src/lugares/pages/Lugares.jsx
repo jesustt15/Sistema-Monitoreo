@@ -24,6 +24,7 @@ export const Lugares = () => {
             <li key={index}>
               Nombre: {lugar.name}, Temperatura Maxima: {lugar.tempMax}°C, Temperatura Minima: {lugar.tempMin}°C,  
               Humedad Minima: {lugar.humMin}%,  Humedad Maxima: {lugar.humMax}%
+              ID: {lugar._id}
             </li>
           ))}
       </ul>
