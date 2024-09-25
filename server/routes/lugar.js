@@ -1,6 +1,7 @@
 const {Router} = require('express');
 const { getLugar, saveLugar, deleteLugar, updateLugar} = require('../controllers/lugar');
-
+const {check} = require('express-validator');
+const { validarCampos } = require('../middlewares/validar-campo');
 
 
 const router = Router();

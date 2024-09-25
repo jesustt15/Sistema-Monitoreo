@@ -44,11 +44,41 @@ const Lugar = require('../models/Lugar');
     res.json(lugar);
  };
 
- const updateLugar async( req, res = response) =>{
+ const updateLugar = async( req, res = response) =>{
+
+   try {
+      const lugar = await Lugar.findByIdAndUpdate(req.params.id , req.body ,{
+         new: true,
+      });
+      if(lugar){
+         return res.status(400).json({
+            ok: false,
+            name: lugar.name,
+            msg: 'La localidad ha sido actualizada'
+         })
+      }
+   } catch (error) {
+      console.log(error);
+      res.status(500).json({error});
+   }
 
  };
 
- const deleteLugar async( req, res = response) =>{
+ const deleteLugar = async( req, res = response) =>{
+
+   try {
+      const lugar = await Lugar.findByIdAndDelete(req.params.id);
+      if(lugar){
+         return res.status(400).json({
+            ok: false,
+            name: lugar.name,
+            msg: 'La localidad ha sido eliminada'
+         })
+      }
+   } catch (error) {
+      console.log(error);
+      res.status(500).json({error});
+   }
 
  };
 

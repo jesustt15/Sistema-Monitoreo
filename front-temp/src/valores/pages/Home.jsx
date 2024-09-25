@@ -2,40 +2,17 @@ import { useEffect, useState } from 'react';
 import '../components/components.css';
 import axios from 'axios';
 import Navbar from '../components/NavBar';
+import { useValor } from '../../context';
 
 
 
 export const Home = () => {
-  const [valoresData, setvaloresData] = useState([]);
-  const [search, setSearch] = useState("Guayana");
+  const {results ,searcher ,getValores} = useValor();
 
-  ;
+    useEffect(() => {
+      getValores();
 
-  useEffect(() => {
-    axios.get('http://localhost:3000/sensor/valores')
-      .then(response => {
-        setvaloresData(response.data);
-      })
-      .catch(error => {
-        console.error('There was an error fetching the valores data!', error);
-      });
-  }, []);
-
-  //buscador
-
-  const searcher = (e) => {
-    setSearch(e.target.value);
-    console.log(e.target.value);
-  }
-
-  // metodo filtrado
-  let results = [];
-
-  if(!search){
-    results = valoresData;
-  }else {
-    results =  valoresData.filter((dato) => dato.lugar.name.includes(search))
-  }
+  },[]);
 
   return (
     
@@ -46,7 +23,7 @@ export const Home = () => {
         <ul>
           {results.map((data, index) => (
             <li key={index}>
-              Lugar: {data.lugar.name}, Temperature: {data.tempValue}°C, Humidity: {data.humValue}%, Fecha: {data.valueFecha}
+              Lugar: {data.lugar.name}, Temperature: {data.tempValue}°C, Humidity: {data.humValue}%, Fecha: {new Date(data.valueFecha).toLocaleString()}
             </li>
           ))}
         </ul>

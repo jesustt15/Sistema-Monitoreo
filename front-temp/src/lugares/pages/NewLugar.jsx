@@ -1,7 +1,8 @@
 
 
+import { useLugar } from "../../context";
 import { useForm } from "../../hooks"
-import Navbar from "../components/NavBar"
+// import {Navbar} from "../../valores/components/NavBar";
 
 const lugarFormField = {
     lugarConfig: '',
@@ -17,30 +18,18 @@ export const NewLugar = () => {
 
     const {lugarConfig, tempMinConfig, tempMaxConfig, humMinConfig, humMaxConfig, onInputChange:onLugaresChange} = useForm( lugarFormField );
     
-    const onHandleSubmit = async (e) => {
+    const {createLugar} = useLugar();
+    
+    const onHandleSubmit =  async(e) => {
         e.preventDefault();
-        try {
-          const response = await fetch('http://localhost:3000/sensor/config', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({lugar: lugarConfig, tempMin: tempMinConfig , tempMax: tempMaxConfig, humMin: humMinConfig, humMax: humMaxConfig })
-          });
-          if (response.ok) {
-            window.location.reload();
-            console.log('Datos enviados con éxito');
-          } else {
-            console.error('Error al enviar los datos');
-          }
-        } catch (error) {
-          console.error('Error:', error);
-        }
+      createLugar({name: lugarConfig, tempMin: tempMinConfig, tempMax: tempMaxConfig, 
+        humMin: humMinConfig, humMax: humMaxConfig}); 
+       
       };
 
   return (
     <>
-        <Navbar />
+        {/* <Navbar /> */}
         <p>Config</p>
         <form onSubmit={onHandleSubmit}>
             <div>
