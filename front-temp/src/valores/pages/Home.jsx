@@ -34,7 +34,7 @@ export const Home = () => {
   if(!search){
     results = valoresData;
   }else {
-    results =  valoresData.filter((dato) => dato.lugar.lugar.includes(search))
+    results =  valoresData.filter((dato) => dato.lugar.name.includes(search))
   }
 
   return (
@@ -46,7 +46,7 @@ export const Home = () => {
         <ul>
           {results.map((data, index) => (
             <li key={index}>
-              Lugar: {data.lugar.lugar}, Temperature: {data.tempValue}°C, Humidity: {data.humValue}%, Fecha: {data.valueFecha}
+              Lugar: {data.lugar.name}, Temperature: {data.tempValue}°C, Humidity: {data.humValue}%, Fecha: {data.valueFecha}
             </li>
           ))}
         </ul>

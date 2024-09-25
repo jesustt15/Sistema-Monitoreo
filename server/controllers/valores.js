@@ -24,11 +24,12 @@ const transporter = nodemailer.createTransport({
             humValue: valores.humValue,
             mensaje: 'dATOS CALIDAD'});
 
-     
+            const tempMax = await Valores.find().populate('lugar', 'name')
+            
 
 
-            // if( tempValue > 50) {
-            //console.log('es arrecho');
+            if( tempValue < 500  ) {
+              console.log('es arrecho');}
             // }'
               //  { // Ajusta este valor según tus necesidades
               //     const mailOptions = {
@@ -62,7 +63,7 @@ const transporter = nodemailer.createTransport({
   
 
 
-      const valores = await Valores.find().populate('lugar','lugar');
+      const valores = await Valores.find().populate('lugar','name');
                                         
     res.json(valores);
  };

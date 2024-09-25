@@ -2,7 +2,7 @@ const {Schema, model, SchemaTypes} = require('mongoose');
 
 
 const lugarSchema = Schema({
-    lugar:{
+    name:{
         type:String,
         required: true
     },

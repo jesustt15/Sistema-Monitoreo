@@ -18,7 +18,8 @@ dbConnection();
 //Rutas
 app.use('/sensor/auth', require('./routes/auth'));
 app.use('/sensor/valores', require('./routes/valores'));
-app.use('/sensor/config', require('./routes/lugar'));
+app.use('/sensor/lugares', require('./routes/lugar'));
+app.use('/sensor/config' , require('./routes/config'));
 
 // Configurar la tarea cron para eliminar registros antiguos
 // const job = new cron.CronJob('0 0 * * *', async () => {

@@ -1,22 +1,19 @@
 import { useForm } from "../../hooks"
 import Navbar from "../components/NavBar"
 
-const configFormField = {
-    lugarConfig: '',
-    tempMinConfig: '',
-    tempMaxConfig: '',
-    humMinConfig: '',
-    humMaxConfig: '',
 
+const configFormField = {
+  emailConfig: '',
+  passwordConfig: ''
 };
 
 
 
 export const Config = () => {
 
-    const {lugarConfig, tempMinConfig, tempMaxConfig, humMinConfig, humMaxConfig, onInputChange:onConfigChange} = useForm(configFormField);
+    const {emailConfig , passwordConfig, onInputChange:onConfigChange} = useForm( configFormField);
 
-    const onHandleSubmit = async (e) => {
+      const onHandleConfigSubmit = async(e) =>{
         e.preventDefault();
         try {
           const response = await fetch('http://localhost:3000/sensor/config', {
@@ -24,9 +21,10 @@ export const Config = () => {
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({lugar: lugarConfig, tempMin: tempMinConfig , tempMax: tempMaxConfig, humMin: humMinConfig, humMax: humMaxConfig })
+            body: JSON.stringify({email: emailConfig, password: passwordConfig })
           });
           if (response.ok) {
+            window.location.reload();
             console.log('Datos enviados con éxito');
           } else {
             console.error('Error al enviar los datos');
@@ -34,62 +32,40 @@ export const Config = () => {
         } catch (error) {
           console.error('Error:', error);
         }
-      };
+      }
 
   return (
     <>
         <Navbar />
         <p>Config</p>
-        <form onSubmit={onHandleSubmit}>
-            <div>
+        <br></br>
+        <form onSubmit={onHandleConfigSubmit}>
+          <div>
                 <input
-                type="text"
-                placeholder="Lugar"
-                name="lugarConfig"
-                value={lugarConfig}
+                type="email"
+                placeholder="Email"
+                name="emailConfig"
+                value={emailConfig}
                 onChange={onConfigChange}
                 ></input>
-            </div>
-            <div>
+          </div>
+          <div>
                 <input
-                type="number"
-                placeholder="Temp Minima"
-                name="tempMinConfig"
-                value={tempMinConfig}
+                type="password"
+                placeholder="password"
+                name="passwordConfig"
+                value={passwordConfig}
                 onChange={onConfigChange}
                 ></input>
-            </div>
-            <div>
+          </div>
+          <div>
                 <input
-                type="number"
-                placeholder="Temp Max"
-                name="tempMaxConfig"
-                value={tempMaxConfig}
-                onChange={onConfigChange}
+                type="submit"
+                value="Actualizar"
                 ></input>
-            </div>
-            <div>
-                <input
-                type="number"
-                placeholder="Humedad Max"
-                name="humMaxConfig"
-                value={humMaxConfig}
-                onChange={onConfigChange}
-                ></input>
-            </div>
-            <div>
-                <input
-                type="number"
-                placeholder="Humedad Min"
-                name="humMinConfig"
-                value={humMinConfig}
-                onChange={onConfigChange}
-                ></input>
-            </div>
-            <input
-            type="submit"
-            value="Guardar"
-            ></input>
+          </div>
+
+
         </form>
 
     </>
