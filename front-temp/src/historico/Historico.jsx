@@ -3,7 +3,6 @@ import { useValor } from '../../context';
 
 
 
-
 export const Home = () => {
   const {results ,searcher ,getValores} = useValor();
 
@@ -28,7 +27,3 @@ export const Home = () => {
     
   );
 }
-
-
-
-

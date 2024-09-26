@@ -1,5 +1,4 @@
 import { useEffect} from "react";
-import Navbar from "../../valores/components/NavBar";
 import { useLugar } from "../../context";
 
 
@@ -17,7 +16,6 @@ export const Lugares = () => {
       
   return (
   <>
-    <Navbar />
     <div>Lugares</div>
     <ul>
           {lugares.map((lugar, index) => (

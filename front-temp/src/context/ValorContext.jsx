@@ -33,8 +33,7 @@ export function ValorProvider ({children}) {
     //buscador
   
     const searcher = (e) => {
-      setSearch(e.target.value);
-      console.log(e.target.value);
+      setSearch(e.target.value);;
     }
   
     // metodo filtrado

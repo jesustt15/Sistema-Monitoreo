@@ -1,5 +1,5 @@
 import { useForm } from "../../hooks"
-import Navbar from "../components/NavBar"
+
 
 
 const configFormField = {
@@ -36,7 +36,6 @@ export const Config = () => {
 
   return (
     <>
-        <Navbar />
         <p>Config</p>
         <br></br>
         <form onSubmit={onHandleConfigSubmit}>

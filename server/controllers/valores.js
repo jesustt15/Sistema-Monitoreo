@@ -1,6 +1,7 @@
 const {response} = require('express');
 const Valores = require('../models/Valores');
 const Lugar = require('../models/Lugar');
+const Hist_valor = require('../models/Hist_valor');
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
@@ -19,45 +20,51 @@ const transporter = nodemailer.createTransport({
         const valores = new Valores(req.body);
         await valores.save();
 
-        res.status(201).json({
-            lugar: valores.lugar,
-            tempValue: valores.tempValue, 
-            humValue: valores.humValue,
-            mensaje: 'dATOS CALIDAD'});
+        
+            const { tempMax, humMax, tempMin, humMin, name } = await Lugar.findById(lugar);
 
-            const localidad = await Lugar.findById(lugar);
+          
 
-            const tempMax = localidad.tempMax;
-
-            
-
-
-            if( tempValue > tempMax  ) 
-
-               { // Ajusta este valor según tus necesidades
-                  const mailOptions = {
-                    from: 'jevicleoknock@gmail.com',
-                    to: 'jesustoussaint08@gmail.com',
-                    subject: 'Alerta de Temperatura Alta',
-                    text: `La temperatura ha alcanzado ${tempValue}°C.`
-                  };
+            if( tempValue > tempMax || tempValue < tempMin || humValue > humMax || humValue < humMin ) { 
               
-                  transporter.sendMail(mailOptions, (error, info) => {
-                    if (error) {
-                      console.log('Error al enviar el correo:', error);
-                      res.status(500).send('Error al enviar el correo');
-                    } else {
-                      console.log('Correo enviado:', info.response);
-                      res.status(200).send('Correo enviado');
+              //logica de guardar en historico
+              try {
+                      const histValues = new Hist_valor({value_id: valores._id});
+                      await histValues.save();
+                    
+                    } catch (error) {
+                      
+                      console.log(error)
+                        return res.status(500).json({
+                          ok: false,
+                          msg: 'Error en guardar en Tabla histórico'
+                      })
                     }
-                  });
-                } else {
-                   res.status(200).send('Temperatura normal');
-                }
+                  
+                    const mailOptions = {
+                      from: 'jevicleoknock@gmail.com',
+                      to: 'jesustoussaint08@gmail.com',
+                      subject: 'Alerta de Temperatura y Humedad',
+                      text: `La temperatura ha alcanzado ${tempValue}°C. en ${name}`
+                    };
+                
+                    transporter.sendMail(mailOptions, (error, info) => {
+                      if (error) {
+                        console.log('Error al enviar el correo:', error);
+                        return res.status(500).send('Error al enviar el correo');
+                      } else {
+                        console.log('Correo enviado:', info.response);
+                        return res.status(200).send('Correo enviado');
+                      }
+                    });
+                  } else {
+                    res.status(200).send('datos guardados y temperatura normal');
+                  } 
+                  
         
     } catch (error) {
         console.log(error);
-        res.status(500).json({error});
+       return res.status(500).json({error});
     }
  };
 
@@ -69,7 +76,7 @@ const transporter = nodemailer.createTransport({
       const valores = await Valores.find().populate('lugar','name');
 
                                         
-    res.json(tempMax);
+      res.json(valores);
  };
 
 

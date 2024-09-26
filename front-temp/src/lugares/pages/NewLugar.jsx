@@ -2,7 +2,7 @@
 
 import { useLugar } from "../../context";
 import { useForm } from "../../hooks"
-// import {Navbar} from "../../valores/components/NavBar";
+
 
 const lugarFormField = {
     lugarConfig: '',
@@ -29,7 +29,6 @@ export const NewLugar = () => {
 
   return (
     <>
-        {/* <Navbar /> */}
         <p>Config</p>
         <form onSubmit={onHandleSubmit}>
             <div>
