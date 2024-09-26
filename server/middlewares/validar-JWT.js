@@ -18,7 +18,7 @@ const jwt = require("jsonwebtoken");
 
         const {uid, name} = jwt.verify(
             token,
-            process.env.SECRET_JWT_SEED 
+           'es un secreto' 
 
         )
         req.uid = uid;

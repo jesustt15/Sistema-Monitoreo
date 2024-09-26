@@ -20,7 +20,7 @@ export const useHistorico = () =>{
 
 export function HistoricoProvider ({children}) {
     const [historico, setHistorico] = useState([]);
-    const [search, setSearch] = useState("Guayana");
+    const [search, setSearch] = useState("Caracas");
   
   
     const getHistorico = async() =>{
