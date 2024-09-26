@@ -29,11 +29,10 @@ export function HistoricoProvider ({children}) {
         setHistorico(res.data);           
   }
 
-    //buscador
+   // buscador
   
     const searcher = (e) => {
       setSearch(e.target.value);
-      console.log(e.target.value);
     }
   
     // metodo filtrado
@@ -42,7 +41,7 @@ export function HistoricoProvider ({children}) {
     if(!search){
       results = historico;
     }else {
-      results =  historico.filter((dato) => dato.lugar.name.includes(search))
+      results =  historico.filter((dato) => dato.value_id.lugar.name.includes(search))
     }
 
 
@@ -51,8 +50,8 @@ export function HistoricoProvider ({children}) {
 
     return (
         <HistoricoContext.Provider value={{ results , 
-        getHistorico,
-        searcher}}>
+          searcher,
+        getHistorico,}}>
             {children}
         </HistoricoContext.Provider>
     )

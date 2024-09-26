@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
-import { useValor } from '../../context';
+import { useHistorico } from '../context/HistoricoContext';
 
 
 
-export const Home = () => {
-  const {results ,searcher ,getValores} = useValor();
+export const Historico = () => {
+  const {results ,getHistorico , searcher} = useHistorico();
 
     useEffect(() => {
-      getValores();
+      getHistorico();
 
   },[]);
 
@@ -16,10 +16,11 @@ export const Home = () => {
     <div className="App">
       <button value={'Guayana'} onClick={searcher}>Guayana</button>
       <button value={'Planta'} onClick={searcher}>Planta</button>
+      <button value={'Caracas'} onClick={searcher}>Caracas</button>
         <ul>
           {results.map((data, index) => (
             <li key={index}>
-              Lugar: {data.lugar.name}, Temperature: {data.tempValue}°C, Humidity: {data.humValue}%, Fecha: {new Date(data.valueFecha).toLocaleString()}
+              Lugar: {data.value_id.lugar.name}, Temperature: {data.value_id.tempValue}°C, Humidity: {data.value_id.humValue}%, Fecha: {new Date(data.value_id.valueFecha).toLocaleString()}
             </li>
           ))}
         </ul>

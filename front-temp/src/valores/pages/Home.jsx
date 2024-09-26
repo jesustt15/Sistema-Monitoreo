@@ -17,6 +17,7 @@ export const Home = () => {
     <div className="App">
       <button value={'Guayana'} onClick={searcher}>Guayana</button>
       <button value={'Planta'} onClick={searcher}>Planta</button>
+      <button value={'Caracas'} onClick={searcher}>Caracas</button>
         <ul>
           {results.map((data, index) => (
             <li key={index}>

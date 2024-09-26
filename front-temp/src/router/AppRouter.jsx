@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { LoginPage } from '../auth';
 import { Home  } from '../valores/pages/Home';
 import { Config } from '../valores/pages/Config';
+import { Historico } from '../historico/Historico';
 import { ActualizarLugar, Lugares, NewLugar } from '../lugares';
 import { HistoricoProvider, LugarProvider } from '../context';
 import { ValorProvider } from '../context/ValorContext';
@@ -32,6 +33,7 @@ export const AppRouter = () => {
                         <Route path='/lugares' element ={ <Lugares />} />
                             <Route path='/lugares/:id' element ={ <ActualizarLugar />} />
                             <Route path='/new-lugar' element ={ <NewLugar />} />
+                        <Route path='/historico' element={<Historico />}/>
                     </Routes>
 
                 </HistoricoProvider>

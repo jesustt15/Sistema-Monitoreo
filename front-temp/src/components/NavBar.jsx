@@ -9,7 +9,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-brand">
-        <Link to="/">Inicio</Link>
+        <Link to="/">Valores</Link>
         <NavLink to="/config">Config</NavLink>
         <NavLink to="/lugares">Localidades</NavLink>
         <NavLink to="/historico">Historico</NavLink>
