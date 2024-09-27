@@ -7,6 +7,10 @@ import { useAuth } from '../context/AuthContext';
 const Navbar = () => {
 
   const {logout} = useAuth();
+
+  const handleLogout = () =>{
+    logout();
+  }
   
   return (
     <nav className="navbar">
@@ -15,7 +19,7 @@ const Navbar = () => {
         <NavLink to="/config">Config</NavLink>
         <NavLink to="/lugares">Localidades</NavLink>
         <NavLink to="/historico">Historico</NavLink>
-        <button onClick={logout()}>Salir</button>
+        <button onClick={handleLogout}>Salir</button>
       </div>
     </nav>
   );

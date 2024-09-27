@@ -7,12 +7,11 @@ import { AuthProvider } from './context/AuthContext';
 
 export const SensorApp = () => {
   return (
+    <AuthProvider>
       <BrowserRouter>
-        <AuthProvider>
             <AppRouter />
-        </AuthProvider>
       </BrowserRouter>
-
+    </AuthProvider>
 
   )
 }
