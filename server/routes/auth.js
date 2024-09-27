@@ -11,22 +11,22 @@ const { validarJWT } = require('../middlewares/validar-JWT');
 
 router.post('/new',
 //middlewares de validacion
-[
-    check('name', 'El nombre es obligatorio').not().isEmpty(),
-    check('email', 'El email es obligatorio').isEmail(),
-    
-    validarCampos
+    [
+        check('name', 'El nombre es obligatorio').not().isEmpty(),
+        check('email', 'El email es obligatorio').isEmail(),
+        
+        validarCampos
 
 
-] ,crearUsuario);
+    ] ,crearUsuario);
 
 router.post('/',
-[
-    check('email', 'El email es obligatorio').isEmail(),
-    check('password', 'La contraseña debe se de minimo 6 carcateres').isLength({min: 6}),
-    validarCampos
-]
-,loginUsuario );
+    [
+        check('email', 'El email es obligatorio').isEmail(),
+        check('password', 'La contraseña debe se de minimo 6 carcateres').isLength({min: 6}),
+        validarCampos
+    ]
+    ,loginUsuario );
 
 router.get('/renew',validarJWT ,revalidarToken );
 

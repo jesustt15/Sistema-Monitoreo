@@ -11,6 +11,7 @@ import { useAuth } from '../context/AuthContext';
 
 
 
+
 export const AppRouter = () => {
 
     const {checkAuthToken , isAuthenticated} = useAuth(); 
@@ -26,9 +27,10 @@ export const AppRouter = () => {
         <LugarProvider>
             <ValorProvider>
                 <HistoricoProvider>
+
                     <Routes>
                         {
-                            ( !isAuthenticated )  
+                            ( isAuthenticated )  
                                 ? (
                                     <>
                                         <Route path="/auth/*" element={ <LoginPage /> } />

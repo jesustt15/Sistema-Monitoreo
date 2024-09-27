@@ -1,3 +1,4 @@
+import Navbar from "../../components/NavBar";
 import { useForm } from "../../hooks"
 
 
@@ -17,7 +18,7 @@ export const Config = () => {
         e.preventDefault();
         try {
           const response = await fetch('http://localhost:3000/sensor/config', {
-            method: 'POST',
+            method: 'PUT',
             headers: {
               'Content-Type': 'application/json'
             },
@@ -36,6 +37,7 @@ export const Config = () => {
 
   return (
     <>
+        <Navbar />
         <p>Config</p>
         <br></br>
         <form onSubmit={onHandleConfigSubmit}>

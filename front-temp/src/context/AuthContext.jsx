@@ -22,7 +22,7 @@ export const useAuth = () =>{
 export function AuthProvider ({children}) {
     const [user, setUser] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [errorMessage, setErrorMessage] = useState([]);
+    const [errorMessage, setErrorMessage] = useState(null);
 
     const signin = async ({email , password}) => {
         try {
@@ -32,8 +32,12 @@ export function AuthProvider ({children}) {
           setUser(data);
           setIsAuthenticated(true);
         } catch (error) {
-          console.log(error);
-          // setErrors(error.response.data.message);
+          
+          const errores = error.response.data;
+          if('errors' in errores){
+             setErrorMessage(error.response.data.errors.msg);
+          }
+          setErrorMessage(error.response.data.msg);
         }
       };
       const logout = () => {

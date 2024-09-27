@@ -2,6 +2,7 @@ const express = require('express');
 const { dbConnection } = require('./database/config');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
 // const cron = require('cron');
 // const Temperatura = require('./models/Temperatura');
@@ -12,6 +13,7 @@ app.use(cors()); //usar el corss
 app.use(bodyParser.json()); //para leer los valores del esp32
 
 app.use(express.json()); // Middleware para parsear JSON
+app.use(cookieParser()) //Middleware para parsear Cookies
 
 dbConnection();
 

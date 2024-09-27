@@ -3,6 +3,7 @@
 import { useForm } from '../../hooks';
 import { useAuth } from '../../context/AuthContext';
 
+
 const loginFormFields = {
     loginEmail:    '',
     loginPassword: '',
@@ -11,7 +12,7 @@ const loginFormFields = {
 
 export const LoginPage = () => {
 
-    const { signin, errorMessage, logout } = useAuth();
+    const { signin, errorMessage } = useAuth();
 
     const { loginEmail, loginPassword, onInputChange:onLoginInputChange } = useForm( loginFormFields );
   
@@ -21,11 +22,6 @@ export const LoginPage = () => {
         signin({ email: loginEmail, password: loginPassword });
     }
 
-    // useEffect(() => {
-    //   if ( errorMessage !== undefined ) {
-    //     Swal.fire('Error en la autenticación', errorMessage, 'error');
-    //   }    
-    // }, [errorMessage])
 
     return (
         <div className="container login-container">
@@ -53,6 +49,7 @@ export const LoginPage = () => {
                                 onChange={ onLoginInputChange }
                             />
                         </div>
+                        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                         <div className="d-grid gap-2">
                             <input 
                                 type="submit"

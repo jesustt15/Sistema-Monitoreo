@@ -9,8 +9,8 @@ export const Home = () => {
 
   return (
     <>
-        <Navbar />
         <div className="App">
+            <Navbar />
             <ValoresPage />
         </div>
     </>

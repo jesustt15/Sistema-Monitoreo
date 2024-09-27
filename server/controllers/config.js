@@ -2,33 +2,24 @@ const {response} = require('express');
 const Config = require('../models/Config');
 
 
- const saveConfig = async (req , res = response) =>{
-    
-    const {email, password} = req.body;
-    try {
+const updateConfig = async( req, res = response) =>{
 
-         let emailUser =  await Config.findOne({email})
+   try {
+      const configCredentials = await Config.findByIdAndUpdate(req.params.id , req.body ,{
+         new: true,
+      });
+      if(configCredentials.email){
+         return res.status(400).json({
+            ok: false,
+            name: configCredentials.email,
+            msg: 'El correo a sido actualizado'
+         })
+      }
+   } catch (error) {
+      console.log(error);
+      res.status(500).json({error});
+   }
 
-         if(email){
-            return res.status(400).json({
-               ok: false,
-               msg: 'El email ya se encuentra agregado'
-            })
-         }
-
-        const configUser = new Config(req.body);
-        await configUser.save();
-
-        res.status(201).json({
-            email: configUser.email,
-            password: configUser.password, 
-            mensaje: 'DATOS CALIDAD'});
-
-        
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({error});
-    }
  };
 
 
@@ -38,12 +29,12 @@ const Config = require('../models/Config');
 
       const configUser = await Config.find()
                                         
-    res.json(lugar);
+    res.json(configUser);
  };
 
 
 
  module.exports = {
-    saveConfig,
+    updateConfig,
     getConfig
  }

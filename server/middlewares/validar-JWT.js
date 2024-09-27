@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 
  const validarJWT = (req, res = response, next) =>{
 
-    const token = req.header('x-token');
+    const {token} = req.cookies;
 
     if (!token){
         res.status(401).json({

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState} from "react";
-import {createLugarRequest, updateLugarRequest, deleteLugarRequest, getLugarRequest} from '../api'
+import {createLugarRequest, updateLugarRequest, deleteLugarRequest, getLugarRequest, getOneLugarRequest} from '../api'
 
 
 const LugarContext = createContext();
@@ -35,16 +35,37 @@ export function LugarProvider ({children}) {
           setlugares(res.data);           
     }
 
-    const updateLugar = async() =>{
-
-        const res = await updateLugarRequest();
-        //todo
+    const updateLugar = async(id, lugar) =>{
+        try {
+            await updateLugarRequest(id, lugar);
+          } catch (error) {
+            console.error(error);
+          }
     }
 
-    const deleteLugar = async() => {
+    const deleteLugar = async(id) => {
 
-        const res = await deleteLugarRequest;
-        //todo
+        try {
+            const res = await deleteLugarRequest(id);
+            console.log("haciendo la verificacion");
+            if (res.status === 204) setlugares(lugares.filter((lugar) => lugar._id !== id));
+          } catch (error) {
+            console.log(error);
+          }
+    }
+
+    const getOneLugar = async(id) =>{
+
+        try {
+
+            const res = await getOneLugarRequest(id);
+            setlugares(res.data);
+            
+        } catch (error) {
+            console.log(error);
+            
+        }
+
     }
 
 
@@ -54,7 +75,9 @@ export function LugarProvider ({children}) {
         createLugar,
         getLugares,
         deleteLugar,
-        updateLugar}}>
+        updateLugar,
+        getOneLugar
+        }}>
             {children}
         </LugarContext.Provider>
     )

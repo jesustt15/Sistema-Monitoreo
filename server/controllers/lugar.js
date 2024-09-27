@@ -44,6 +44,17 @@ const Lugar = require('../models/Lugar');
     res.json(lugar);
  };
 
+ const getOneLugar = async (req, res = response ) =>{
+
+   try {
+      const lugar = await Lugar.findById(req.params.id);
+      if (!lugar) return res.status(404).json({ message: "lugar not found" });
+      return res.json(lugar);
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+ }
+
  const updateLugar = async( req, res = response) =>{
 
    try {
@@ -69,7 +80,7 @@ const Lugar = require('../models/Lugar');
    try {
       const lugar = await Lugar.findByIdAndDelete(req.params.id);
       if(lugar){
-         return res.status(400).json({
+         return res.status(204).json({
             ok: false,
             name: lugar.name,
             msg: 'La localidad ha sido eliminada'
@@ -87,5 +98,6 @@ const Lugar = require('../models/Lugar');
     saveLugar,
     getLugar,
     updateLugar,
-    deleteLugar
+    deleteLugar,
+    getOneLugar,
  }
