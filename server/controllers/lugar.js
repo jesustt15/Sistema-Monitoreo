@@ -62,7 +62,7 @@ const Lugar = require('../models/Lugar');
          new: true,
       });
       if(lugar){
-         return res.status(400).json({
+         return res.status(201).json({
             ok: false,
             name: lugar.name,
             msg: 'La localidad ha sido actualizada'

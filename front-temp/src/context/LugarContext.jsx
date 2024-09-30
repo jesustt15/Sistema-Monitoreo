@@ -59,7 +59,7 @@ export function LugarProvider ({children}) {
         try {
 
             const res = await getOneLugarRequest(id);
-            setlugares(res.data);
+            return res.data;
             
         } catch (error) {
             console.log(error);

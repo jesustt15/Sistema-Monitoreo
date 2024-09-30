@@ -1,95 +1,97 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useLugar } from "../../context";
-import { useForm } from "../../hooks";
+import { useForm } from "react-hook-form"
 
 
+  
 
 
 export const ActualizarLugar = () => {
 
-  const { id } = useParams();
-  const {updateName, updateTempMin, updateTempMax, updateHumMax, updateHumMin,  onInputChange} = useForm(formUpdateField);
-  const {getOneLugar, lugares} =  useLugar();
+  const { id } = useParams();  
+  const {getOneLugar,  updateLugar} =  useLugar();
+  const { register, handleSubmit, setValue} = useForm();
+  const navigate = useNavigate();
 
-  const formUpdateField = {
+    useEffect(() => {
+        const loadLugar = async () => {
+            if (id) {
+              const lugar = await getOneLugar(id);
+              setValue('name', lugar.name);
+              setValue('tempMin', lugar.tempMin);
+              setValue('tempMax', lugar.tempMax);
+              setValue('humMin', lugar.humMin);
+              setValue('humMax', lugar.humMax);
+          }
+        };
+          loadLugar();
+    }, []);
+    
+    const onSubmit = async (data) => {
+        try {
+          if (id) {
+            updateLugar(id, {
+              ...data });
+              alert('actualizado');
+              navigate('/lugares')
+          } else {
+            alert('No hay nada que actualizar')
+          }
+        } catch (error) {
+            console.log(error);
+            // window.location.href = "/";
+          }
+ }
+    
 
-    updateName: lugares.name,
-    updateTempMin: '',
-    updateTempMax: '',
-    updateHumMax: '',
-    updateHumMin: '',
-  }
-  
-
-  useEffect(() => {
-    if (id) {
-     getOneLugar();
-            
-    }
-}, []);
-
-const updateSubmit = () => {
-
-  console.log('enviando');
-}
   
 return (
     <>
       <div>Actualizar Lugar</div>
-                    <form onSubmit={ updateSubmit }>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="form-group mb-2">
                             <input 
                                 type="text"
                                 className="form-control"
                                 placeholder="name"
-                                name="updateName"
-                                value={ updateName}
-                                onChange={ onInputChange }
+                                {...register("name")}
                             />
                         </div>
                         <div className="form-group mb-2">
                             <input
                                 type="number"
                                 className="form-control"
-                                placeholder="Contraseña"
-                                name="updateTempMin"
-                                value={ updateTempMin }
-                                onChange={ onInputChange }
+                                placeholder="Temperatura Minima"
+                                {...register("tempMin")}
                             />
                         </div>
                         <div className="form-group mb-2">
                             <input
                                 type="number"
                                 className="form-control"
-                                placeholder="Contraseña"
-                                name="updateTempMax"
-                                value={ updateTempMax }
-                                onChange={ onInputChange }
+                               placeholder="Temperatura Maxima"
+                                {...register("tempMax")}
                             />
                         </div>
                         <div className="form-group mb-2">
                             <input
                                 type="number"
                                 className="form-control"
-                                placeholder="Contraseña"
-                                name="updateHumMin"
-                                value={ updateHumMin }
-                                onChange={ onInputChange }
+                               placeholder="Humedad Minima"
+                                {...register("humMin")}
                             />
                         </div>
                         <div className="form-group mb-2">
                             <input
                                 type="number"
                                 className="form-control"
-                                placeholder="Contraseña"
-                                name="updateHumMax"
-                                value={ updateHumMax }
-                                onChange={ onInputChange }
+                               placeholder="Humedad Maxima"
+                                {...register("humMax")}
                             />
-                        </div>
+                        </div> 
                         {/* {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} */}
-                        <div className="d-grid gap-2">
+                         <div className="d-grid gap-2">
                             <input 
                                 type="submit"
                                 className="btnSubmit"
