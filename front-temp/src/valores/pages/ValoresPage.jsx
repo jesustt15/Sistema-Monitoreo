@@ -1,13 +1,18 @@
 import { useEffect } from 'react';
-import { useValor } from '../../context';
+import { useLugar, useValor } from '../../context';
 
 
 
 
 export const ValoresPage = () => {
   const {results ,searcher ,getValores} = useValor();
+  const {getLugares, lugares}= useLugar()
 
-    useEffect(() => {
+  useEffect(() => {
+    getLugares();
+
+},[]);  
+  useEffect(() => {
       getValores();
 
   },[]);
@@ -15,9 +20,9 @@ export const ValoresPage = () => {
   return (
     
     <div className="App">
-      <button value={'Guayana'} onClick={searcher}>Guayana</button>
-      <button value={'Planta'} onClick={searcher}>Planta</button>
-      <button value={'Caracas'} onClick={searcher}>Caracas</button>
+      {lugares.map((lugar, i) => (
+        <button key={i} value={lugar.name} onClick={searcher}>{lugar.name}</button>
+      ))}
         <ul>
           {results.map((data, index) => (
             <li key={index}>

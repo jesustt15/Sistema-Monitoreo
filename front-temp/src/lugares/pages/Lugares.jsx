@@ -21,6 +21,7 @@ export const Lugares = () => {
   <>
     <Navbar />
     <div>Lugares</div>
+    <Link to={'/new-lugar'}>Agregar</Link>
     <ul>
           {lugares.map((lugar) => (
             <li key={lugar._id}>

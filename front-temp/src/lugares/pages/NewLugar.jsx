@@ -1,5 +1,6 @@
 
 
+import Navbar from "../../components/NavBar";
 import { useLugar } from "../../context";
 import { useForm } from "../../hooks"
 
@@ -29,7 +30,8 @@ export const NewLugar = () => {
 
   return (
     <>
-        <p>Config</p>
+        <Navbar />
+        <h2>Nuevo Lugar</h2>
         <form onSubmit={onHandleSubmit}>
             <div>
                 <input

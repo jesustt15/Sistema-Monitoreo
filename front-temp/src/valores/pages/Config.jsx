@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 export const Config = () => {
 
     const {register , handleSubmit, setValue} = useForm();
-    const {updateConfig, getConfig, config, setConfig} = useConfig();
+    const {updateConfig, getConfig, config} = useConfig();
     const navigate = useNavigate();
 
     useEffect(() => {
