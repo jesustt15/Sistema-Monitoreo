@@ -3,14 +3,11 @@ const Valores = require('../models/Valores');
 const Lugar = require('../models/Lugar');
 const Hist_valor = require('../models/Hist_valor');
 const nodemailer = require('nodemailer');
+const email = require('./config');
+const getConfigCredentials = require('../helpers/getConfigCredentials');
+const { createTransporter, sendEmail } = require('../helpers/mailer');
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'jevicleoknock@gmail.com',
-      pass: 'incl bfko rpwi xlsm'
-    }
-  });
+
 
  const saveValores = async (req , res = response) =>{
     
@@ -40,23 +37,27 @@ const transporter = nodemailer.createTransport({
                           msg: 'Error en guardar en Tabla histórico'
                       })
                     }
+
+                    const { email, password } = await getConfigCredentials();
+                    const transporter = createTransporter(email, password);
+                    await sendEmail(transporter, 'jesustoussaint08@gmail.com', 'Alerta de Temperatura', `La temperatura ha alcanzado ${tempValue}°C. en ${name}`);
                   
-                    const mailOptions = {
-                      from: 'jevicleoknock@gmail.com',
-                      to: 'jesustoussaint08@gmail.com',
-                      subject: 'Alerta de Temperatura y Humedad',
-                      text: `La temperatura ha alcanzado ${tempValue}°C. en ${name}`
-                    };
+                    // const mailOptions = {
+                    //   from: 'jevicleoknock@gmail.com',
+                    //   to: 'jesustoussaint08@gmail.com',
+                    //   subject: 'Alerta de Temperatura y Humedad',
+                    //   text: `La temperatura ha alcanzado ${tempValue}°C. en ${name}`
+                    // };
                 
-                    transporter.sendMail(mailOptions, (error, info) => {
-                      if (error) {
-                        console.log('Error al enviar el correo:', error);
-                        return res.status(500).send('Error al enviar el correo');
-                      } else {
-                        console.log('Correo enviado:', info.response);
-                        return res.status(200).send('Correo enviado');
-                      }
-                    });
+                    // transporter.sendMail(mailOptions, (error, info) => {
+                    //   if (error) {
+                    //     console.log('Error al enviar el correo:', error);
+                    //     return res.status(500).send('Error al enviar el correo');
+                    //   } else {
+                    //     console.log('Correo enviado:', info.response);
+                    //     return res.status(200).send('Correo enviado');
+                    //   }
+                  
                   } else {
                     res.status(200).send('datos guardados y temperatura normal');
                   } 

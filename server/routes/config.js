@@ -9,9 +9,8 @@ const router = Router();
 
 router.get('/', getConfig);
 
-router.put('/:id',[
+router.put('/',[
     check('email', 'El email es obligatorio').isEmail(),
-    check('password', 'La contraseña debe se de minimo 6 carcateres').isLength({min: 6}),
     validarCampos
 ] ,updateConfig);
 

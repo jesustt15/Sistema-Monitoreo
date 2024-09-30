@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useLugar } from "../../context";
 import { useForm } from "react-hook-form"
+import Navbar from "../../components/NavBar";
 
 
   
@@ -48,6 +49,7 @@ export const ActualizarLugar = () => {
   
 return (
     <>
+    <Navbar />
       <div>Actualizar Lugar</div>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="form-group mb-2">

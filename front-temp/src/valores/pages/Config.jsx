@@ -1,62 +1,55 @@
+import { useForm } from "react-hook-form";
 import Navbar from "../../components/NavBar";
-import { useForm } from "../../hooks"
-
-
-
-const configFormField = {
-  emailConfig: '',
-  passwordConfig: ''
-};
-
-
+import { useConfig } from "../../context";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const Config = () => {
 
-    const {emailConfig , passwordConfig, onInputChange:onConfigChange} = useForm( configFormField);
+    const {register , handleSubmit, setValue} = useForm();
+    const {updateConfig, getConfig, config} = useConfig();
+    const navigate = useNavigate();
 
-      const onHandleConfigSubmit = async(e) =>{
-        e.preventDefault();
-        try {
-          const response = await fetch('http://localhost:3000/sensor/config', {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({email: emailConfig, password: passwordConfig })
-          });
-          if (response.ok) {
-            window.location.reload();
-            console.log('Datos enviados con éxito');
-          } else {
-            console.error('Error al enviar los datos');
-          }
-        } catch (error) {
-          console.error('Error:', error);
+    useEffect(() => {
+      const loadConfig = async () => {
+            getConfig();
+
+      };
+        loadConfig();
+  }, []);
+  
+  const onSubmit = async (data) => {
+      try {
+          updateConfig({...data });
+            alert('actualizado');
+            navigate('/valores')
+      } catch (error) {
+          console.log(error);
+          // window.location.href = "/";
         }
-      }
+}
 
+      setValue('email', config.email);
+      setValue('password', config.pasword);
   return (
     <>
         <Navbar />
         <p>Config</p>
         <br></br>
-        <form onSubmit={onHandleConfigSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div>
                 <input
                 type="email"
-                placeholder="Email"
-                name="emailConfig"
-                value={emailConfig}
-                onChange={onConfigChange}
+                placeholder="email"
+                value={config.email}
+                {...register("email")}
                 ></input>
           </div>
           <div>
                 <input
                 type="password"
-                placeholder="password"
-                name="passwordConfig"
-                value={passwordConfig}
-                onChange={onConfigChange}
+                placeholder="Contraseña"
+                {...register("password")}
                 ></input>
           </div>
           <div>
