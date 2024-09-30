@@ -20,18 +20,6 @@ export const useConfig = () =>{
 export function ConfigProvider ({children}) {
     const [config, setConfig] = useState([]);
 
-    // const createConfig = async(Configes) => {
-
-    //     const res = await createConfigRequest(Configes);
-    //     console.log(res);
-
-
-    // }
-    // const getConfiges = async() =>{
-
-    //       const res = await getConfigRequest();
-    //       setConfiges(res.data);           
-    // }
 
     const updateConfig = async( config) =>{
         try {
@@ -46,8 +34,7 @@ export function ConfigProvider ({children}) {
         try {
 
             const res = await getConfigRequest();
-            console.log(res.data);
-            setConfig(res.data);
+            return res.data;
             
         } catch (error) {
             console.log(error);
@@ -59,6 +46,8 @@ export function ConfigProvider ({children}) {
 
     return (
         <ConfigContext.Provider value={{ config , 
+
+            setConfig,
 
         updateConfig,
         getConfig

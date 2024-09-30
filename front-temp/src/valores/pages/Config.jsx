@@ -7,12 +7,14 @@ import { useNavigate } from "react-router-dom";
 export const Config = () => {
 
     const {register , handleSubmit, setValue} = useForm();
-    const {updateConfig, getConfig, config} = useConfig();
+    const {updateConfig, getConfig, config, setConfig} = useConfig();
     const navigate = useNavigate();
 
     useEffect(() => {
       const loadConfig = async () => {
-            getConfig();
+          const configData = await getConfig();
+          setValue('email', configData.email);
+          setValue('password', configData.password);;
 
       };
         loadConfig();
@@ -29,8 +31,7 @@ export const Config = () => {
         }
 }
 
-      setValue('email', config.email);
-      setValue('password', config.pasword);
+
   return (
     <>
         <Navbar />
@@ -58,10 +59,8 @@ export const Config = () => {
                 value="Actualizar"
                 ></input>
           </div>
-
-
         </form>
-
+        <br />
     </>
   )
 }

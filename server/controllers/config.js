@@ -26,7 +26,7 @@ const updateConfig = async( req, res = response) =>{
   
 
 
-      const configUser = await Config.find()
+      const configUser = await Config.findOne()
                                         
     res.json(configUser);
  };
