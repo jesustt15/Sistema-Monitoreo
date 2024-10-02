@@ -2,7 +2,8 @@ const {response} = require('express');
 const {validationResult} = require('express-validator');
 const Usuario = require('../models/Usuario');
 const bcrypt = require('bcryptjs');
-const {generarJWT} = require('../helpers/jwt');
+const {createAccessToken} = require('../helpers/jwt');
+const jwt = require('jsonwebtoken');
 
 const crearUsuario = async(req,res = response) => {
     
@@ -30,7 +31,7 @@ const crearUsuario = async(req,res = response) => {
 
         //Generar JWT
         const token = await generarJWT(usuario.id, usuario.name);
-        res.cookie( "token", token );        
+        res.json(  token );        
         res.status(201).json({
             ok: true,
             uid: usuario.id,
@@ -50,37 +51,43 @@ const crearUsuario = async(req,res = response) => {
 
 const loginUsuario = async(req,res = response) => {
    
-    const {email, password} = req.body;
 
     try {
-        const usuario =  await Usuario.findOne({email})
+        const {email, password} = req.body;
+        const usuario =  await Usuario.findOne({email});
 
         if(!usuario){
             return res.status(400).json({
                 ok: false,
-                msg: 'El email no existe'
+                msg: 'Email / Password Incorrecto'
             })
         }
         //comparar password
-        const validPassword = bcrypt.compareSync(password, usuario.password);
+        const validPassword =  await bcrypt.compare(password, usuario.password);
 
         if( !validPassword ){
             return res.status(400).json({
                 ok: false,
-                msg: 'Password Incorrecto'
+                msg: 'Email / Password Incorrecto'
             })
         }
          
-        //Generar JWT
-        const token = await generarJWT(usuario.id, usuario.name);
-        res.cookie( "token", token );        
-        res.status(201).json({
-            ok: true,
-            uid: usuario.id,
+        //Generar JWT 
+        const token = await createAccessToken({
+            id: usuario._id,
             name: usuario.name,
-            token: token
-        }    
-        )
+          });
+      
+          res.cookie("token", token, {
+            secure: true,
+            sameSite: "none",
+          });
+      
+          res.json({
+            id: usuario._id,
+            name: usuario.name,
+            email: usuario.email,
+          });
     } catch (error) {
         console.log(error)
         res.status(500).json({
@@ -91,25 +98,27 @@ const loginUsuario = async(req,res = response) => {
 
 }
 
-const revalidarToken = async(req,res = response) => {
+    const verifyToken = async (req, res) => {
+        const { token } = req.cookies;
+        if (!token) return res.send(false);
     
-    const uid = req.uid;
-    const name = req.name
-
-    const token = await generarJWT(uid, name);
+        jwt.verify(token, 'secret-key', async (error, user) => {
+        if (error) return res.sendStatus(401);
     
-    res.json({
-        ok: true,
-        uid, 
-        name,
-       token
-    }    
-    )
-
-}
+        const userFound = await Usuario.findById(user.id);
+        if (!userFound) return res.sendStatus(401);
+    
+        return res.json({
+            id: userFound._id,
+            name: userFound.name,
+            email: userFound.email,
+        });
+        });
+    };
 
 module.exports = {
     crearUsuario,
     loginUsuario,
-    revalidarToken,
+    verifyToken,
+    
 }

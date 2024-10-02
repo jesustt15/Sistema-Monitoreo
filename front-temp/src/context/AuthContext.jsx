@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState} from "react";
+import {  loginRequest, verifyTokenRequest } from "../api";
 import Cookies from "js-cookie";
-import { checkAuthTokenRequest, loginRequest } from "../api";
 
 const AuthContext = createContext();
 
@@ -23,15 +23,17 @@ export function AuthProvider ({children}) {
     const [user, setUser] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    const signin = async ({email , password}) => {
-        try {
-          const {data} = await loginRequest({email , password});
-          localStorage.setItem('token', data.token);
-          localStorage.setItem('token-init-date', new Date().getTime());
-          setUser(data);
-          setIsAuthenticated(true);
-        } catch (error) {
+
+
+    const signin = async (user) => {
+      try {
+        
+        const res = await loginRequest(user);
+        setUser(res.data);
+        setIsAuthenticated(true);
+      } catch (error) {
           
           const errores = error.response.data;
           if('errors' in errores){
@@ -40,33 +42,44 @@ export function AuthProvider ({children}) {
           setErrorMessage(error.response.data.msg);
         }
       };
+
+
       const logout = () => {
-        localStorage.clear();
+        Cookies.remove("token");
         setUser(null);
         setIsAuthenticated(false);
-        //logout
       }
 
-      const checkAuthToken = async() => {
-        const token = localStorage.getItem('token');
-        if ( !token ) return  logout();
-        try {
-            const { data } = await checkAuthTokenRequest();
-            localStorage.setItem('token', data.token );
-            localStorage.setItem('token-init-date', new Date().getTime() );
-             signin({ name: data.name, uid: data.uid });
-        } catch (errorMessage) {
-            localStorage.clear();
-             logout();
-        }
-    }
-      
+      useEffect(() => {
+        const checkLogin = async () => {
+          const cookies = Cookies.get();
+          if (!cookies.token) {
+            setIsAuthenticated(false);
+            setLoading(false);
+            return;
+          }
+    
+          try {
+            const res = await verifyTokenRequest(cookies.token);
+            console.log(res);
+            if (!res.data) return setIsAuthenticated(false);
+            setIsAuthenticated(true);
+            setUser(res.data);
+            setLoading(false);
+          } catch (error) {
+            setIsAuthenticated(false);
+            console.log(error);
+            setLoading(false);
+          }
+        };
+        checkLogin();
+      }, []);
 
 
 
     return (
-        <AuthContext.Provider value={{ signin,
-            logout, checkAuthToken, isAuthenticated, user, errorMessage
+        <AuthContext.Provider value={{ signin, user,
+            logout, isAuthenticated, errorMessage, loading
 
         }}>
             {children}

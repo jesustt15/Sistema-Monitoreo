@@ -2,7 +2,7 @@
 // host + api/auth
 
 const {Router} = require('express');
-const { crearUsuario, loginUsuario, revalidarToken } = require('../controllers/auth');
+const { crearUsuario, loginUsuario,  verifyToken } = require('../controllers/auth');
 const router = Router();
 const {check} = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campo');
@@ -20,14 +20,8 @@ router.post('/new',
 
     ] ,crearUsuario);
 
-router.post('/',
-    [
-        check('email', 'El email es obligatorio').isEmail(),
-        check('password', 'La contraseña debe se de minimo 6 carcateres').isLength({min: 6}),
-        validarCampos
-    ]
-    ,loginUsuario );
+router.post('/',loginUsuario );
 
-router.get('/renew',validarJWT ,revalidarToken );
+router.get("/verify", verifyToken);
 
 module.exports = router

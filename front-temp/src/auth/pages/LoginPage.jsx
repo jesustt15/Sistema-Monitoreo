@@ -1,42 +1,44 @@
 
 
-import { useForm } from '../../hooks';
 import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 
 
-const loginFormFields = {
-    loginEmail:    '',
-    loginPassword: '',
-}
 
 
 export const LoginPage = () => {
 
-    const { signin, errorMessage } = useAuth();
+    const { signin, errorMessage, isAuthenticated } = useAuth();
+    const { register, handleSubmit} = useForm();
+    const navigate = useNavigate();
 
-    const { loginEmail, loginPassword, onInputChange:onLoginInputChange } = useForm( loginFormFields );
-  
-
-    const loginSubmit = ( event ) => {
-        event.preventDefault();
-        signin({ email: loginEmail, password: loginPassword });
+    const loginSubmit = async( data ) => {
+        signin(data );
     }
-
+    
+    useEffect(() => {
+        console.log("isAuthenticated:", isAuthenticated);
+        if (isAuthenticated) {
+          navigate("/config");
+        }
+      }, [isAuthenticated]);
+  
 
     return (
         <div className="container login-container">
             <div className="row">
                 <div className="col-md-6 login-form-1">
                     <h3>Ingreso</h3>
-                    <form onSubmit={ loginSubmit }>
+                    <form onSubmit= {handleSubmit(loginSubmit)}>
                         <div className="form-group mb-2">
                             <input 
                                 type="text"
                                 className="form-control"
+                                name='email'
                                 placeholder="Correo"
-                                name="loginEmail"
-                                value={ loginEmail }
-                                onChange={ onLoginInputChange }
+                                {...register("email", { required: true })}
                             />
                         </div>
                         <div className="form-group mb-2">
@@ -44,9 +46,8 @@ export const LoginPage = () => {
                                 type="password"
                                 className="form-control"
                                 placeholder="Contraseña"
-                                name="loginPassword"
-                                value={ loginPassword }
-                                onChange={ onLoginInputChange }
+                                name='password'
+                                {...register("password", { required: true })}
                             />
                         </div>
                         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
