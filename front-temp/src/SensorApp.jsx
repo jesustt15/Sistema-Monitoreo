@@ -1,17 +1,22 @@
 
 import { BrowserRouter } from 'react-router-dom';
 import { AppRouter } from './router';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider } from './context';
+
 
 
 
 export const SensorApp = () => {
-  return (
-    <AuthProvider>
-      <BrowserRouter>
-            <AppRouter />
-      </BrowserRouter>
-    </AuthProvider>
+      
+      
+      return(
 
-  )
+        <BrowserRouter>
+              <AuthProvider>
+                <AppRouter />
+              </AuthProvider>
+                    
+              </BrowserRouter>
+
+      )
 }

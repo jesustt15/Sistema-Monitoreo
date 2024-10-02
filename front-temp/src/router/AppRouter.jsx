@@ -5,14 +5,20 @@ import { Home  } from '../valores/pages/Home';
 import { Config } from '../valores/pages/Config';
 import { Historico } from '../historico/Historico';
 import { ActualizarLugar, Lugares, NewLugar } from '../lugares';
-import { ConfigProvider, HistoricoProvider, LugarProvider } from '../context';
+import {  ConfigProvider, HistoricoProvider, LugarProvider, useAuth } from '../context';
 import { ValorProvider } from '../context/ValorContext';
-import { ProtectedRoute } from './private';
+import { Loading } from '../components/Loading';
+
+
 
 
 
 
 export const AppRouter = () => {
+
+    const {isAuthenticated, loading} = useAuth();
+
+
 
 
     // useEffect(() => {
@@ -20,30 +26,50 @@ export const AppRouter = () => {
     // }, [])
 
     // const authStatus = 'not-authenticated'; // 'authenticated'; // 'not-authenticated';
+   
+
+    if ( loading ) {
+        return (
+            <Loading />
+        )
+    }
+
 
 
     return (
-        <LugarProvider>
-            <ValorProvider>
-                <HistoricoProvider>
-                    <ConfigProvider>
-                        <Routes>
-                            <Route path="/auth/*" element={ <LoginPage /> } />
-                            <Route path="/*" element={ <Navigate to="/auth/" /> } />
-                            < Route element={ <ProtectedRoute />}>
-                                <Route path="/" element={ <Home /> } />
-                                <Route path="/*" element={ <Navigate to="/" /> } />
-                                <Route path="/config" element={ <Config /> } />
-                                <Route path='/lugares' element ={ <Lugares />} />
-                                    <Route path='/lugares/:id' element ={ <ActualizarLugar />} />
-                                    <Route path='/new-lugar' element ={ <NewLugar />} />
-                                <Route path='/historico' element={<Historico />}/>
-                            </Route>
-                        </Routes>
-                    </ConfigProvider>
-                </HistoricoProvider>
-            </ValorProvider>
-        </LugarProvider>
+        
+                <LugarProvider>
+                    <ValorProvider>
+                        <HistoricoProvider>
+                            <ConfigProvider>
+                                <Routes>
+                                    {
+                                         (!isAuthenticated) ? (
+                                            <>
+                                                <Route path="/auth/*" element={ <LoginPage /> } />
+                                                <Route path="/*" element={ <Navigate to="/auth/" /> } />
+                                            </>
 
+
+                                         ) :
+                                          (
+                                            <>
+                                                <Route path="/" element={ <Home /> } />
+                                                <Route path="/*" element={ <Navigate to="/" /> } />
+                                                <Route path="/config" element={ <Config /> } />
+                                                <Route path='/lugares' element ={ <Lugares />} />
+                                                <Route path='/historico' element ={ <Historico />} />
+                                                    <Route path='/lugares/:id' element ={ <ActualizarLugar />} />
+                                                    <Route path='/new-lugar' element ={ <NewLugar />} />
+                                            </>
+                                          )
+                                    }
+
+                                </Routes>
+                            </ConfigProvider>
+                        </HistoricoProvider>
+                    </ValorProvider>
+            </LugarProvider>
+        
     )
 }

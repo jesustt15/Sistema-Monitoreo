@@ -32,6 +32,7 @@ export function AuthProvider ({children}) {
         
         const res = await loginRequest(user);
         setUser(res.data);
+        Cookies.set('token', res.data.token);
         setIsAuthenticated(true);
       } catch (error) {
           
@@ -52,15 +53,15 @@ export function AuthProvider ({children}) {
 
       useEffect(() => {
         const checkLogin = async () => {
-          const cookies = Cookies.get();
-          if (!cookies.token) {
+          const token = Cookies.get('token');
+          if (!token) {
             setIsAuthenticated(false);
             setLoading(false);
             return;
           }
     
           try {
-            const res = await verifyTokenRequest(cookies.token);
+            const res = await verifyTokenRequest(token);
             console.log(res);
             if (!res.data) return setIsAuthenticated(false);
             setIsAuthenticated(true);

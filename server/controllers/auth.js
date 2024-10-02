@@ -87,6 +87,7 @@ const loginUsuario = async(req,res = response) => {
             id: usuario._id,
             name: usuario.name,
             email: usuario.email,
+            token
           });
     } catch (error) {
         console.log(error)
@@ -112,6 +113,7 @@ const loginUsuario = async(req,res = response) => {
             id: userFound._id,
             name: userFound.name,
             email: userFound.email,
+            token
         });
         });
     };
