@@ -26,7 +26,7 @@ export function AuthProvider ({children}) {
   });
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
       if (user) {
@@ -38,6 +38,8 @@ export function AuthProvider ({children}) {
 
 
     const signin = async (user) => {
+      
+      setLoading(true);
       try {
         
         const res = await loginRequest(user);
@@ -51,6 +53,9 @@ export function AuthProvider ({children}) {
           }
           setErrorMessage(error.response.data.msg);
         }
+        finally{
+          setLoading(false);
+        }
       };
 
 
@@ -62,7 +67,7 @@ export function AuthProvider ({children}) {
 
     return (
         <AuthContext.Provider value={{ signin, user,
-            logout, isAuthenticated, errorMessage, loading
+            logout, isAuthenticated, errorMessage, loading, setLoading
 
         }}>
             {children}

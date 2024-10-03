@@ -12,6 +12,13 @@ const lugarSchema = Schema({
     },
     tempMax: {
         type: Number,
+        validate: {
+            validator: function(value) {
+              return value >= this.tempMin;
+            },
+            message: 'La temperatura máxima debe ser mayor o igual a la temperatura mínima'
+          }
+        
         
     },
     humMin:{
@@ -19,6 +26,12 @@ const lugarSchema = Schema({
     },
     humMax:{
         type: Number,
+        validate: {
+            validator: function(value) {
+              return value >= this.humMin;
+            },
+            message: 'La humedad máxima debe ser mayor o igual a la humedad mínima'
+          }
     },
 })
 

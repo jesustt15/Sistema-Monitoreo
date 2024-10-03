@@ -34,6 +34,8 @@ export const ActualizarLugar = () => {
           if (id) {
             updateLugar(id, {
               ...data });
+              if(parseFloat(data.tempMin) > parseFloat(data.tempMax) || parseFloat(data.humMin) > parseFloat(data.humMax)){
+                 return alert('Los valores minimos no pueden ser mayores a los maximos');}
               alert('actualizado');
               navigate('/lugares')
           } else {

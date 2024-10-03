@@ -5,18 +5,29 @@ import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { Loading } from '../../components/Loading';
 
 
 
 
 export const LoginPage = () => {
 
-    const { signin, errorMessage, isAuthenticated } = useAuth();
+    const { signin, errorMessage, isAuthenticated, loading, setLoading } = useAuth();
     const { register, handleSubmit} = useForm();
     const navigate = useNavigate();
 
     const loginSubmit = async( data ) => {
-        signin(data );
+       setLoading(true);
+        try {
+         signin(data );
+       } catch (error) {
+        console.log(error);
+       } finally{
+        setLoading(false);
+       }
+       
+        
+
     }
     
     useEffect(() => {
@@ -31,6 +42,7 @@ export const LoginPage = () => {
         <div className="container login-container">
             <div className="row">
                 <div className="col-md-6 login-form-1">
+                    {loading && <Loading />}
                     <h3>Ingreso</h3>
                     <form onSubmit= {handleSubmit(loginSubmit)}>
                         <div className="form-group mb-2">

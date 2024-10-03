@@ -1,30 +1,36 @@
+/* eslint-disable no-unused-vars */
 
 
+import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/NavBar";
 import { useLugar } from "../../context";
-import { useForm } from "../../hooks"
+import { useForm } from "react-hook-form"
 
 
-const lugarFormField = {
-    lugarConfig: '',
-    tempMinConfig: '',
-    tempMaxConfig: '',
-    humMinConfig: '',
-    humMaxConfig: '',
-
-};
 
 
 export const NewLugar = () => {
 
-    const {lugarConfig, tempMinConfig, tempMaxConfig, humMinConfig, humMaxConfig, onInputChange:onLugaresChange} = useForm( lugarFormField );
+    const {handleSubmit, register, watch, formState: {
+        errors
+    }} = useForm(  );
+    const navigate = useNavigate();
     
     const {createLugar} = useLugar();
-    
-    const onHandleSubmit =  async(e) => {
-        e.preventDefault();
-      createLugar({name: lugarConfig, tempMin: tempMinConfig, tempMax: tempMaxConfig, 
-        humMin: humMinConfig, humMax: humMaxConfig}); 
+    const tempMin = watch('tempMin');
+    const tempMax = watch('tempMax');
+    const humMin = watch('humMin');
+    const humMax = watch('humMax');
+
+    const onHandleSubmit =  async(data) => {
+        if(parseFloat(data.tempMin) > parseFloat(data.tempMax) || parseFloat(data.humMin) > parseFloat(data.humMax)){
+            alert('Los valores minimos no pueden ser mayores a los maximos');
+        } else{
+            createLugar({...data});
+            alert('Datos agregados');
+            navigate('/lugares');
+        }
+  
        
       };
 
@@ -32,52 +38,43 @@ export const NewLugar = () => {
     <>
         <Navbar />
         <h2>Nuevo Lugar</h2>
-        <form onSubmit={onHandleSubmit}>
+        <form onSubmit={handleSubmit(onHandleSubmit)}>
             <div>
                 <input
                 type="text"
                 placeholder="Lugar"
-                name="lugarConfig"
-                value={lugarConfig}
-                onChange={onLugaresChange}
+                {...register('name',{ required: true}) }
                 ></input>
             </div>
             <div>
                 <input
                 type="number"
                 placeholder="Temp Minima"
-                name="tempMinConfig"
-                value={tempMinConfig}
-                onChange={onLugaresChange}
+                {...register('tempMin',{ required: true}) }
                 ></input>
             </div>
             <div>
                 <input
                 type="number"
                 placeholder="Temp Max"
-                name="tempMaxConfig"
-                value={tempMaxConfig}
-                onChange={onLugaresChange}
-                ></input>
-            </div>
-            <div>
-                <input
-                type="number"
-                placeholder="Humedad Max"
-                name="humMaxConfig"
-                value={humMaxConfig}
-                onChange={onLugaresChange}
+                {...register('tempMax',{ required: true}) }
                 ></input>
             </div>
             <div>
                 <input
                 type="number"
                 placeholder="Humedad Min"
-                name="humMinConfig"
-                value={humMinConfig}
-                onChange={onLugaresChange}
+                {...register('humMin',{ required: true}) }
                 ></input>
             </div>
+            <div>
+                <input
+                type="number"
+                placeholder="Humedad Max"
+                {...register('humMax',{ required: true}) }
+                ></input>
+            </div>
+            {errors.tempMax || errors.humMax && <span>Este campo es requerido</span>}
             <input
             type="submit"
             value="Guardar"
