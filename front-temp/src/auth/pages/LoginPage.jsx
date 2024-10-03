@@ -12,9 +12,8 @@ import { Loading } from '../../components/Loading';
 
 export const LoginPage = () => {
 
-    const { signin, errorMessage, isAuthenticated, loading, setLoading } = useAuth();
+    const { signin, errorMessage, loading, setLoading } = useAuth();
     const { register, handleSubmit} = useForm();
-    const navigate = useNavigate();
 
     const loginSubmit = async( data ) => {
        setLoading(true);
@@ -26,18 +25,9 @@ export const LoginPage = () => {
         setLoading(false);
        }
        
-        
 
     }
     
-    useEffect(() => {
-        console.log("isAuthenticated:", isAuthenticated);
-        if (isAuthenticated) {
-          navigate("/config");
-        }
-      }, [isAuthenticated]);
-  
-
     return (
         <div className="container login-container">
             <div className="row">
