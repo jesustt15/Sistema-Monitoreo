@@ -1,44 +1,31 @@
 const { response } = require("express");
-const jwt = require("jsonwebtoken");
 
  
 
- const validarJWT = (req, res = response, next) =>{
-
-    const {token} = req.cookies;
-
-    if (!token){
-        res.status(401).json({
-            ok: false ,
-            msg: 'no hay nada en la peticion'
-        });
-
-    }
-    try {
-
-        const {uid, name} = jwt.verify(
-            token,
-           'es un secreto' 
-
-        )
-        req.uid = uid;
-        req.name = name;
-
-        
-    } catch (error) {
-        console.log(error)
-        return res.status(401).json({
-            ok: false,
-            msg: 'token no valido'
-        });
-        
-    }
-
-    next();
+const jwt =  require("jsonwebtoken");
 
 
- }
+ const auth = (req, res, next) => {
+  try {
+    const { token } = req.cookies;
+
+    if (!token)
+      return res
+        .status(401)
+        .json({ message: "No token, authorization denied" });
+
+    jwt.verify(token, 'secret-key', (error, user) => {
+      if (error) {
+        return res.status(401).json({ message: "Token is not valid" });
+      }
+      req.user = user;
+      next();
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 
  module.exports = {
-    validarJWT
+   auth
  }

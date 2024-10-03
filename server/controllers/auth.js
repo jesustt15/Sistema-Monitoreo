@@ -78,15 +78,12 @@ const loginUsuario = async(req,res = response) => {
             name: usuario.name,
           });
       
-          res.cookie("token", token, {
-            secure: true,
-            sameSite: "none",
-          });
+        //   res.cookie("token", token, {
+        //     httpOnly: true,
+        //     sameSite: 'Strict' 
+        //   });
       
           res.json({
-            id: usuario._id,
-            name: usuario.name,
-            email: usuario.email,
             token
           });
     } catch (error) {
@@ -99,28 +96,23 @@ const loginUsuario = async(req,res = response) => {
 
 }
 
-    const verifyToken = async (req, res) => {
-        const { token } = req.cookies;
-        if (!token) return res.send(false);
+    // const verifyToken = async (req, res) => {
+    //     const  token  = req.cookies.token;
+    //     if (!token) return res.status(401).json({ message: 'No autorizado' });
     
-        jwt.verify(token, 'secret-key', async (error, user) => {
-        if (error) return res.sendStatus(401);
+    //     jwt.verify(token, 'secret-key', async (error, decoded) => {
+    //     if (error) return res.sendStatus(401);
     
-        const userFound = await Usuario.findById(user.id);
-        if (!userFound) return res.sendStatus(401);
     
-        return res.json({
-            id: userFound._id,
-            name: userFound.name,
-            email: userFound.email,
-            token
-        });
-        });
-    };
+    //     return res.json({
+    //         message: 'ACCESO CONCEDIDO'
+    //     });
+    //     });
+    // };
 
 module.exports = {
     crearUsuario,
     loginUsuario,
-    verifyToken,
+
     
 }

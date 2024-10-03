@@ -6,7 +6,7 @@ const { crearUsuario, loginUsuario,  verifyToken } = require('../controllers/aut
 const router = Router();
 const {check} = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campo');
-const { validarJWT } = require('../middlewares/validar-JWT');
+const {  auth } = require('../middlewares/validar-JWT');
 
 
 router.post('/new',
@@ -22,6 +22,6 @@ router.post('/new',
 
 router.post('/',loginUsuario );
 
-router.get("/verify", verifyToken);
+// router.get("/verify" ,verifyToken);
 
 module.exports = router

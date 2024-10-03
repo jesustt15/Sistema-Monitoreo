@@ -8,7 +8,12 @@ require('dotenv').config();
 // const Temperatura = require('./models/Temperatura');
 const app = express();
 
-app.use(cors()); //usar el corss
+app.use(cors({
+    
+    origin: 'http://localhost:5132',
+    credentials: true
+
+})); //usar el corss
 
 app.use(bodyParser.json()); //para leer los valores del esp32
 

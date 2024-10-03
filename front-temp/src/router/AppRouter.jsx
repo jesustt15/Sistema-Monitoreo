@@ -16,7 +16,7 @@ import { Loading } from '../components/Loading';
 
 export const AppRouter = () => {
 
-    const {isAuthenticated, loading} = useAuth();
+    const {user} = useAuth();
 
 
 
@@ -28,11 +28,6 @@ export const AppRouter = () => {
     // const authStatus = 'not-authenticated'; // 'authenticated'; // 'not-authenticated';
    
 
-    if ( loading ) {
-        return (
-            <Loading />
-        )
-    }
 
 
 
@@ -44,7 +39,7 @@ export const AppRouter = () => {
                             <ConfigProvider>
                                 <Routes>
                                     {
-                                         (!isAuthenticated) ? (
+                                         (!user) ? (
                                             <>
                                                 <Route path="/auth/*" element={ <LoginPage /> } />
                                                 <Route path="/*" element={ <Navigate to="/auth/" /> } />
