@@ -1,8 +1,8 @@
 const express = require('express');
-const { dbConnection } = require('./database/config');
+// const { dbConnection } = require('./database/config');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const cookieParser = require('cookie-parser');
+const sequelize = require('./config/database');
 require('dotenv').config();
 // const cron = require('cron');
 // const Temperatura = require('./models/Temperatura');
@@ -18,9 +18,11 @@ app.use(cors({
 app.use(bodyParser.json()); //para leer los valores del esp32
 
 app.use(express.json()); // Middleware para parsear JSON
-app.use(cookieParser()); //Middleware para parsear Cookies
+sequelize.sync().then(() => {
+    console.log('Base de datos sincronizada');
+  });
 
-dbConnection();
+// dbConnection();
 
 //Rutas
 app.use('/sensor/auth', require('./routes/auth'));

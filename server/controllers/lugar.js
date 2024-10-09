@@ -39,9 +39,9 @@ const Lugar = require('../models/Lugar');
   
 
 
-      const lugar = await Lugar.find()
-                                        
-    res.json(lugar);
+   const lugares = await Lugar.findAll();
+   res.json('es la nueva base de datos');
+
  };
 
  const getOneLugar = async (req, res = response ) =>{
