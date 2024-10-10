@@ -1,5 +1,6 @@
 const {response} = require('express');
 const Lugar = require('../models/Lugar');
+const pool = require('../config/database');
 
 
  const saveLugar = async (req , res = response) =>{
@@ -39,8 +40,8 @@ const Lugar = require('../models/Lugar');
   
 
 
-   const lugares = await Lugar.findAll();
-   res.json('es la nueva base de datos');
+   const lugares = await pool.query('SELECT * FROM lugares');
+   res.json(lugares.rows);
 
  };
 
