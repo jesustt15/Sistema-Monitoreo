@@ -38,10 +38,16 @@ const pool = require('../config/database');
 
  const getLugar = async (req, res = response) =>{
   
+      try {
+         
+         const lugares = await Lugar.findAll();
+         console.log('si se hizo');
+         return res.json(lugares);
 
-
-   const lugares = await pool.query('SELECT * FROM lugares');
-   res.json(lugares.rows);
+      } catch (error) {
+          res.sendStatus(500);
+         
+      }
 
  };
 

@@ -19,13 +19,6 @@ export const AppRouter = () => {
     const {user} = useAuth();
 
 
-
-
-    // useEffect(() => {
-    //     checkAuthToken();
-    // }, [])
-
-    // const authStatus = 'not-authenticated'; // 'authenticated'; // 'not-authenticated';
    
 
 
@@ -38,8 +31,9 @@ export const AppRouter = () => {
                         <HistoricoProvider>
                             <ConfigProvider>
                                 <Routes>
+                                <Route path='/lugares' element ={ <Lugares />} />
                                     {
-                                         (!user) ? (
+                                         (user) ? (
                                             <>
                                                 <Route path="/auth/*" element={ <LoginPage /> } />
                                                 <Route path="/*" element={ <Navigate to="/auth/" /> } />

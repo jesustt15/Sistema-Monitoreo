@@ -24,7 +24,7 @@ export const Lugares = () => {
     <Link to={'/new-lugar'}>Agregar</Link>
     <ul>
           {lugares.map((lugar) => (
-            <li key={lugar._id}>
+            <li key={lugar.lugar_id}>
               Nombre: {lugar.name}, Temperatura Maxima: {lugar.tempMax}°C, Temperatura Minima: {lugar.tempMin}°C,  
               Humedad Minima: {lugar.humMin}%,  Humedad Maxima: {lugar.humMax}%
               ID: {lugar._id}

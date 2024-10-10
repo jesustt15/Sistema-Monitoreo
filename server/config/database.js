@@ -1,13 +1,11 @@
-const {Pool} = require('pg')
+const { Sequelize } = require('sequelize');
 
+const sequelize = new Sequelize('sensordb', 'postgres', 'Admin2024', {
+  host: 'localhost',
+  dialect: 'postgres',
+  define: {
+    timestamps: false // evita que se añadan columnas de timestamp automáticamente
+  }
+});
 
-const pool = new Pool({
-    user: 'postgres',
-    password: 'Admin2024',
-    host: 'localhost',
-    port: 5432,
-    database: 'sensordb'
-    
-})
-
-module.exports = pool;
+module.exports = sequelize;
