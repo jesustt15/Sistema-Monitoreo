@@ -7,7 +7,7 @@ import { Historico } from '../historico/Historico';
 import { ActualizarLugar, Lugares, NewLugar } from '../lugares';
 import {  ConfigProvider, HistoricoProvider, LugarProvider, useAuth } from '../context';
 import { ValorProvider } from '../context/ValorContext';
-import { Loading } from '../components/Loading';
+
 
 
 

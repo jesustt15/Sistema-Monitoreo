@@ -1,22 +1,44 @@
-const {Schema, model, SchemaTypes, default: mongoose} = require('mongoose');
+
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
+const Lugar = require('./Lugar');
+
+const Valores = sequelize.define('valores', {
+  
+  valor_id: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true,
+  },
+
+  lugar_id: {
+  type: DataTypes.UUID,
+  allowNull: false,
+  references: {
+    model: Lugar,
+    key: 'lugar_id',
+  }
+},
+  tempValue: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  humValue: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  valueFecha: {
+    type: DataTypes.DATE,
+    deafault: DataTypes.NOW,
+    allowNull: false,
+  },
 
 
-const valoresSchema = Schema({
-    lugar:{type: mongoose.ObjectId , ref: 'Lugar'},
-    tempValue: {
-        type: Number,
-        required:true
-    },
-    humValue:{
-        type: Number,
-        required: true
-    },
-    valueFecha: {
-        type: Date,
-        default: Date.now,
-        expires: '30d'
-    }
+  
+});
 
-})
+Lugar.hasMany(Valores, { foreignKey: 'lugar_id' }),
+Valores.belongsTo(Lugar, { foreignKey: 'lugar_id'});
 
-module.exports = model('Valores', valoresSchema);
+module.exports = Valores;

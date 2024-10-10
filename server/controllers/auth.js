@@ -12,7 +12,7 @@ const crearUsuario = async(req,res = response) => {
     
     try {
 
-        let usuario =  await Usuario.findOne({email})
+        let usuario =  await Usuario.findOne({where: { email}})
 
         if(usuario){
             return res.status(400).json({
@@ -27,7 +27,7 @@ const crearUsuario = async(req,res = response) => {
         const salt = bcrypt.genSaltSync();
         usuario.password = bcrypt.hashSync(password, salt);
 
-        await usuario.save();
+        await usuario.create();
 
         //Generar JWT
         const token = await generarJWT(usuario.id, usuario.name);
@@ -54,7 +54,7 @@ const loginUsuario = async(req,res = response) => {
 
     try {
         const {email, password} = req.body;
-        const usuario =  await Usuario.findOne({email});
+        const usuario =  await Usuario.findOne({where: {email: email}});
 
         if(!usuario){
             return res.status(400).json({
@@ -96,19 +96,7 @@ const loginUsuario = async(req,res = response) => {
 
 }
 
-    // const verifyToken = async (req, res) => {
-    //     const  token  = req.cookies.token;
-    //     if (!token) return res.status(401).json({ message: 'No autorizado' });
-    
-    //     jwt.verify(token, 'secret-key', async (error, decoded) => {
-    //     if (error) return res.sendStatus(401);
-    
-    
-    //     return res.json({
-    //         message: 'ACCESO CONCEDIDO'
-    //     });
-    //     });
-    // };
+
 
 module.exports = {
     crearUsuario,

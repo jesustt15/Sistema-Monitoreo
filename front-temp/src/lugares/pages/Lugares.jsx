@@ -28,8 +28,8 @@ export const Lugares = () => {
               Nombre: {lugar.name}, Temperatura Maxima: {lugar.tempMax}°C, Temperatura Minima: {lugar.tempMin}°C,  
               Humedad Minima: {lugar.humMin}%,  Humedad Maxima: {lugar.humMax}%
               ID: {lugar._id}
-              <button onClick={() => deleteLugar(lugar._id)} > Eliminar</button>
-              <Link to={`/lugares/${lugar._id}`}>Editar</Link>
+              <button onClick={() => deleteLugar(lugar.lugar_id)} > Eliminar</button>
+              <Link to={`/lugares/${lugar.lugar_id}`}>Editar</Link>
             </li>
           ))}
       </ul>

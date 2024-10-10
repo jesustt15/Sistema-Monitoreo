@@ -1,15 +1,24 @@
-const {Schema, model} = require('mongoose');
 
-const ConfigSchema = Schema({
-    email: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    password: {
-        type: String,
-        required: true
-    }
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
+
+const Config = sequelize.define('configs', {
+  
+  config_id: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  password: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+
+  
 });
 
-module.exports = model('Config',ConfigSchema);
+module.exports = Config;

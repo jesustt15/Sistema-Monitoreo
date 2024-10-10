@@ -8,7 +8,7 @@ const pool = require('../config/database');
     const {name, tempMin,tempMax, humMax, humMin} = req.body;
     try {
 
-         let localidad =  await Lugar.findOne({name})
+         let localidad =  await Lugar.findOne({where: name})
 
          if(localidad){
             return res.status(400).json({
@@ -18,7 +18,7 @@ const pool = require('../config/database');
          }
 
         const lugar = new Lugar(req.body);
-        await lugar.save();
+        await lugar.create();
 
         res.status(201).json({
             name: lugar.name,
@@ -54,7 +54,7 @@ const pool = require('../config/database');
  const getOneLugar = async (req, res = response ) =>{
 
    try {
-      const lugar = await Lugar.findById(req.params.id);
+      const lugar = await Lugar.findOne({where: {lugar_id: req.params.id}});
       if (!lugar) return res.status(404).json({ message: "lugar not found" });
       return res.json(lugar);
     } catch (error) {
@@ -65,8 +65,8 @@ const pool = require('../config/database');
  const updateLugar = async( req, res = response) =>{
 
    try {
-      const lugar = await Lugar.findByIdAndUpdate(req.params.id , req.body ,{
-         new: true,
+      const lugar = await Lugar.update(req.body ,{
+         where: {lugar_id: req.params.id}
       });
       if(lugar){
          return res.status(201).json({
@@ -85,7 +85,7 @@ const pool = require('../config/database');
  const deleteLugar = async( req, res = response) =>{
 
    try {
-      const lugar = await Lugar.findByIdAndDelete(req.params.id);
+      const lugar = await Lugar.destroy({where: {lugar_id: req.params.id}});
       if(lugar){
          return res.status(204).json({
             ok: false,
