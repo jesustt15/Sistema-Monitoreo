@@ -1,4 +1,4 @@
-import { useEffect} from "react";
+import { useEffect, useState} from "react";
 import { useLugar } from "../../context";
 import Navbar from "../../components/NavBar";
 import { Link } from "react-router-dom";
@@ -15,6 +15,15 @@ export const Lugares = () => {
     
     },[]);
 
+    const [visibleItems, setVisibleItems] = useState({});
+
+    const toggleVisibility = (id) => {
+      setVisibleItems(prevState => ({ 
+        ...prevState, 
+        [id]: !prevState[id] 
+      }));
+    };
+
     
       
   return (
@@ -27,7 +36,10 @@ export const Lugares = () => {
             <li key={lugar.lugar_id}>
               Nombre: {lugar.name}, Temperatura Maxima: {lugar.tempMax}°C, Temperatura Minima: {lugar.tempMin}°C,  
               Humedad Minima: {lugar.humMin}%,  Humedad Maxima: {lugar.humMax}%
-              ID: {lugar.lugar_id}
+              ID:  <button onClick={() => toggleVisibility(lugar.lugar_id)}>
+                  {visibleItems[lugar.lugar_id] ? 'Ocultar' : 'Mostrar'}
+                </button>
+                {visibleItems[lugar.lugar_id] && <div>{lugar.lugar_id}</div>}
               <button onClick={() => deleteLugar(lugar.lugar_id)} > Eliminar</button>
               <Link to={`/lugares/${lugar.lugar_id}`}>Editar</Link>
             </li>
