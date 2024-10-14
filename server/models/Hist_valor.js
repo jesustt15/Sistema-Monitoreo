@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const Valores = require('./Valores');
+const Lugar = require('./Lugar');
 
 const Hist_Value = sequelize.define('hist_values', {
   
@@ -22,6 +23,8 @@ const Hist_Value = sequelize.define('hist_values', {
 });
 
 Valores.hasMany(Hist_Value, { foreignKey: 'value_id' }),
-Hist_Value.belongsTo(Valores, { foreignKey: 'valor_id'});
+Hist_Value.belongsTo(Valores, { foreignKey: 'value_id'});
+
+Valores.belongsTo(Lugar, { foreignKey: 'lugar_id' });
 
 module.exports = Hist_Value;

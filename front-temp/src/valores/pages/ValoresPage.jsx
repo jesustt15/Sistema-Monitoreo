@@ -26,7 +26,7 @@ export const ValoresPage = () => {
         <ul>
           {results.map((data, index) => (
             <li key={index}>
-              Lugar: {data.lugar.name}, Temperature: {data.tempValue}°C, Humidity: {data.humValue}%, Fecha: {new Date(data.valueFecha).toLocaleString()}
+              Lugar: {data.lugare.name}, Temperature: {data.tempValue}°C, Humidity: {data.humValue}%, Fecha: {new Date(data.valueFecha).toLocaleString()}
             </li>
           ))}
         </ul>

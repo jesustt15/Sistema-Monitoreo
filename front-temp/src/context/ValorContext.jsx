@@ -42,7 +42,7 @@ export function ValorProvider ({children}) {
     if(!search){
       results = valores;
     }else {
-      results =  valores.filter((dato) => dato.lugar.name.includes(search))
+      results =  valores.filter((dato) =>  dato.lugare.name.includes(search))
     }
 
 
@@ -50,7 +50,7 @@ export function ValorProvider ({children}) {
 
 
     return (
-        <ValorContext.Provider value={{ results , 
+        <ValorContext.Provider value={{ results ,  valores,
         getValores,
         searcher}}>
             {children}

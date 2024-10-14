@@ -11,21 +11,21 @@ const { createTransporter, sendEmail } = require('../helpers/mailer');
 
  const saveValores = async (req , res = response) =>{
     
-    const {lugar , tempValue, humValue} = req.body;
+    const {lugar_id , tempValue, humValue} = req.body;
     try {
 
         const valores = await Valores.create(req.body);
 
         
-            const { tempMax, humMax, tempMin, humMin, name } = await Lugar.findByPk(lugar);
+            const lugar = await Lugar.findByPk(lugar_id);
 
           
 
-            if( tempValue > tempMax || tempValue < tempMin || humValue > humMax || humValue < humMin ) { 
+            if( tempValue > lugar.tempMax || tempValue < lugar.tempMin || humValue > lugar.humMax || humValue < lugar.humMin ) { 
               
               //logica de guardar en historico
               try {
-                      const histValues = await Hist_valor.create({value_id: valores._id});
+                      const histValues = await Hist_valor.create({value_id: valores.valor_id});
                     
                     } catch (error) {
                       
@@ -35,19 +35,21 @@ const { createTransporter, sendEmail } = require('../helpers/mailer');
                           msg: 'Error en guardar en Tabla histórico'
                       })
                     }
-                      try {
+                      // try {
 
-                        const { email, password } = await getConfigCredentials();
-                        const transporter = createTransporter(email, password);
-                        await sendEmail(transporter, 'jesustoussaint08@gmail.com', 'Alerta de Temperatura', `La temperatura ha alcanzado ${tempValue}°C. en ${name}`);
-                        return res.status(201).send('Coreo enviado');
-                      } catch (error) {
-                        console.log(error);
+                      //   const { email, password } = await getConfigCredentials();
+                      //   const transporter = createTransporter(email, password);
+                      //   await sendEmail(transporter, 'jesustoussaint08@gmail.com', 'Alerta de Temperatura', `La temperatura ha alcanzado ${tempValue}°C. en ${name}`);
+                      //   return res.status(201).send('Coreo enviado');
+                      // } catch (error) {
+                      //   console.log(error);
                         
-                      }
+                      // }
                   } else {
-                    res.status(200).send('datos guardados y temperatura normal');
+                    return res.status(200).send('datos guardados y temperatura normal');
                   } 
+
+                  return res.status(200).send('datos bellacos');
                   
         
     } catch (error) {

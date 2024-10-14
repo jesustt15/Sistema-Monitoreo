@@ -20,7 +20,7 @@ export const useHistorico = () =>{
 
 export function HistoricoProvider ({children}) {
     const [historico, setHistorico] = useState([]);
-    const [search, setSearch] = useState("Caracas");
+    const [search, setSearch] = useState("Guayana");
   
   
     const getHistorico = async() =>{
@@ -41,7 +41,7 @@ export function HistoricoProvider ({children}) {
     if(!search){
       results = historico;
     }else {
-      results =  historico.filter((dato) => dato.value_id.lugar.name.includes(search))
+      results =  historico.filter((dato) => dato.valore.lugare.name.includes(search))
     }
 
 

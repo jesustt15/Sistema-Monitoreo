@@ -31,13 +31,20 @@ const Valores = sequelize.define('valores', {
   valueFecha: {
     type: DataTypes.DATE,
     deafault: DataTypes.NOW,
-    allowNull: false,
+    allowNull: true,
   },
+   
 
-
-  
 });
 
+//hooks
+// Define el hook después de la creación del modelo
+Valores.beforeCreate((valores) => {
+  valores.valueFecha = new Date().toISOString(); // Asigna la fecha actual antes de crear el registro
+});
+
+
+//Relaciones
 Lugar.hasMany(Valores, { foreignKey: 'lugar_id' }),
 Valores.belongsTo(Lugar, { foreignKey: 'lugar_id'});
 
