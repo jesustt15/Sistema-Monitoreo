@@ -1,17 +1,27 @@
 const {response} = require('express');
+const bcrypt = require('bcryptjs');
 const Config = require('../models/Config');
 
 
 const updateConfig = async( req, res = response) =>{
 
-   const { email, password } = req.body;
+   const { email, password, emailSend } = req.body;
    try {
-      const configCredentials = await Config.findByPk('66f6b76792843d8345d4133f');
+      const configCredentials = await Config.findOne();
       if(configCredentials){
          configCredentials.email = email;
-         configCredentials.password = password; // Asegúrate de hashear la contraseña antes de guardarla
-         await configCredentials.save();
-         res.status(200).send('Actualización exitosa');
+         configCredentials.emailSend = emailSend;
+         //Encriptar Contraseña
+        const salt = bcrypt.genSaltSync();
+        hashedPassword = bcrypt.hashSync(password, salt);
+         configCredentials.password = hashedPassword;
+         
+
+        
+        const newConfig = await Config.update({email, password, emailSend} ,{
+         where: {config_id: 23}
+      });
+         res.status(200).send(newConfig);
          }
       }
       catch (error) {
@@ -23,12 +33,14 @@ const updateConfig = async( req, res = response) =>{
 
 
  const getConfig = async (req, res = response) =>{
-  
 
-
-      const configUser = await Config.findOne()
-                                        
-    res.json(configUser);
+   try {
+      const config = await Config.findOne();
+      res.json(config);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Error del servidor');
+    }
  };
 
 

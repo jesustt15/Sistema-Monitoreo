@@ -41,7 +41,6 @@ const pool = require('../config/database');
       try {
          
          const lugares = await Lugar.findAll();
-         console.log('si se hizo');
          return res.json(lugares);
 
       } catch (error) {

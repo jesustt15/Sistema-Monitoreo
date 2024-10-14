@@ -14,7 +14,8 @@ export const Config = () => {
       const loadConfig = async () => {
           const configData = await getConfig();
           setValue('email', configData.email);
-          setValue('password', configData.password);;
+          setValue('password', configData.password);
+          setValue('emailSend', configData.emailSend);
 
       };
         loadConfig();
@@ -55,10 +56,18 @@ export const Config = () => {
           </div>
           <div>
                 <input
+                type="email"
+                placeholder="emailSend"
+                {...register("emailSend")}
+                ></input>
+          </div>
+          <div>
+                <input
                 type="submit"
                 value="Actualizar"
                 ></input>
           </div>
+          <div>{config.email}</div>
         </form>
         <br />
     </>

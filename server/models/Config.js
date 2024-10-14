@@ -14,9 +14,14 @@ const Config = sequelize.define('configs', {
     allowNull: false,
   },
   password: {
-    type: DataTypes.FLOAT,
+    type: DataTypes.STRING,
     allowNull: false,
   },
+  emailSend: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+
 
   
 });

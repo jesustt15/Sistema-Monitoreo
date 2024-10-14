@@ -17,6 +17,7 @@ export const useConfig = () =>{
 } 
 
 
+// eslint-disable-next-line react/prop-types
 export function ConfigProvider ({children}) {
     const [config, setConfig] = useState([]);
 

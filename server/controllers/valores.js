@@ -35,16 +35,16 @@ const { createTransporter, sendEmail } = require('../helpers/mailer');
                           msg: 'Error en guardar en Tabla histórico'
                       })
                     }
-                      // try {
+                      try {
 
-                      //   const { email, password } = await getConfigCredentials();
-                      //   const transporter = createTransporter(email, password);
-                      //   await sendEmail(transporter, 'jesustoussaint08@gmail.com', 'Alerta de Temperatura', `La temperatura ha alcanzado ${tempValue}°C. en ${name}`);
-                      //   return res.status(201).send('Coreo enviado');
-                      // } catch (error) {
-                      //   console.log(error);
+                        const { email, password, emailSend } = await getConfigCredentials();
+                        const transporter = createTransporter(email, password);
+                        await sendEmail(transporter, emailSend, 'Alerta de Temperatura', `La temperatura ha alcanzado ${tempValue}°C. en ${name}`);
+                        return res.status(201).send('Coreo enviado');
+                      } catch (error) {
+                        console.log(error);
                         
-                      // }
+                      }
                   } else {
                     return res.status(200).send('datos guardados y temperatura normal');
                   } 
