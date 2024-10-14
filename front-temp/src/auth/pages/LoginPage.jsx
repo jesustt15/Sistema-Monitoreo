@@ -2,8 +2,6 @@
 
 
 import { useAuth } from '../../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Loading } from '../../components/Loading';
 

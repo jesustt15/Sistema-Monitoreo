@@ -33,7 +33,7 @@ export const AppRouter = () => {
                                 <Routes>
                                 <Route path='/lugares' element ={ <Lugares />} />
                                     {
-                                         (user) ? (
+                                         (!user) ? (
                                             <>
                                                 <Route path="/auth/*" element={ <LoginPage /> } />
                                                 <Route path="/*" element={ <Navigate to="/auth/" /> } />

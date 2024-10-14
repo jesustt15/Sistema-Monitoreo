@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 
 const crearUsuario = async(req,res = response) => {
     
-    const { email, password} = req.body;
+    const {name , email, password} = req.body;
 
     
     try {
@@ -21,20 +21,23 @@ const crearUsuario = async(req,res = response) => {
             })
         }
         
-        usuario = new Usuario(req.body);
-        console.log(usuario.password , usuario.name);
+
         //Encriptar Contraseña
         const salt = bcrypt.genSaltSync();
-        usuario.password = bcrypt.hashSync(password, salt);
+        hashedPassword = bcrypt.hashSync(password, salt);
+        usuario = await Usuario.create({name , email , password: hashedPassword});
+        console.log(usuario.password , usuario.name);
 
-        await usuario.create();
+
 
         //Generar JWT
-        const token = await generarJWT(usuario.id, usuario.name);
-        res.json(  token );        
-        res.status(201).json({
+        const token = await await createAccessToken({
+            user_id: usuario.user_id,
+            name: usuario.name,
+          });       
+        return res.status(201).json({
             ok: true,
-            uid: usuario.id,
+            uid: usuario.user_id,
             name: usuario.name,
             token: token
         }    
@@ -54,7 +57,7 @@ const loginUsuario = async(req,res = response) => {
 
     try {
         const {email, password} = req.body;
-        const usuario =  await Usuario.findOne({where: {email: email}});
+        const usuario =  await Usuario.findOne({where: { email }});
 
         if(!usuario){
             return res.status(400).json({
@@ -74,7 +77,7 @@ const loginUsuario = async(req,res = response) => {
          
         //Generar JWT 
         const token = await createAccessToken({
-            id: usuario._id,
+            user_id: usuario.user_id,
             name: usuario.name,
           });
       

@@ -8,7 +8,7 @@ const pool = require('../config/database');
     const {name, tempMin,tempMax, humMax, humMin} = req.body;
     try {
 
-         let localidad =  await Lugar.findOne({where: name})
+         let localidad =  await Lugar.findOne({where: {name: name}})
 
          if(localidad){
             return res.status(400).json({
@@ -17,8 +17,8 @@ const pool = require('../config/database');
             })
          }
 
-        const lugar = new Lugar(req.body);
-        await lugar.create();
+        const lugar = await Lugar.create(req.body);
+
 
         res.status(201).json({
             name: lugar.name,

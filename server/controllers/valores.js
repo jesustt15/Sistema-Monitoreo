@@ -14,11 +14,10 @@ const { createTransporter, sendEmail } = require('../helpers/mailer');
     const {lugar , tempValue, humValue} = req.body;
     try {
 
-        const valores = new Valores(req.body);
-        await valores.save();
+        const valores = await Valores.create(req.body);
 
         
-            const { tempMax, humMax, tempMin, humMin, name } = await Lugar.findById(lugar);
+            const { tempMax, humMax, tempMin, humMin, name } = await Lugar.findByPk(lugar);
 
           
 
@@ -26,8 +25,7 @@ const { createTransporter, sendEmail } = require('../helpers/mailer');
               
               //logica de guardar en historico
               try {
-                      const histValues = new Hist_valor({value_id: valores._id});
-                      await histValues.save();
+                      const histValues = await Hist_valor.create({value_id: valores._id});
                     
                     } catch (error) {
                       
@@ -62,11 +60,21 @@ const { createTransporter, sendEmail } = require('../helpers/mailer');
  const getValores = async (req, res = response) =>{
   
 
+      try {
+        const valores = await Valores.findAll({
+          include: [{
+            model: Lugar,
+            attributes: ['name'] // Asegúrate de que el atributo 'nombre' existe en Lugar
+          }]
+        });
+        res.json(valores);
+        
+      } catch (error) {
 
-      const valores = await Valores.find().populate('lugar','name');
-
-                                        
-      res.json(valores);
+        console.error(error);
+        res.status(500).send('Error En cargar los valores');
+        
+      }
  };
 
 
