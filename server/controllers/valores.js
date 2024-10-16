@@ -39,7 +39,7 @@ const { createTransporter, sendEmail } = require('../helpers/mailer');
 
                         const { email, password, emailSend } = await getConfigCredentials();
                         const transporter = createTransporter(email, password);
-                        await sendEmail(transporter, emailSend, 'Alerta de Temperatura', `La temperatura ha alcanzado ${tempValue}°C. en ${name}`);
+                        await sendEmail(transporter, emailSend, 'Alerta de Temperatura', `La temperatura ha alcanzado ${tempValue}°C. en ${lugar.name}`);
                         return res.status(201).send('Coreo enviado');
                       } catch (error) {
                         console.log(error);

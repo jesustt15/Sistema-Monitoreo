@@ -4,6 +4,7 @@
 import { useAuth } from '../../context/AuthContext';
 import { useForm } from 'react-hook-form';
 import { Loading } from '../../components/Loading';
+import { toast } from 'react-toastify';
 
 
 
@@ -13,10 +14,15 @@ export const LoginPage = () => {
     const { signin, errorMessage, loading, setLoading } = useAuth();
     const { register, handleSubmit} = useForm();
 
+    const id = toast.loading("Please wait...")
+
+
     const loginSubmit = async( data ) => {
        setLoading(true);
         try {
+        
          signin(data );
+         toast.update(id, { render: "All is good", type: "success", isLoading: false });
        } catch (error) {
         console.log(error);
        } finally{
