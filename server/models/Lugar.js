@@ -29,8 +29,20 @@ const Lugar = sequelize.define('lugares', {
     type: DataTypes.FLOAT,
     allowNull: false,
   },
-
   
 });
+
+Lugar.addHook('beforeValidate', (lugar, options) => {
+  if (lugar.tempMin >= lugar.tempMax) {
+    throw new Error('La temperatura mínima no puede ser mayor o igual a la máxima');
+  }
+});
+
+Lugar.addHook('beforeValidate', (lugar, options) => {
+  if (lugar.humMin >= lugar.humMax) {
+    throw new Error('La Humedad mínima no puede ser mayor o igual a la máxima');
+  }
+});
+
 
 module.exports = Lugar;

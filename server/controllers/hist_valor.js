@@ -5,16 +5,6 @@ const Valores = require("../models/Valores");
 
 
 const getHistValues = async (req, res = response) =>{
-  
-
-    // const populate = ([  
-    //     {
-    //        path: 'value_id', populate: { path: 'lugar' }, select: 'name tempValue humValue valueFecha'
-    //     }
-    //          ]);
-    // const histValues = await Hist_valor.find().populate(populate);
-                                      
-    // res.json(histValues);
     try {
         const histValues = await Hist_valor.findAll({
           include: [{

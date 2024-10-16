@@ -30,8 +30,13 @@ const pool = require('../config/database');
 
         
     } catch (error) {
-        console.log(error);
-        res.status(500).json({error});
+      if (error.name === 'SequelizeValidationError') {
+         res.status(400).json({ error: error.message });
+      }else {
+         console.log(error);
+         res.status(500).json({error});
+      }
+
     }
  };
 
@@ -75,8 +80,12 @@ const pool = require('../config/database');
          })
       }
    } catch (error) {
-      console.log(error);
-      res.status(500).json({error});
+      if (error.name === 'SequelizeValidationError') {
+         res.status(400).json({ error: error.message });
+      }else {
+         console.log(error);
+         res.status(500).json({error});
+      }
    }
 
  };

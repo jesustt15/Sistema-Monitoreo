@@ -79,12 +79,7 @@ const loginUsuario = async(req,res = response) => {
         const token = await createAccessToken({
             user_id: usuario.user_id,
             name: usuario.name,
-          });
-      
-        //   res.cookie("token", token, {
-        //     httpOnly: true,
-        //     sameSite: 'Strict' 
-        //   });
+          })
       
           res.json({
             token

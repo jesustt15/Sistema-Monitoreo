@@ -1,5 +1,8 @@
 const { response } = require("express");
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+const {SECRET_TOKEN} = process.env;
 
 const verifyToken = (req, res, next) => {
   const token = req.headers['authorization'];
@@ -8,7 +11,7 @@ const verifyToken = (req, res, next) => {
     return res.status(403).send('Token requerido');
   }
 
-  jwt.verify(token, 'secret-key', (err, decoded) => {
+  jwt.verify(token, SECRET_TOKEN, (err, decoded) => {
     if (err) {
       return res.status(401).send('Token inválido');
     }

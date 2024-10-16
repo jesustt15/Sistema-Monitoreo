@@ -8,6 +8,7 @@ const updateConfig = async( req, res = response) =>{
    const { email, password, emailSend } = req.body;
    try {
       const configCredentials = await Config.findOne();
+
       if(configCredentials){
          configCredentials.email = email;
          configCredentials.emailSend = emailSend;
