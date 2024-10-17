@@ -34,55 +34,41 @@ export const LoginPage = () => {
 
     }
     
-    return (
-                
-                
-                
-                <div className="full-container">
-                    <div className="info-container">
-                        <div className="img-logo">
-                            <img src={Logo} alt="loguito" />
-                        </div>
-                        <div className="form-container">
-                            <h2>Inicio de Sesión</h2>
-                            <form onSubmit= {handleSubmit(loginSubmit)}>
-                                <span>Correo eléctronico</span>
-                                <input 
-                                            type="text"
-                                            className="form-control"
-                                            name='email'
-                                            placeholder="Ingresa tu correo electrónico"
-                                            {...register("email", { required: true })}
-                                        />
-                                
-                                <span>Contraseña</span>
-                                    <input
-                                        type="password"
+    return (    
+            <div className="container">
+                <div className="left-section">
+                    <img src={Logo} alt="Logo" className="logo"/>
+                    <div className="login-form">
+                        <h2>Inicio de sesión</h2>
+                        <form onSubmit= {handleSubmit(loginSubmit)}>
+                            <label>Correo electrónico</label>
+                            <input  type="text"
+                                        className="form-control"
+                                        name='email'
+                                        placeholder="Ingresa tu correo electrónico"
+                                        {...register("email", { required: true })}/>
+                        
+                            <label>Contraseña</label>
+                            <input type="password"
                                         className="form-control"
                                         placeholder="Ingresa tu contraseña"
                                         name='password'
-                                        {...register("password", { required: true })}
-                                    />
-                                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-                                <div className="btn-submit">
-                                    <input 
+                                        {...register("password", { required: true })}/>
+                            
+                            <input 
                                         type="submit"
                                         className="btnSubmit"
-                                        value="Inicia Sesion" 
+                                        value="Iniciar Sesion" 
                                     />
-                                </div>
-                            </form>
-
-                        </div>
+                        </form>
+                            
                     </div>
-                    
-                    <img src={Fabrica} alt="masisa-fabrica" />
-
                 </div>
-                // <div>
-                //     {loading && <Loading />}
-                //     <h3>Ingreso</h3>
-
-                // </div>
+                <div className="right-section">
+                    <img src= {Fabrica} alt="Imagen de Login"/>
+                </div>
+            </div>
+        
+            
     )
 }
