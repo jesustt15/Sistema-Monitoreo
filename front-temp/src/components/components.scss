@@ -1,0 +1,81 @@
+/*Navbar*/
+
+$primary: #008248;
+
+.navbar {
+    font-family: Montserrat, sans-serif;
+    font-weight: 600;
+    font-size: 105%;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 1rem;
+    background-color: $primary;
+    color: white;
+  }
+
+  .navbar-brand{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-left: 7rem;
+    width: 65%;
+  }
+  
+   .nav-link {
+    color: #fff;
+    text-decoration: none;
+    padding: 1rem;
+    position: relative;
+    transition: all 0.3s ease;
+    margin: 0 1rem;
+
+  &:not(.active):hover::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 60%;
+    width: 0.4rem;
+    height: 3px;
+    background-color: white;
+    transition: width 0.3s ease, left 0.3s ease;
+  }
+
+  &:not(.active):hover::after {
+    width: 100%;
+    left: 0;
+  }
+
+  &.active {
+    background-color: white;
+    border-radius: 1.5rem;
+    width: 15%;
+    padding: 0.8rem;
+    display: flex;
+    justify-content: center;
+    color: $primary;
+    box-shadow: 0px 4px 4px 0px #00000040;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -1.5rem; /* Ajusta según necesites */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 5rem;
+      height: 0;
+      border-left: 1rem solid transparent;
+      border-right: 1rem solid transparent;
+      border-bottom: 2rem solid white; /* Color del triángulo */
+    }
+  }
+}
+
+
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
