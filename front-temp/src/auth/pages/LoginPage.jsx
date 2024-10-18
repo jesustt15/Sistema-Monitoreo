@@ -42,19 +42,24 @@ export const LoginPage = () => {
                         <h2>Inicio de sesión</h2>
                         <form onSubmit= {handleSubmit(loginSubmit)}>
                             <label>Correo electrónico</label>
-                            <input  type="text"
-                                        className="form-control"
-                                        name='email'
-                                        placeholder="Ingresa tu correo electrónico"
-                                        {...register("email", { required: true })}/>
-                        
+                            <div className="input-form">
+                            <i className="bi bi-envelope"></i>
+                                <input  type="text"
+                                    className="form-control"
+                                    name='email'
+                                    placeholder="Ingresa tu correo electrónico"
+                                    {...register("email", { required: true })}/>
+                            </div>
                             <label>Contraseña</label>
-                            <input type="password"
-                                        className="form-control"
-                                        placeholder="Ingresa tu contraseña"
-                                        name='password'
-                                        {...register("password", { required: true })}/>
-                            
+                            <div className="input-form">
+                                <i className="bi bi-lock"></i>
+                                <input type="password"
+                                    className="form-control"
+                                    placeholder="Ingresa tu contraseña"
+                                    name='password'
+                                    {...register("password", { required: true })}
+                                    />
+                            </div>
                             <input 
                                         type="submit"
                                         className="btnSubmit"
@@ -65,7 +70,9 @@ export const LoginPage = () => {
                     </div>
                 </div>
                 <div className="right-section">
-                    <img src= {Fabrica} alt="Imagen de Login"/>
+                    <div className="img-container">
+                        <img src= {Fabrica} alt="Imagen de Login" className='img-fab'/>
+                    </div>
                 </div>
             </div>
         
