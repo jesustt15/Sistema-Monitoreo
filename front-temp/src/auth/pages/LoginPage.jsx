@@ -60,13 +60,13 @@ export const LoginPage = () => {
                                     {...register("password", { required: true })}
                                     />
                             </div>
+                            {errorMessage && <div className="error-message">{errorMessage}</div>}
                             <input 
                                         type="submit"
                                         className="btnSubmit"
                                         value="Iniciar Sesion" 
                                     />
                         </form>
-                            
                     </div>
                 </div>
                 <div className="right-section">
