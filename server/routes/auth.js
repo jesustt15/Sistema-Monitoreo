@@ -2,7 +2,7 @@
 // host + api/auth
 
 const {Router} = require('express');
-const { crearUsuario, loginUsuario,  verifyToken } = require('../controllers/auth');
+const { crearUsuario, loginUsuario,  verifyToken, logout } = require('../controllers/auth');
 const router = Router();
 const {check} = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campo');
@@ -22,6 +22,6 @@ router.post('/new',
 
 router.post('/',loginUsuario );
 
-// router.get("/verify" ,verifyToken);
+router.post("/logout", logout);
 
 module.exports = router

@@ -4,20 +4,25 @@ require('dotenv').config();
 
 const {SECRET_TOKEN} = process.env;
 
-const verifyToken = (req, res, next) => {
-  const token = req.headers['authorization'];
-
+const verifyToken = (req, res = response, next) => {
+  const authHeader = req.header('Authorization');
+  // Extrae el token independientemente del formato
+  const token = authHeader && (authHeader.startsWith('Bearer ') ? authHeader.split(' ')[1] : authHeader);
+  console.log(token);
+  
   if (!token) {
-    return res.status(403).send('Token requerido');
-  }
+    console.error('No token provided');
+    return res.status(401).send('Access Denied');
+}
 
-  jwt.verify(token, SECRET_TOKEN, (err, decoded) => {
+jwt.verify(token, SECRET_TOKEN, (err, user) => {
     if (err) {
-      return res.status(401).send('Token inválido');
+        console.error('Invalid token', err);
+        return res.status(403).send('Invalid Token');
     }
-    req.user = decoded;
+    req.user = user;
     next();
-  });
+});
 };
 
-module.exports = verifyToken;
+module.exports = {verifyToken};

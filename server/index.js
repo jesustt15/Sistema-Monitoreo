@@ -7,6 +7,9 @@ require('dotenv').config();
 // const Temperatura = require('./models/Temperatura');
 const app = express();
 
+const {PORT} = process.env;
+
+
 app.use(cors({
     
     origin: 'http://localhost:5132',
@@ -42,6 +45,6 @@ app.use('/sensor/historico', require('./routes/hist_valor'));
 
 
 app.listen(3000, () => {
-    console.log('Servidor corriendo en el puerto 3000');
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
   

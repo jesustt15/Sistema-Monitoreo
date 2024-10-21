@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState} from "react";
-import {  loginRequest } from "../api";
+import {  loginRequest, logoutRequest } from "../api";
 
 
 const AuthContext = createContext();
@@ -65,8 +65,17 @@ export function AuthProvider ({children}) {
       };
 
 
-      const logout = () => {
-        setUser(null);
+      const logout = async() => {
+        try {
+          const res = await logoutRequest();
+          setUser(null);
+          console.log(res);
+          
+        } catch (error) {
+          console.log(error);
+ 
+        }
+       
       }
 
 

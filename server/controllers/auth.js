@@ -96,11 +96,18 @@ const loginUsuario = async(req,res = response) => {
 
 }
 
+const logout = async (req, res = response) => {
+
+
+    res.send('logout exitoso');
+}
+
 
 
 module.exports = {
     crearUsuario,
     loginUsuario,
+    logout
 
     
 }

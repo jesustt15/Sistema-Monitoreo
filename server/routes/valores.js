@@ -1,11 +1,12 @@
 const {Router} = require('express');
 const { saveValores, getValores } = require('../controllers/valores');
+const { verifyToken } = require('../middlewares/validar-JWT');
 
 
 
 const router = Router();
 
-router.get('/', getValores);
+router.get('/', verifyToken, getValores);
 
 router.post('/', saveValores);
 
