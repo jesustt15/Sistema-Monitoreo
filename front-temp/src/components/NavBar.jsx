@@ -2,12 +2,13 @@ import { NavLink} from 'react-router-dom';
 import './components.scss';
 import { useAuth } from '../context/AuthContext';
 import { useState } from 'react';
+import Profile from '../assets/profile.jfif';
 
 
 
 const Navbar = () => {
 
-  const {logout} = useAuth();
+  const {logout, user } = useAuth();
   const {active, setActive } = useState('');
 
   const handleClick = (name) =>{
@@ -21,7 +22,19 @@ const Navbar = () => {
   
   return (
     <nav className="navbar">
-      <div className="usuario">Jesus Toussaint</div>
+      <div className="usuario">
+          <div className="img-container">
+          <div className="img-halo">
+            <div className="user-img">
+                <img src={Profile} alt="profile" className="profile" />
+            </div>
+          </div> 
+        </div> 
+        <div className="user-info">
+          <div className="user-name">{user.name}</div>
+          <div className="user-email">{user.email}</div>
+        </div>
+      </div>
       <div className="navbar-brand">
         <NavLink
         className={`nav-link ${active === 'valores' ? 'active' : ''}`}

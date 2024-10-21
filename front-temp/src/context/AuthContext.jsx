@@ -22,7 +22,9 @@ export const useAuth = () =>{
 export function AuthProvider ({children}) {
   const [user, setUser] = useState(() => {
     const token = localStorage.getItem('token');
-    return token ? {token }: null;
+    const name = localStorage.getItem('name') || 'invitado';
+    const email = localStorage.getItem('email') || 'invitado';
+    return { token, name, email };
   });
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
@@ -31,8 +33,12 @@ export function AuthProvider ({children}) {
     useEffect(() => {
       if (user) {
         localStorage.setItem('token', user.token);
+        localStorage.setItem('name',user.name);
+        localStorage.setItem('email',user.email);
       } else {
         localStorage.removeItem('token');
+        localStorage.removeItem('name');
+        localStorage.removeItem('email');
       }
     }, [user]);
 
@@ -43,7 +49,7 @@ export function AuthProvider ({children}) {
       try {
         
         const res = await loginRequest(user);
-        setUser({name: res.data.name ,token: res.data.token});
+        setUser({name: res.data.name ,token: res.data.token, email:res.data.email});
         setIsAuthenticated(true);
       } catch (error) {
           

@@ -82,7 +82,9 @@ const loginUsuario = async(req,res = response) => {
           })
       
           res.json({
-            token
+            token,
+            name: usuario.name,
+            email: usuario.email
           });
     } catch (error) {
         console.log(error)

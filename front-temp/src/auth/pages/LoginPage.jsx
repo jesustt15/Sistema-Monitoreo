@@ -4,7 +4,7 @@
 import { useAuth } from '../../context/AuthContext';
 import { useForm } from 'react-hook-form';
 // import { toast } from 'react-toastify';
-import Fabrica from '../../assets/masisa-fabrica.png';
+import Fabrica from '../../assets/masisa-fabr.png';
 import Logo from '../../assets/masisa-logo.png';
 import './login.scss';
 
