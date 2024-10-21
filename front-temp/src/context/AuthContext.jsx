@@ -22,8 +22,8 @@ export const useAuth = () =>{
 export function AuthProvider ({children}) {
   const [user, setUser] = useState(() => {
     const token = localStorage.getItem('token');
-    const name = localStorage.getItem('name') || 'invitado';
-    const email = localStorage.getItem('email') || 'invitado';
+    const name = localStorage.getItem('name') ;
+    const email = localStorage.getItem('email');
     return { token, name, email };
   });
     const [isAuthenticated, setIsAuthenticated] = useState(false);

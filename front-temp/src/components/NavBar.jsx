@@ -52,7 +52,9 @@ const Navbar = () => {
         className={`nav-link ${active === 'hist' ? 'active' : ''}`}
         onClick={ () => handleClick('hist')}
         to="/historico">Histórico</NavLink>
-        <button onClick={handleLogout}>Salir</button>
+        <button className='logout' onClick={handleLogout}>
+          <i className="bi bi-box-arrow-right"></i>
+        </button>
       </div>
     </nav>
   );
