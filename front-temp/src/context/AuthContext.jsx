@@ -2,6 +2,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState} from "react";
 import {  loginRequest, logoutRequest } from "../api";
+import { useNavigate} from 'react-router-dom';
 
 
 const AuthContext = createContext();
@@ -24,21 +25,25 @@ export function AuthProvider ({children}) {
     const token = localStorage.getItem('token');
     const name = localStorage.getItem('name') ;
     const email = localStorage.getItem('email');
-    return { token, name, email };
+    return token ? { token, name, email } : null;
   });
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
     const [errorMessage, setErrorMessage] = useState(null);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
       if (user) {
         localStorage.setItem('token', user.token);
         localStorage.setItem('name',user.name);
         localStorage.setItem('email',user.email);
+        setIsAuthenticated(true);
+        navigate('/');
       } else {
         localStorage.removeItem('token');
         localStorage.removeItem('name');
         localStorage.removeItem('email');
+        setIsAuthenticated(false);
       }
     }, [user]);
 
@@ -51,6 +56,8 @@ export function AuthProvider ({children}) {
         const res = await loginRequest(user);
         setUser({name: res.data.name ,token: res.data.token, email:res.data.email});
         setIsAuthenticated(true);
+        console.log(isAuthenticated);
+        navigate('/'); 
       } catch (error) {
           
           const errores = error.response.data;
@@ -67,9 +74,9 @@ export function AuthProvider ({children}) {
 
       const logout = async() => {
         try {
-          const res = await logoutRequest();
-          setUser(null);
-          console.log(res);
+           await logoutRequest();
+          localStorage.clear();
+          setIsAuthenticated(false);
           
         } catch (error) {
           console.log(error);
