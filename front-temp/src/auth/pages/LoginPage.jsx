@@ -34,7 +34,7 @@ export const LoginPage = () => {
     }
     
     return (    
-            <div className="container">
+            <div className="container-login">
                 <div className="left-section">
                     <img src={Logo} alt="Logo" className="logo"/>
                     <div className="login-form">
