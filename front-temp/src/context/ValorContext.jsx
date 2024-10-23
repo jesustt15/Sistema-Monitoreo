@@ -22,6 +22,15 @@ export const useValor = () =>{
 export function ValorProvider ({children}) {
     const [valores, setValores] = useState([]);
     const [search, setSearch] = useState("Guayana");
+    const [showMenu, setShowMenu] = useState(false);
+
+
+
+    const handleClickOutside = (event) => {
+      if (showMenu && !event.target.closest('.filter')) {
+          setShowMenu(false);
+      }
+  };
   
   
     const getValores = async() =>{
@@ -33,7 +42,7 @@ export function ValorProvider ({children}) {
     //buscador
   
     const searcher = (e) => {
-      setSearch(e.target.value);;
+      setSearch(e.target.value);
     }
   
     // metodo filtrado
@@ -45,6 +54,11 @@ export function ValorProvider ({children}) {
       results =  valores.filter((dato) =>  dato.lugare.name.includes(search))
     }
 
+    const toggleMenu = (event) => {
+      event.preventDefault();
+      setShowMenu(!showMenu);
+      
+  };
 
 
 
@@ -52,7 +66,12 @@ export function ValorProvider ({children}) {
     return (
         <ValorContext.Provider value={{ results ,  valores,
         getValores,
-        searcher}}>
+        handleClickOutside,
+        searcher,
+        toggleMenu,
+        showMenu,
+        
+        }}>
             {children}
         </ValorContext.Provider>
     )

@@ -52,57 +52,61 @@ export const ActualizarLugar = () => {
 return (
     <>
     <Navbar />
-      <div>Actualizar Lugar</div>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="form-group mb-2">
-                            <input 
-                                type="text"
-                                className="form-control"
-                                placeholder="name"
-                                {...register("name")}
-                            />
-                        </div>
-                        <div className="form-group mb-2">
-                            <input
-                                type="number"
-                                className="form-control"
-                                placeholder="Temperatura Minima"
-                                {...register("tempMin")}
-                            />
-                        </div>
-                        <div className="form-group mb-2">
-                            <input
-                                type="number"
-                                className="form-control"
-                               placeholder="Temperatura Maxima"
-                                {...register("tempMax")}
-                            />
-                        </div>
-                        <div className="form-group mb-2">
-                            <input
-                                type="number"
-                                className="form-control"
-                               placeholder="Humedad Minima"
-                                {...register("humMin")}
-                            />
-                        </div>
-                        <div className="form-group mb-2">
-                            <input
-                                type="number"
-                                className="form-control"
-                               placeholder="Humedad Maxima"
-                                {...register("humMax")}
-                            />
-                        </div> 
-                        {/* {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} */}
-                         <div className="d-grid gap-2">
-                            <input 
-                                type="submit"
-                                className="btnSubmit"
-                                value="Actualizar" 
-                            />
-                        </div>
-                    </form>
+    <div className="full-container">
+        <div className="container">
+            <div>Actualizar Lugar</div>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="form-group mb-2">
+                        <input 
+                            type="text"
+                            className="form-control"
+                            placeholder="name"
+                            {...register("name")}
+                        />
+                    </div>
+                    <div className="form-group mb-2">
+                        <input
+                            type="number"
+                            className="form-control"
+                            placeholder="Temperatura Minima"
+                            {...register("tempMin")}
+                        />
+                    </div>
+                    <div className="form-group mb-2">
+                        <input
+                            type="number"
+                            className="form-control"
+                            placeholder="Temperatura Maxima"
+                            {...register("tempMax")}
+                        />
+                    </div>
+                    <div className="form-group mb-2">
+                        <input
+                            type="number"
+                            className="form-control"
+                            placeholder="Humedad Minima"
+                            {...register("humMin")}
+                        />
+                    </div>
+                    <div className="form-group mb-2">
+                        <input
+                            type="number"
+                            className="form-control"
+                            placeholder="Humedad Maxima"
+                            {...register("humMax")}
+                        />
+                    </div> 
+                    {/* {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} */}
+                        <div className="d-grid gap-2">
+                        <input 
+                            type="submit"
+                            className="btnSubmit"
+                            value="Actualizar" 
+                        />
+                    </div>
+                </form>
+        </div>
+    </div>
     </>
   
   )

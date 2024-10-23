@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-vars */
-
-
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/NavBar";
+import '../../index.scss';
 import { useLugar } from "../../context";
 import { useForm } from "react-hook-form"
 
@@ -37,49 +36,54 @@ export const NewLugar = () => {
   return (
     <>
         <Navbar />
-        <h2>Nuevo Lugar</h2>
-        <form onSubmit={handleSubmit(onHandleSubmit)}>
-            <div>
-                <input
-                type="text"
-                placeholder="Lugar"
-                {...register('name',{ required: true}) }
-                ></input>
+        <div className="full-container">
+            <div className="container">
+                <h2>Nuevo Lugar</h2>
+                    <form onSubmit={handleSubmit(onHandleSubmit)}>
+                        <div>
+                            <input
+                            type="text"
+                            placeholder="Lugar"
+                            {...register('name',{ required: true}) }
+                            ></input>
+                        </div>
+                        <div>
+                            <input
+                            type="number"
+                            placeholder="Temp Minima"
+                            {...register('tempMin',{ required: true}) }
+                            ></input>
+                        </div>
+                        <div>
+                            <input
+                            type="number"
+                            placeholder="Temp Max"
+                            {...register('tempMax',{ required: true}) }
+                            ></input>
+                        </div>
+                        <div>
+                            <input
+                            type="number"
+                            placeholder="Humedad Min"
+                            {...register('humMin',{ required: true}) }
+                            ></input>
+                        </div>
+                        <div>
+                            <input
+                            type="number"
+                            placeholder="Humedad Max"
+                            {...register('humMax',{ required: true}) }
+                            ></input>
+                        </div>
+                        {errors.tempMax || errors.humMax && <span>Este campo es requerido</span>}
+                        <input
+                        type="submit"
+                        value="Guardar"
+                        ></input>
+                </form>
             </div>
-            <div>
-                <input
-                type="number"
-                placeholder="Temp Minima"
-                {...register('tempMin',{ required: true}) }
-                ></input>
-            </div>
-            <div>
-                <input
-                type="number"
-                placeholder="Temp Max"
-                {...register('tempMax',{ required: true}) }
-                ></input>
-            </div>
-            <div>
-                <input
-                type="number"
-                placeholder="Humedad Min"
-                {...register('humMin',{ required: true}) }
-                ></input>
-            </div>
-            <div>
-                <input
-                type="number"
-                placeholder="Humedad Max"
-                {...register('humMax',{ required: true}) }
-                ></input>
-            </div>
-            {errors.tempMax || errors.humMax && <span>Este campo es requerido</span>}
-            <input
-            type="submit"
-            value="Guardar"
-            ></input>
-        </form>
+        </div>
+        
     </>
   )
 }

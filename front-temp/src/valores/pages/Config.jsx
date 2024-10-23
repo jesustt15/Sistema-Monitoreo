@@ -36,40 +36,45 @@ export const Config = () => {
   return (
     <>
         <Navbar />
-        <p>Config</p>
-        <br></br>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div>
-                <input
-                type="email"
-                placeholder="email"
-                value={config.email}
-                {...register("email")}
-                ></input>
+
+        <div className="full-container">
+          <div className="container">
+                <p>Config</p>
+              <br></br>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div>
+                      <input
+                      type="email"
+                      placeholder="email"
+                      value={config.email}
+                      {...register("email")}
+                      ></input>
+                </div>
+                <div>
+                      <input
+                      type="password"
+                      placeholder="Contraseña"
+                      {...register("password")}
+                      ></input>
+                </div>
+                <div>
+                      <input
+                      type="email"
+                      placeholder="emailSend"
+                      {...register("emailSend")}
+                      ></input>
+                </div>
+                <div>
+                      <input
+                      type="submit"
+                      value="Actualizar"
+                      ></input>
+                </div>
+                <div>{config.email}</div>
+              </form>
+              <br />
           </div>
-          <div>
-                <input
-                type="password"
-                placeholder="Contraseña"
-                {...register("password")}
-                ></input>
-          </div>
-          <div>
-                <input
-                type="email"
-                placeholder="emailSend"
-                {...register("emailSend")}
-                ></input>
-          </div>
-          <div>
-                <input
-                type="submit"
-                value="Actualizar"
-                ></input>
-          </div>
-          <div>{config.email}</div>
-        </form>
-        <br />
+        </div>  
     </>
   )
 }
