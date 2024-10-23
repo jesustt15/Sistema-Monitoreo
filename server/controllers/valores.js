@@ -61,15 +61,23 @@ const { createTransporter, sendEmail } = require('../helpers/mailer');
 
  const getValores = async (req, res = response) =>{
   
-
+      const { page = 1, limit = 5 } = req.query;
       try {
-        const valores = await Valores.findAll({
-          include: [{
-            model: Lugar,
-            attributes: ['name'] // Asegúrate de que el atributo 'nombre' existe en Lugar
-          }]
-        });
-        res.json(valores);
+            const { count, rows } = await Valores.findAndCountAll({
+              include: [{
+                  model: Lugar,
+                  attributes: ['name'] // Asegúrate de que el atributo 'name' existe en Lugar
+              }],
+              limit: parseInt(limit),
+              offset: (page - 1) * limit
+          });
+
+          res.json({
+              totalItems: count,
+              totalPages: Math.ceil(count / limit),
+              currentPage: parseInt(page),
+              items: rows
+          });
         
       } catch (error) {
 

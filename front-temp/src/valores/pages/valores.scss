@@ -1,4 +1,4 @@
-@import '../../index.scss';
+@use '../../index.scss' as *;
 
 .search {
 
@@ -28,7 +28,7 @@
     .searcher i {
         position: absolute;
         left: 4rem; /* Ubicación del icono dentro del input */
-        top: 7.3rem;
+        top: 6.4rem;
         font-size: 1.3rem;
         font-weight: 600;
         color: $primary;
@@ -90,21 +90,94 @@
         
 }
 
+.graficos {
+    width: 100%;
+    height: 60%;
+    display: flex;
+    flex-direction: row-reverse ;
+    justify-content: center;
+    margin-bottom: 3%;
+
+    .estadistica-principal{   
+        width: 65%;
+        border: 1px solid rgba(240, 240, 240, 1);
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    }
+
+    .estadisticas {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(240, 240, 240, 1);
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    }
+
+    
+}
+
+.charts-container {
+    display: flex;
+    gap: 10px; /* Espacio entre las gráficas */
+}
+
+.chart-container {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.thumbnail {
+    width: 40%; /* Ajusta el tamaño del thumbnail */
+    height: 35%;
+    overflow: hidden;
+}
+
+.expanded {
+    flex-grow: 1; /* Ocupa el mayor espacio posible */
+    width: 100%; /* Ajusta el tamaño de la gráfica expandida */
+    height: 100%;
+}
 .table{
     width: 100%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    
+}
+
+.pagination{
+    margin-right: 10%;
+    margin-top: 5%;
+    align-self: flex-end;
 }
 
 table {
     width: 90%;
     border-collapse: collapse;
+    align-self: center;
     margin: 20px 0;
 }
 
 th, td {
     text-align: center;
     padding: 10px;
+
+
+}
+
+.hora{
+    color: $primary;
+    font-size: 85%;
+    font-weight: 520;
+    display: flex;
+    justify-content: center;
+    
+    
+    .container-hora{
+
+
+        padding: 0.15rem;
+        width: 80%;
+        background-color: rgba(0, 130, 72, 0.1);
+        border-radius: 20%;
+    }
 }
 
 th {

@@ -23,11 +23,14 @@ export function ValorProvider ({children}) {
     const [valores, setValores] = useState([]);
     const [search, setSearch] = useState("Guayana");
     const [showMenu, setShowMenu] = useState(false);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
 
 
     const handleClickOutside = (event) => {
       if (showMenu && !event.target.closest('.filter')) {
+          setPage(1);
           setShowMenu(false);
       }
   };
@@ -35,8 +38,9 @@ export function ValorProvider ({children}) {
   
     const getValores = async() =>{
 
-        const res = await getValoresRequest();
-        setValores(res.data);           
+        const res = await getValoresRequest(page);
+        setValores(res.data.items);  
+        setTotalPages(res.data.totalPages);         
   }
 
     //buscador
@@ -69,8 +73,10 @@ export function ValorProvider ({children}) {
         handleClickOutside,
         searcher,
         toggleMenu,
+        setPage,
         showMenu,
-        
+        page
+        , totalPages
         }}>
             {children}
         </ValorContext.Provider>

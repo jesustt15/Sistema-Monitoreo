@@ -1,25 +1,18 @@
 import { useEffect } from 'react';
 import { useLugar, useValor } from '../../context';
 import './valores.scss';
+import { Table } from './components/Table';
+import {Line} from 'react-chartjs-2';
+import { LineGraph } from './components/LineGraph';
 
 
 
 
 export const ValoresPage = () => {
-  const {results ,searcher ,getValores, handleClickOutside,  showMenu, toggleMenu } = useValor();
+  const { searcher ,getValores, handleClickOutside,  showMenu, toggleMenu, page
+  } = useValor();
   const {getLugares, lugares}= useLugar()
 
-
-
-    const setFecha = (fecha) => {
-        const opciones = { year: 'numeric', month: 'numeric', day: 'numeric' };
-        return new Date(fecha).toLocaleDateString('es-ES', opciones);
-      }
-
-      const setHora = (fecha) => {
-        const opciones = {hour: '2-digit', minute: '2-digit', second: '2-digit' };
-        return new Date(fecha).toLocaleTimeString('es-ES', opciones);
-      }
 
   useEffect(() => {
     getLugares();
@@ -29,7 +22,7 @@ export const ValoresPage = () => {
 useEffect(() => {
       getValores();
 
-  },[]);
+  },[page, lugares]);
 
 
 
@@ -61,29 +54,42 @@ useEffect(() => {
             )}
           </div>
         </section>
+        <section className='graficos'>
+              <div className="estadisticas">
+              <Line
+                      data={{
+                        labels: ['a', 'b'],
+                        datasets: [{
+
+                          label: "revenue",
+                          data: [5, 6 ,7 ,8]
+                        }]
+                      }} />
+                                    <Line
+                      data={{
+                        labels: ['a', 'b'],
+                        datasets: [{
+
+                          label: "revenue",
+                          data: [5, 6 ,7 ,8]
+                        }]
+                      }} />
+                                    <Line
+                      data={{
+                        labels: ['a', 'b'],
+                        datasets: [{
+
+                          label: "revenue",
+                          data: [5, 6 ,7 ,8]
+                        }]
+                      }} />
+              </div>
+              <div className="estadistica-principal">
+                      <LineGraph />
+              </div> 
+        </section>
         <section className="table">
-          <table>
-              <thead>
-                  <tr>
-                      <th>Lugar</th>
-                      <th>Temperatura</th>
-                      <th>Humedad</th>
-                      <th>Fecha</th>
-                      <th>Hora</th>
-                  </tr>
-              </thead>
-              <tbody id="table-body">
-                  {results.map( (data, i)  => (
-                    <tr key={i}>
-                        <td>{data.lugare.name}</td>
-                        <td>{data.tempValue}°C</td>
-                        <td>{data.humValue}%</td>
-                        <td>{setFecha(data.valueFecha)}</td>
-                        <td>{setHora(data.valueFecha)}</td>
-                    </tr>
-                  ))}
-              </tbody>
-          </table>
+            <Table />
         </section>
       </div>  
     </div>

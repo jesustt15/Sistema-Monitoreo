@@ -3,7 +3,6 @@
 
 import { useAuth } from '../../context/AuthContext';
 import { useForm } from 'react-hook-form';
-// import { toast } from 'react-toastify';
 import Fabrica from '../../assets/masisa-fabr.png';
 import Logo from '../../assets/masisa-logo.png';
 import './login.scss';
@@ -13,7 +12,7 @@ import './login.scss';
 
 export const LoginPage = () => {
 
-    const { signin, errorMessage, loading, setLoading } = useAuth();
+    const { signin, errorMessage, setLoading } = useAuth();
     const { register, handleSubmit} = useForm();
 
     // const id = toast.loading("Please wait...")
