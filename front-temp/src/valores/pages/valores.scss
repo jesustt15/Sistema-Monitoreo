@@ -125,16 +125,17 @@
 }
 
 .thumbnail {
-    width: 40%; /* Ajusta el tamaño del thumbnail */
-    height: 35%;
+    width: 200px; /* Ajusta el tamaño del thumbnail */
+    height: 150px;
     overflow: hidden;
 }
 
 .expanded {
     flex-grow: 1; /* Ocupa el mayor espacio posible */
-    width: 100%; /* Ajusta el tamaño de la gráfica expandida */
-    height: 100%;
-}
+    width: 600px; /* Ajusta el tamaño de la gráfica expandida */
+    height: 400px}
+
+    
 .table{
     width: 100%;
     display: flex;

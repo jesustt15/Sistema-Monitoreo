@@ -23,6 +23,7 @@ export function ValorProvider ({children}) {
     const [valores, setValores] = useState([]);
     const [search, setSearch] = useState("Guayana");
     const [showMenu, setShowMenu] = useState(false);
+    const [activeChart, setActiveChart] = useState(0);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
@@ -71,12 +72,14 @@ export function ValorProvider ({children}) {
         <ValorContext.Provider value={{ results ,  valores,
         getValores,
         handleClickOutside,
+        setActiveChart,
         searcher,
         toggleMenu,
         setPage,
         showMenu,
         page
-        , totalPages
+        , totalPages,
+        activeChart
         }}>
             {children}
         </ValorContext.Provider>

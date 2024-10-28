@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useLugar, useValor } from '../../context';
 import './valores.scss';
 import { Table } from './components/Table';
-import {Line} from 'react-chartjs-2';
 import { LineGraph } from './components/LineGraph';
 
 
@@ -39,35 +38,6 @@ useEffect(() => {
     <div className="full-container">
       <div className="container">
         <section className='graficos'>
-              <div className="estadisticas">
-              <Line
-                      data={{
-                        labels: ['a', 'b'],
-                        datasets: [{
-
-                          label: "revenue",
-                          data: [5, 6 ,7 ,8]
-                        }]
-                      }} />
-                                    <Line
-                      data={{
-                        labels: ['a', 'b'],
-                        datasets: [{
-
-                          label: "revenue",
-                          data: [5, 6 ,7 ,8]
-                        }]
-                      }} />
-                                    <Line
-                      data={{
-                        labels: ['a', 'b'],
-                        datasets: [{
-
-                          label: "revenue",
-                          data: [5, 6 ,7 ,8]
-                        }]
-                      }} />
-              </div>
               <div className="estadistica-principal">
                       <LineGraph />
               </div> 
