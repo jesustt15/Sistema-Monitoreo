@@ -38,7 +38,6 @@ export function AuthProvider ({children}) {
         localStorage.setItem('name',user.name);
         localStorage.setItem('email',user.email);
         setIsAuthenticated(true);
-        navigate('/');
       } else {
         localStorage.removeItem('token');
         localStorage.removeItem('name');

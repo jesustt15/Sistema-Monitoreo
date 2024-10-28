@@ -28,7 +28,7 @@
     .searcher i {
         position: absolute;
         left: 4rem; /* Ubicación del icono dentro del input */
-        top: 1rem;
+        top: 34.2rem;
         font-size: 1.3rem;
         font-weight: 600;
         color: $primary;
@@ -137,6 +137,7 @@
 
     
 .table{
+    @include primary-font;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -144,6 +145,7 @@
 }
 
 .pagination{
+    @include primary-font;
     margin-right: 10%;
     margin-top: 3%;
     align-self: flex-end;

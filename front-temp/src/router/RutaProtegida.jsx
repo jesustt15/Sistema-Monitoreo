@@ -11,10 +11,11 @@ import { useAuth } from '../context';
         return <Navigate to="/auth" state={{ from: location }} replace />;
     }
 
-    // Si hay usuario y la ruta contiene /auth/, redirige a la ruta raíz
-    if (location.pathname.startsWith('/auth')) {
-        return <Navigate to="/" replace />;
-    }
+    // Evita redirigir a la ruta raíz si el usuario está autenticado
+  if (isAuthenticated && location.pathname === '/auth') {
+    return <Navigate to="/" replace />;
+  }
+
 
     return <Outlet />;
 };

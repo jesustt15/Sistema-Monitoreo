@@ -5,20 +5,21 @@ import { useLugar, useValor } from '../../../context';
 export const LineGraph = () => {
     const [charts, setCharts] = useState([]);
     const {getValores, results} =  useValor();
-    const { getLugares} = useLugar();
+    const { getLugares, lugares} = useLugar();
    
 
-    useEffect(() => {
-       getValores();
-    }, []);
+    const setHora = (fecha) => {
+        const opciones = {hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        return new Date(fecha).toLocaleTimeString('es-ES', opciones);
+      }
 
     useEffect(() => {
         getLugares();
      }, []);
 
      useEffect(() => {
-            
-        const labels = results.map(data => data.lugare.name);
+        getValores();
+        const labels = results.map(data => setHora(data.valueFecha));
 
         const data1 = results.map(data => data.tempValue);
         const data2 = results.map(data => data.humValue);
@@ -119,8 +120,10 @@ export const LineGraph = () => {
                 },
             },
         ]);
+     }, [lugares]);
+
+        
      
-     }, [])
      
  
 
