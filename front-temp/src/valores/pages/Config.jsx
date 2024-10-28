@@ -3,6 +3,7 @@ import Navbar from "../../components/NavBar";
 import { useConfig } from "../../context";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import App from "./components/App";
 
 export const Config = () => {
 
@@ -39,7 +40,7 @@ export const Config = () => {
 
         <div className="full-container">
           <div className="container">
-                <p>Config</p>
+                {/* <p>Config</p>
               <br></br>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
@@ -72,7 +73,8 @@ export const Config = () => {
                 </div>
                 <div>{config.email}</div>
               </form>
-              <br />
+              <br /> */}
+              <App />
           </div>
         </div>  
     </>
