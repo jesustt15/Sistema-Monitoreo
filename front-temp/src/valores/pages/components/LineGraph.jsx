@@ -36,7 +36,7 @@ export const LineGraph = () => {
                             backgroundColor: 'rgba(75, 192, 192, 0.2)',
                             borderColor: 'rgba(75, 192, 192, 1)',
                             borderWidth: 1,
-                            fill: false,
+                            fill: true,
                             tension: 0.1,
                         },
                     ],
@@ -56,10 +56,10 @@ export const LineGraph = () => {
                         {
                             label: 'Humedad',
                             data: data2,
-                            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                            backgroundColor: 'rgba(51, 102, 255, 0.2)',
                             borderColor: 'rgba(153, 102, 255, 1)',
                             borderWidth: 1,
-                            fill: false,
+                            fill: true,
                             tension: 0.1,
                         },
                     ],
@@ -79,10 +79,10 @@ export const LineGraph = () => {
                         {
                             label: 'Presión',
                             data: data3,
-                            backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                            backgroundColor: 'rgba(255, 51, 63, 0.2)',
                             borderColor: 'rgba(255, 159, 64, 1)',
                             borderWidth: 1,
-                            fill: false,
+                            fill: true,
                             tension: 0.1,
                         },
                     ],
@@ -126,12 +126,11 @@ export const LineGraph = () => {
 
     return (
 
-            <>
-                <h1>Graficas Expandibles</h1>
-                <div className="charts-container">
-                    {charts.map((chart, index) => (
-                        <ExpandableChart key={index} chartData={chart.data} index={index} />
-                    ))}
+            <>    
+                 <div className="charts-container">
+                        {charts.map((chart,index) => (
+                        <ExpandableChart key={index} index={index} chartData={chart.data} />
+                        ))}
                 </div>
             </>
     );

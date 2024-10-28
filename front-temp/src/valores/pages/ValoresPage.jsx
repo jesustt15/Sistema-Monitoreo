@@ -38,9 +38,7 @@ useEffect(() => {
     <div className="full-container">
       <div className="container">
         <section className='graficos'>
-              <div className="estadistica-principal">
-                      <LineGraph />
-              </div> 
+          <LineGraph />
         </section>
         <section className="search">
           <div className='searcher'>

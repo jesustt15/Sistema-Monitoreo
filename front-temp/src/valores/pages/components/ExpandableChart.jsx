@@ -22,7 +22,7 @@ export const ExpandableChart = ({ chartData, index }) => {
     const isActive = activeChart === index;
 
     const handleClick = () => {
-        setActiveChart(index);
+        setActiveChart(activeChart === index ? 0 : index);
     };
 
     const options = {
@@ -59,8 +59,11 @@ export const ExpandableChart = ({ chartData, index }) => {
     };
 
     return (
-        <div className={`chart-container ${isActive ? 'expanded' : 'thumbnail'}`} onClick={handleClick}>
-            <Line data={chartData} options={options} />
+        <div
+        className={`chart-container ${isActive && activeChart === index ? 'expanded' : 'thumbnail'}`}
+        onClick={handleClick}
+      >
+            <Line data={ chartData } options={options} />
         </div>
     );
 };
