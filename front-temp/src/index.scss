@@ -24,7 +24,7 @@ body {
 
 .full-container {
   background-color: $primary;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,13 +33,14 @@ body {
 }
 
 .container {
+  @include primary-font;
   display: flex;
   flex-direction: column;
   width: 97%;
+  height: 100%;
   overflow: auto;
   background-color: white;
-  border-radius: 2%;
-
+  border-radius: 3%;
 }
 
 

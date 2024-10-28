@@ -3,6 +3,7 @@ import { useHistorico } from '../context/HistoricoContext';
 import Navbar from '../components/NavBar';
 import '../index.scss';
 import { useLugar } from '../context';
+import { Table } from './Table';
 
 
 
@@ -22,16 +23,7 @@ export const Historico = () => {
       
     <div className="full-container">
         <div className="container">
-          {lugares.map((lugar, i) => (
-          <button key={i} value={lugar.name} onClick={searcher}>{lugar.name}</button>
-                ))}
-              <ul>
-                {results.map((data, index) => (
-                  <li key={index}>
-                    Lugar: {data.valore.lugare.name}, Temperature: {data.valore.tempValue}°C, Humidity: {data.valore.humValue}%, Fecha: {new Date(data.value_id.valueFecha).toLocaleString()}
-                  </li>
-                ))}
-              </ul>
+              <Table />
         </div>
     </div>
     </>

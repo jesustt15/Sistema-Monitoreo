@@ -1,5 +1,5 @@
 /*Navbar*/
-
+@use '../index.scss' as *;
 $primary: #008248;
 
 .navbar {
@@ -149,4 +149,59 @@ $primary: #008248;
   text-shadow: 0 0 20px rgba(255, 255, 255, 1), /* Sombra intensa al hacer hover */
               0 0 30px rgba(255, 255, 255, 0.8),
               0 0 40px rgba(255, 255, 255, 0.6);
+}
+
+.show-id{
+  
+  background-color: white;
+  cursor: pointer;
+  transition: text-shadow 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+
+  .btn-show{
+    background-color: #99cdb6;
+    border: none;
+    border-radius: 20%;
+  }
+
+ 
+  i{
+    color: $primary;
+    font-size: 110%;
+  }
+}
+
+.acciones {
+
+ 
+  flex-direction: row;
+  gap: 0.5rem;
+
+  .btn-delete {
+    @include primary-font;
+    font-size: 100%;
+    border: none;
+    background-color:  #FF333F;
+    color: white;
+    padding: 0.3rem;
+    width: 50%;
+    border-radius: 0.3rem;
+  }
+  .btn-delete:hover {
+    border: 0.1rem solid #FF333F;
+    background-color: white;
+    color: #FF333F;
+    cursor: pointer;
+  }
+  
+  .edit {
+    color: white;
+    text-decoration: none;
+    background-color: $primary;
+    width: 50%;
+  
+  }
 }
