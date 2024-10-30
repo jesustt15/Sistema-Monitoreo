@@ -8,20 +8,9 @@ import { LineGraph } from './components/LineGraph';
 
 
 export const ValoresPage = () => {
-  const { searcher ,getValores, handleClickOutside,  showMenu, toggleMenu, page
+  const { searcher , handleClickOutside,  showMenu, toggleMenu, 
   } = useValor();
-  const {getLugares, lugares}= useLugar()
-
-
-  useEffect(() => {
-    getLugares();
-
-},[]);  
-  
-useEffect(() => {
-      getValores();
-
-  },[page, lugares]);
+  const { lugares}= useLugar()
 
 
 
@@ -38,7 +27,7 @@ useEffect(() => {
     <div className="full-container">
       <div className="container">
         <section className='graficos'>
-          <LineGraph />
+          {/* <LineGraph /> */}
         </section>
         <section className="search">
           <div className='searcher'>

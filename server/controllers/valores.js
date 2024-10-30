@@ -1,4 +1,5 @@
 const {response} = require('express');
+const { Op } = require('sequelize');
 const Valores = require('../models/Valores');
 const Lugar = require('../models/Lugar');
 const Hist_valor = require('../models/Hist_valor');
@@ -6,6 +7,7 @@ const nodemailer = require('nodemailer');
 const email = require('./config');
 const getConfigCredentials = require('../helpers/getConfigCredentials');
 const { createTransporter, sendEmail } = require('../helpers/mailer');
+
 
 
 
@@ -60,36 +62,51 @@ const { createTransporter, sendEmail } = require('../helpers/mailer');
 
 
  const getValores = async (req, res = response) =>{
-  
-      const { page = 1, limit = 5 } = req.query;
       try {
-            const { count, rows } = await Valores.findAndCountAll({
-              include: [{
-                  model: Lugar,
-                  attributes: ['name'] // Asegúrate de que el atributo 'name' existe en Lugar
-              }],
-              limit: parseInt(limit),
-              offset: (page - 1) * limit
-          });
-
-          res.json({
-              totalItems: count,
-              totalPages: Math.ceil(count / limit),
-              currentPage: parseInt(page),
-              items: rows
-          });
-        
-      } catch (error) {
-
-        console.error(error);
-        res.status(500).send('Error En cargar los valores');
-        
+        const valores = await Valores.findAll({
+            include: [{
+              model: Lugar,
+              attributes: ['name']
+            }]
+        });
+        res.json(valores);
+      } catch (err) {
+        console.error(err);
+        res.status(500).send('Error en cargar la tabla Historico');
       }
  };
+
+ const getValoresByPagination = async (req, res = response) => {
+  const { page = 1, limit = 5, search = '' } = req.query;
+  try {
+      const { count, rows } = await Valores.findAndCountAll({
+          where: {
+              '$lugare.name$': {
+                  [Op.like]: `%${search}%`
+              }
+          },
+          include: [{ model: Lugar, attributes: ['name'] }],
+          limit: parseInt(limit),
+          offset: (page - 1) * limit
+      });
+
+      res.json({
+          totalItems: count,
+          totalPages: Math.ceil(count / limit),
+          currentPage: parseInt(page),
+          items: rows
+      });
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Error en cargar los valores');
+  }
+};
+
 
 
 
  module.exports = {
     saveValores,
-    getValores
+    getValores,
+    getValoresByPagination
  }

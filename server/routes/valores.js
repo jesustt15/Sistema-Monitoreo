@@ -1,5 +1,5 @@
 const {Router} = require('express');
-const { saveValores, getValores } = require('../controllers/valores');
+const { saveValores, getValores, getValoresByPagination } = require('../controllers/valores');
 // const { verifyToken } = require('../middlewares/validar-JWT');
 
 
@@ -7,7 +7,8 @@ const { saveValores, getValores } = require('../controllers/valores');
 const router = Router();
 
 // router.get('/', verifyToken, getValores);
-router.get('/', getValores);
+router.get('/all', getValores);
+router.get('/', getValoresByPagination);
 router.post('/', saveValores);
 
 
