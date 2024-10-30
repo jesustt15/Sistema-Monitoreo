@@ -102,6 +102,7 @@
 
 .charts-container {
     display: flex;
+    flex-direction: row;
     justify-content: flex-end;
     gap: 10px; /* Espacio entre las gráficas */
 }
@@ -110,6 +111,10 @@
     display: flex;
     flex-direction: column; /* Las thumbnails se posicionan en columna */
     gap: 10px; /* Espacio entre las thumbnails */
+}
+.expanded-container {
+    flex-grow: 1;
+    display: flex;
 }
 
 .chart-container {
@@ -216,7 +221,7 @@ tr:hover {
   }
   
   .box {
-    transition: all 0.3s ease;
+    transition: all 0.6s ease-in-out;
     cursor: pointer;
     display: flex;
     align-items: center;
