@@ -2,17 +2,17 @@ import { useEffect } from "react";
 import { useValor } from "../../../context";
 
 export const Table = () => {
-    const { valores,  handleClickOutside, showMenu, page, totalPages, setPage, searcher } = useValor();
+    const { valores, getValoresByPagination, handleClickOutside, showMenu, page, totalPages, setPage, searcher, search } = useValor();
 
     const setFecha = (fecha) => {
         const opciones = { year: 'numeric', month: 'numeric', day: 'numeric' };
         return new Date(fecha).toLocaleDateString('es-ES', opciones);
-    }
+    };
 
     const setHora = (fecha) => {
         const opciones = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
         return new Date(fecha).toLocaleTimeString('es-ES', opciones);
-    }
+    };
 
     useEffect(() => {
         window.addEventListener('click', handleClickOutside);
@@ -20,6 +20,10 @@ export const Table = () => {
             window.removeEventListener('click', handleClickOutside);
         };
     }, [showMenu]);
+
+    useEffect(() => {
+        getValoresByPagination(page, search);
+    }, [page, search]);
 
     return (
         <>
@@ -61,4 +65,5 @@ export const Table = () => {
             </div>
         </>
     );
-}
+};
+

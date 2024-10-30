@@ -77,30 +77,33 @@ const { createTransporter, sendEmail } = require('../helpers/mailer');
  };
 
  const getValoresByPagination = async (req, res = response) => {
-  const { page = 1, limit = 5, search = '' } = req.query;
-  try {
-      const { count, rows } = await Valores.findAndCountAll({
-          where: {
-              '$lugare.name$': {
-                  [Op.like]: `%${search}%`
-              }
-          },
-          include: [{ model: Lugar, attributes: ['name'] }],
-          limit: parseInt(limit),
-          offset: (page - 1) * limit
-      });
-
-      res.json({
-          totalItems: count,
-          totalPages: Math.ceil(count / limit),
-          currentPage: parseInt(page),
-          items: rows
-      });
-  } catch (error) {
-      console.error(error);
-      res.status(500).send('Error en cargar los valores');
-  }
+    const { page = 1, limit = 5, search = 'Guayana' } = req.query;  // 'Guayana' como valor predeterminado
+    console.log('API Request - Page:', page, 'Search:', search); // Verificar parámetros recibidos
+    try {
+        const { count, rows } = await Valores.findAndCountAll({
+            where: {
+                '$lugare.name$': {
+                    [Op.like]: `%${search}%`
+                }
+            },
+            include: [{ model: Lugar, attributes: ['name'] }],
+            order: [['valueFecha', 'DESC']],  // Ordenar por fecha de forma descendente
+            limit: parseInt(limit),
+            offset: (page - 1) * limit
+        });
+        console.log('API Response:', rows);  // Verificar respuesta
+        res.json({
+            totalItems: count,
+            totalPages: Math.ceil(count / limit),
+            currentPage: parseInt(page),
+            items: rows
+        });
+    } catch (error) {
+        console.error('Error loading values:', error);
+        res.status(500).send('Error en cargar los valores');
+    }
 };
+
 
 
 
