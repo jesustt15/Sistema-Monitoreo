@@ -2,30 +2,33 @@ const Hist_valor = require("../models/Hist_valor");
 const Lugar = require("../models/Lugar");
 const Valores = require("../models/Valores");
 
+const getHistValues = async (req, res) => {
+    const { page = 1, limit = 10 } = req.query;
+    const offset = (page - 1) * limit;
 
-
-const getHistValues = async (req, res = response) =>{
     try {
-        const histValues = await Hist_valor.findAll({
-          include: [{
-            model: Valores,
-            attributes: ['tempValue', 'humValue', 'valueFecha'],
+        const { rows: histValues, count } = await Hist_valor.findAndCountAll({
+            limit,
+            offset,
             include: [{
-              model: Lugar,
-              attributes: ['name']
+                model: Valores,
+                attributes: ['tempValue', 'humValue', 'valueFecha'],
+                include: [{
+                    model: Lugar,
+                    attributes: ['name']
+                }]
             }]
-          }]
         });
-        res.json(histValues);
-      } catch (err) {
+
+        const totalPages = Math.ceil(count / limit);
+
+        res.json({ data: histValues, totalPages });
+    } catch (err) {
         console.error(err);
         res.status(500).send('Error en cargar la tabla Historico');
-      }
+    }
 };
 
-
 module.exports = {
-
     getHistValues,
-
- }
+}
