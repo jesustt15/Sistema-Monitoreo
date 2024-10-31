@@ -25,6 +25,11 @@ export const Table = () => {
         getValoresByPagination(page, search);
     }, [page, search]);
 
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i);
+    }
+
     return (
         <>
             <table>
@@ -54,15 +59,24 @@ export const Table = () => {
                 </tbody>
             </table>
             <div className="pagination">
-                <span>{page} - {totalPages} Pág</span>
-                <button onClick={() => setPage(prev => Math.max(prev - 1, 1))} disabled={page === 1}>
+                <button className="pass-page" onClick={() => setPage(prev => Math.max(prev - 1, 1))} disabled={page === 1}>
                     {"<"}
                 </button>
-                <button onClick={() => setPage(prev => Math.min(prev + 1, totalPages))} disabled={page === totalPages}>
+                {pageNumbers.map(number => (
+                    <button
+                        key={number}
+                        onClick={() => setPage(number)}
+                        className={`number ${number === page ? 'active' : ''}`}
+                    >
+                        {number}
+                    </button>
+                ))}
+                <button className="pass-page" onClick={() => setPage(prev => Math.min(prev + 1, totalPages))} disabled={page === totalPages}>
                     {">"}
                 </button>
             </div>
         </>
     );
 };
+
 

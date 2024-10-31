@@ -8,7 +8,7 @@ import { LineGraph } from './components/LineGraph';
 
 
 export const ValoresPage = () => {
-  const { searcher , handleClickOutside,  showMenu, toggleMenu, 
+  const { searcher , handleClickOutside,  showMenu, toggleMenu, search
   } = useValor();
   const { lugares, getLugares}= useLugar()
 
@@ -44,7 +44,7 @@ export const ValoresPage = () => {
               <input type="text" placeholder='Buscar'  onChange={searcher}/>
           </div>
           <div className="filter">
-          <button className='btn-filter' onClick={toggleMenu}>Filtrar</button>
+          <button className='btn-filter' onClick={toggleMenu}>Filtrar: {search} </button>
             {showMenu && (
                 <div className="filter-content">
                   {lugares.map((lugar, i) => (
