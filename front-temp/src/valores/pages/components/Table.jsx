@@ -27,7 +27,6 @@ export const Table = () => {
 
     return (
         <>
-            <input type="text" onChange={searcher} placeholder="Filter by location" />
             <table>
                 <thead>
                     <tr>

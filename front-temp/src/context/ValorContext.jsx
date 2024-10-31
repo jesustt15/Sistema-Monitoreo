@@ -28,15 +28,11 @@ export function ValorProvider({ children }) {
     };
 
     const getValoresByPagination = async(page, search = 'Guayana') => {
-    console.log('Page:', page, 'Search:', search); // Log page and search values
     try {
         const res = await getValoresByPaginationRequest(page, search);
-        console.log('Response:', res.data);  // Log the response data
         if (res && res.data) {
             setValores(res.data.items);
             setTotalPages(res.data.totalPages);
-        } else {
-            console.error('Unexpected response structure:', res);
         }
     } catch (error) {
         console.error('Error fetching paginated values:', error);

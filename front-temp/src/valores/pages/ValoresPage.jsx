@@ -32,7 +32,7 @@ export const ValoresPage = () => {
         <section className="search">
           <div className='searcher'>
                 <i className="bi bi-search"></i>
-              <input type="text" placeholder='Buscar' />
+              <input type="text" placeholder='Buscar'  onChange={searcher}/>
           </div>
           <div className="filter">
           <button className='btn-filter' onClick={toggleMenu}>Filtrar</button>
