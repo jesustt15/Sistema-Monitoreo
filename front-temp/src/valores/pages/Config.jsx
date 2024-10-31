@@ -40,7 +40,7 @@ export const Config = () => {
 
         <div className="full-container">
           <div className="container">
-                {/* <p>Config</p>
+                <p>Config</p>
               <br></br>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
@@ -73,8 +73,7 @@ export const Config = () => {
                 </div>
                 <div>{config.email}</div>
               </form>
-              <br /> */}
-              <App />
+              <br />
           </div>
         </div>  
     </>

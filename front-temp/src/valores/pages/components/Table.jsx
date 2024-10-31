@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useValor } from "../../../context";
 
 export const Table = () => {
-    const { valores, getValoresByPagination, handleClickOutside, showMenu, page, totalPages, setPage, searcher, search } = useValor();
+    const { valores, getValoresByPagination, handleClickOutside, showMenu, page, totalPages, setPage, search } = useValor();
 
     const setFecha = (fecha) => {
         const opciones = { year: 'numeric', month: 'numeric', day: 'numeric' };

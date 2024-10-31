@@ -61,24 +61,30 @@ const { createTransporter, sendEmail } = require('../helpers/mailer');
  };
 
 
- const getValores = async (req, res = response) =>{
-      try {
+ const getValores = async (req, res = response) => {
+    const { search = 'Guayana' } = req.query;  // Valor predeterminado 'Guayana'
+    console.log('API Request - Search:', search, 'ESTA ES GRAFICA');
+    try {
         const valores = await Valores.findAll({
-            include: [{
-              model: Lugar,
-              attributes: ['name']
-            }]
+            where: {
+                '$lugare.name$': {
+                    [Op.like]: `%${search}%`
+                }
+            },
+            include: [{ model: Lugar, attributes: ['name'] }],
         });
+        console.log('API Respuesta:', valores);
         res.json(valores);
-      } catch (err) {
+    } catch (err) {
         console.error(err);
-        res.status(500).send('Error en cargar la tabla Historico');
-      }
- };
+        res.status(500).send('Error en cargar las graficas');
+    }
+};
+
 
  const getValoresByPagination = async (req, res = response) => {
     const { page = 1, limit = 5, search = 'Guayana' } = req.query;  // 'Guayana' como valor predeterminado
-    console.log('API Request - Page:', page, 'Search:', search); // Verificar parámetros recibidos
+    console.log('ESTE ES LA SOLICITUDTABLA');
     try {
         const { count, rows } = await Valores.findAndCountAll({
             where: {
@@ -87,11 +93,10 @@ const { createTransporter, sendEmail } = require('../helpers/mailer');
                 }
             },
             include: [{ model: Lugar, attributes: ['name'] }],
-            order: [['valueFecha', 'DESC']],  // Ordenar por fecha de forma descendente
+            order: [['valueFecha', 'ASC']],  // Ordenar por fecha de forma descendente
             limit: parseInt(limit),
             offset: (page - 1) * limit
         });
-        console.log('API Response:', rows);  // Verificar respuesta
         res.json({
             totalItems: count,
             totalPages: Math.ceil(count / limit),
