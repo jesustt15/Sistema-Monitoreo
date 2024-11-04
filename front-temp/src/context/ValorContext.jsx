@@ -15,7 +15,6 @@ export const useValor = () => {
 
 export function ValorProvider({ children }) {
     const [valores, setValores] = useState([]);
-
     const [search, setSearch] = useState("Guayana"); // Default search value
     const [showMenu, setShowMenu] = useState(false);
     const [page, setPage] = useState(1);
@@ -42,6 +41,7 @@ export function ValorProvider({ children }) {
         try {
             const res = await getValoresByPaginationRequest(page, search);
             if (res && res.data) {
+                console.log(res.data);
                 setValores(res.data.items);
                 setTotalPages(res.data.totalPages);
             }

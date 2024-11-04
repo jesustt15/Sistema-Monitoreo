@@ -63,7 +63,6 @@ const { createTransporter, sendEmail } = require('../helpers/mailer');
 
  const getValores = async (req, res = response) => {
     const { search = 'Guayana' } = req.query;  // Valor predeterminado 'Guayana'
-    console.log('API Request - Search:', search, 'ESTA ES GRAFICA');
     try {
         const valores = await Valores.findAll({
             where: {
@@ -73,7 +72,6 @@ const { createTransporter, sendEmail } = require('../helpers/mailer');
             },
             include: [{ model: Lugar, attributes: ['name'] }],
         });
-        console.log('API Respuesta:', valores);
         res.json(valores);
     } catch (err) {
         console.error(err);
@@ -84,7 +82,6 @@ const { createTransporter, sendEmail } = require('../helpers/mailer');
 
  const getValoresByPagination = async (req, res = response) => {
     const { page = 1, limit = 5, search = 'Guayana' } = req.query;  // 'Guayana' como valor predeterminado
-    console.log('ESTE ES LA SOLICITUDTABLA');
     try {
         const { count, rows } = await Valores.findAndCountAll({
             where: {

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { getHistoricoRequest } from '../api';
 
 const HistoricoContext = createContext();
@@ -17,35 +17,65 @@ export function HistoricoProvider({ children }) {
     const [search, setSearch] = useState("Guayana");
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [showMenu, setShowMenu] = useState(false);
 
-    const getHistorico = async (page = 1) => {
-        const res = await getHistoricoRequest(page);
-        console.log(res.data);
-        setHistorico(res.data.items);
-        setTotalPages(res.totalPages); // Asume que tu respuesta tiene el total de páginas
+    const getHistorico = async (page, search = 'Guayana') => {
+        
+        try {
+            const res = await getHistoricoRequest(page,search);
+            console.log(res.data);
+            if ( res.data && res) {
+                setHistorico(res.data.items);
+                setTotalPages(res.totalPages); 
+                       
+            }
+            
+        } catch (error) {
+            console.log(error);
+            
+        }
+        
     }
+
+    useEffect(() => {
+      getHistorico(page, search);
+    }, [page,search])
+    
 
     // buscador
     const searcher = (e) => {
         setSearch(e.target.value);
-    }
+        setPage(1);
+    };
 
-    // método filtrado
-    let results = [];
-    if (!search) {
-        results = historico;
-    } else {
-        results = historico.filter((dato) => dato.valore.lugare.name.includes(search));
-    }
+    const toggleMenu = (event) => {
+        event.preventDefault();
+        setShowMenu(!showMenu);
+    };
+    
+    
+    const handleClickOutside = (event) => {
+        if (showMenu && !event.target.closest('.filter')) {
+            setPage(1);
+            setShowMenu(false);
+        }
+    };
 
     return (
         <HistoricoContext.Provider value={{
-            results,
+           //ATRIBUTOS
+            page,
+            totalPages, 
+            historico,
+            search,
+            showMenu,
+            //METODOS
             searcher,
             getHistorico,
-            page,
             setPage,
-            totalPages
+            toggleMenu,
+            handleClickOutside
+
         }}>
             {children}
         </HistoricoContext.Provider>
