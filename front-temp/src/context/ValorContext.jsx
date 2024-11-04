@@ -20,6 +20,7 @@ export function ValorProvider({ children }) {
     const [page, setPage] = useState(1);
     const [activeChart, setActiveChart] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
+    const [message, setMessage] = useState('');
 
     const handleClickOutside = (event) => {
         if (showMenu && !event.target.closest('.filter')) {
@@ -44,6 +45,11 @@ export function ValorProvider({ children }) {
                 console.log(res.data);
                 setValores(res.data.items);
                 setTotalPages(res.data.totalPages);
+                if (res.data.items.length === 0) {
+                    setMessage('No existe esa localidad'); // Actualizar el mensaje si no hay resultados
+                } else {
+                    setMessage('');
+                }
             }
         } catch (error) {
             console.error('Error fetching paginated values:', error);
@@ -83,7 +89,8 @@ export function ValorProvider({ children }) {
             page,
             totalPages,
             activeChart,
-            search  // Asegúrate de incluir 'search' en el contexto
+            search ,
+            message // Asegúrate de incluir 'search' en el contexto
         }}>
             {children}
         </ValorContext.Provider>

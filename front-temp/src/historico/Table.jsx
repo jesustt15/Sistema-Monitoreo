@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useHistorico } from "../context";
 
 export const Table = () => {
-    const { getHistorico, page, setPage, totalPages, historico, search } = useHistorico();
+    const { getHistorico, page, setPage, totalPages, historico, search, message} = useHistorico();
 
     useEffect(() => {
         getHistorico(page, search);
@@ -26,49 +26,47 @@ export const Table = () => {
 
     return (
         <>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Lugar</th>
-                        <th>Temperatura</th>
-                        <th>Humedad</th>
-                        <th>Fecha</th>
-                        <th>Hora</th>
-                    </tr>
-                </thead>
-                <tbody id="table-body">
-                    {historico.map((data, i) => (
-                        <tr key={i}>
-                            <td>{data.valore.lugare.name}</td>
-                            <td>{data.valore.tempValue}°C</td>
-                            <td>{data.valore.humValue}%</td>
-                            <td>{setFecha(data.valore.valueFecha)}</td>
-                            <td className='hora'>
-                                <div className="container-hora">
-                                    {setHora(data.valore.valueFecha)}
-                                </div>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            <div className="pagination">
-                <button className="pass-page" onClick={() => setPage(prev => Math.max(prev - 1, 1))} disabled={page === 1}>
-                    {"<"}
-                </button>
-                {pageNumbers.map(number => (
-                    <button
-                        key={number}
-                        onClick={() => setPage(number)}
-                        className={`number ${number === page ? 'active' : ''}`}
-                    >
-                        {number}
-                    </button>
-                ))}
-                <button className="pass-page" onClick={() => setPage(prev => Math.min(prev + 1, totalPages))} disabled={page === totalPages}>
-                    {">"}
-                </button>
-            </div>
+            {message ? (
+                <p>{message}</p> // Mostrar mensaje si no hay resultados
+            ) : (
+                <>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Lugar</th>
+                                <th>Temperatura</th>
+                                <th>Humedad</th>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            {historico.map((data, i) => (
+                                <tr key={i}>
+                                    <td>{data.valore.lugare.name}</td>
+                                    <td>{data.valore.tempValue}°C</td>
+                                    <td>{data.valore.humValue}%</td>
+                                    <td>{setFecha(data.valore.valueFecha)}</td>
+                                    <td className='hora'>
+                                        <div className="container-hora">
+                                            {setHora(data.valore.valueFecha)}
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <div className="pagination">
+                        <span>{page} - {totalPages} Pág</span>
+                        <button onClick={() => setPage(prev => Math.max(prev - 1, 1))} disabled={page === 1}>
+                            {"<"}
+                        </button>
+                        <button onClick={() => setPage(prev => Math.min(prev + 1, totalPages))} disabled={page === totalPages}>
+                            {">"}
+                        </button>
+                    </div>
+                </>
+            )}
         </>
     )
 }

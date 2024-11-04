@@ -71,6 +71,7 @@ const { createTransporter, sendEmail } = require('../helpers/mailer');
                 }
             },
             include: [{ model: Lugar, attributes: ['name'] }],
+            order: [['valueFecha', 'ASC']],  // Ordenar por fecha de forma descendente
         });
         res.json(valores);
     } catch (err) {

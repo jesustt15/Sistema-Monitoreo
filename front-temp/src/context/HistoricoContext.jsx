@@ -18,29 +18,29 @@ export function HistoricoProvider({ children }) {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [showMenu, setShowMenu] = useState(false);
+    const [message, setMessage] = useState(''); // Estado para el mensaje
 
     const getHistorico = async (page, search = 'Guayana') => {
-        
         try {
-            const res = await getHistoricoRequest(page,search);
+            const res = await getHistoricoRequest(page, search);
             console.log(res.data);
-            if ( res.data && res) {
+            if (res.data && res) {
                 setHistorico(res.data.items);
                 setTotalPages(res.totalPages); 
-                       
+                if (res.data.items.length === 0) {
+                    setMessage('No existe esa localidad'); // Actualizar el mensaje si no hay resultados
+                } else {
+                    setMessage('');
+                }
             }
-            
         } catch (error) {
             console.log(error);
-            
         }
-        
     }
 
     useEffect(() => {
-      getHistorico(page, search);
-    }, [page,search])
-    
+        getHistorico(page, search);
+    }, [page, search]);
 
     // buscador
     const searcher = (e) => {
@@ -52,8 +52,7 @@ export function HistoricoProvider({ children }) {
         event.preventDefault();
         setShowMenu(!showMenu);
     };
-    
-    
+
     const handleClickOutside = (event) => {
         if (showMenu && !event.target.closest('.filter')) {
             setPage(1);
@@ -63,19 +62,18 @@ export function HistoricoProvider({ children }) {
 
     return (
         <HistoricoContext.Provider value={{
-           //ATRIBUTOS
             page,
             totalPages, 
             historico,
             search,
             showMenu,
-            //METODOS
+            message, // Incluir el mensaje en el contexto
+            // Métodos
             searcher,
             getHistorico,
             setPage,
             toggleMenu,
             handleClickOutside
-
         }}>
             {children}
         </HistoricoContext.Provider>

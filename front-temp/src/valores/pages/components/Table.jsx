@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { useValor } from "../../../context";
 
 export const Table = () => {
-    const { valores, getValoresByPagination, handleClickOutside, showMenu, page, totalPages, setPage, search } = useValor();
+    const { valores, getValoresByPagination, handleClickOutside, showMenu, 
+        page, totalPages, setPage, search, message } = useValor();
 
     const setFecha = (fecha) => {
         const opciones = { year: 'numeric', month: 'numeric', day: 'numeric' };
@@ -32,49 +33,57 @@ export const Table = () => {
 
     return (
         <>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Lugar</th>
-                        <th>Temperatura</th>
-                        <th>Humedad</th>
-                        <th>Fecha</th>
-                        <th>Hora</th>
-                    </tr>
-                </thead>
-                <tbody id="table-body">
-                    {valores.map((data, i) => (
-                        <tr key={i}>
-                            <td>{data.lugare.name}</td>
-                            <td>{data.tempValue}°C</td>
-                            <td>{data.humValue}%</td>
-                            <td>{setFecha(data.valueFecha)}</td>
-                            <td className='hora'>
-                                <div className="container-hora">
-                                    {setHora(data.valueFecha)}
-                                </div>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            <div className="pagination">
-                <button className="pass-page" onClick={() => setPage(prev => Math.max(prev - 1, 1))} disabled={page === 1}>
-                    {"<"}
-                </button>
-                {pageNumbers.map(number => (
-                    <button
-                        key={number}
-                        onClick={() => setPage(number)}
-                        className={`number ${number === page ? 'active' : ''}`}
-                    >
-                        {number}
-                    </button>
-                ))}
-                <button className="pass-page" onClick={() => setPage(prev => Math.min(prev + 1, totalPages))} disabled={page === totalPages}>
-                    {">"}
-                </button>
-            </div>
+        {message ? ( 
+            <p>{message}</p>
+        ) : (
+
+            <>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Lugar</th>
+                                    <th>Temperatura</th>
+                                    <th>Humedad</th>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body">
+                                {valores.map((data, i) => (
+                                    <tr key={i}>
+                                        <td>{data.lugare.name}</td>
+                                        <td>{data.tempValue}°C</td>
+                                        <td>{data.humValue}%</td>
+                                        <td>{setFecha(data.valueFecha)}</td>
+                                        <td className='hora'>
+                                            <div className="container-hora">
+                                                {setHora(data.valueFecha)}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                    </table>
+                    <div className="pagination">
+                        <button className="pass-page" onClick={() => setPage(prev => Math.max(prev - 1, 1))} disabled={page === 1}>
+                            {"<"}
+                        </button>
+                        {pageNumbers.map(number => (
+                            <button
+                                key={number}
+                                onClick={() => setPage(number)}
+                                className={`number ${number === page ? 'active' : ''}`}
+                            >
+                                {number}
+                            </button>
+                        ))}
+                        <button className="pass-page" onClick={() => setPage(prev => Math.min(prev + 1, totalPages))} disabled={page === totalPages}>
+                            {">"}
+                        </button>
+                    </div>
+            </>
+        )}
+            
         </>
     );
 };
