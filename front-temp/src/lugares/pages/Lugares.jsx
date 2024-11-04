@@ -15,8 +15,9 @@ export const Lugares = () => {
       
   return (
   <>
-    <Navbar />
+    
     <div className="full-container">
+        <Navbar />  
         <div className="container">
           <Link to={'/new-lugar'}>Agregar</Link>
             <Table />

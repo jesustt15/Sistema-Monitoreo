@@ -48,12 +48,15 @@ export const ActualizarLugar = () => {
  }
     
 
-  
+ const onBack = () => {
+    navigate('/lugares');
+  }
 return (
     <>
     <Navbar />
     <div className="full-container">
         <div className="container">
+        <button onClick={onBack}>Atras</button>
             <div>Actualizar Lugar</div>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="form-group mb-2">

@@ -2,6 +2,7 @@ const express = require('express');
 // const { dbConnection } = require('./database/config');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const sequelize = require('./config/database');
 require('dotenv').config();
 // const cron = require('cron');
 // const Temperatura = require('./models/Temperatura');
@@ -44,7 +45,14 @@ app.use('/sensor/historico', require('./routes/hist_valor'));
 //   });
 
 
-app.listen(3000, () => {
-    console.log(`Servidor corriendo en el puerto ${PORT}`);
-});
+sequelize.sync({ force: false }) // Asegúrate de usar { force: false } en producción
+    .then(() => {
+        console.log('Base de datos y tablas sincronizadas');
+        app.listen(3000, () => {
+            console.log(`Servidor escuchando en el puerto ${PORT}`);
+        });
+    })
+    .catch((err) => {
+        console.error('Error al sincronizar la base de datos:', err);
+    });
   

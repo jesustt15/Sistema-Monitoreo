@@ -16,8 +16,7 @@ export const SensorApp = () => {
               <ToastContainer />
               <AuthProvider>
                 <AppRouter />
-              </AuthProvider>
-                    
+              </AuthProvider>  
               </BrowserRouter>
 
       )

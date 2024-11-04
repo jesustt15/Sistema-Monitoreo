@@ -23,7 +23,6 @@ export function HistoricoProvider({ children }) {
     const getHistorico = async (page, search = 'Guayana') => {
         try {
             const res = await getHistoricoRequest(page, search);
-            console.log(res.data);
             if (res.data && res) {
                 setHistorico(res.data.items);
                 setTotalPages(res.totalPages); 

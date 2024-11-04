@@ -33,11 +33,16 @@ export const NewLugar = () => {
        
       };
 
+      const onBack = () => {
+        navigate('/lugares');
+      }
+
   return (
     <>
         <Navbar />
         <div className="full-container">
             <div className="container">
+                <button onClick={onBack}>Atras</button>
                 <h2>Nuevo Lugar</h2>
                     <form onSubmit={handleSubmit(onHandleSubmit)}>
                         <div>

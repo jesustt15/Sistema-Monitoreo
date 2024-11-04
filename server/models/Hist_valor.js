@@ -17,14 +17,15 @@ const Hist_Value = sequelize.define('hist_values', {
   references: {
     model: Valores,
     key: 'value_id',
-  }
+  },
+  onDelete: 'CASCADE',
   }
   
 });
 
-Valores.hasMany(Hist_Value, { foreignKey: 'value_id' }),
-Hist_Value.belongsTo(Valores, { foreignKey: 'value_id'});
+Valores.hasMany(Hist_Value, { foreignKey: 'value_id', onDelete:'CASCADE' }),
+Hist_Value.belongsTo(Valores, { foreignKey: 'value_id',  onDelete:'CASCADE' });
 
-Valores.belongsTo(Lugar, { foreignKey: 'lugar_id' });
+Valores.belongsTo(Lugar, { foreignKey: 'lugar_id' ,  onDelete:'CASCADE' });
 
 module.exports = Hist_Value;

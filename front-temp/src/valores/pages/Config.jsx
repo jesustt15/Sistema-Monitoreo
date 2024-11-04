@@ -3,7 +3,6 @@ import Navbar from "../../components/NavBar";
 import { useConfig } from "../../context";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import App from "./components/App";
 
 export const Config = () => {
 
@@ -36,9 +35,9 @@ export const Config = () => {
 
   return (
     <>
-        <Navbar />
 
         <div className="full-container">
+        <Navbar />
           <div className="container">
                 <p>Config</p>
               <br></br>

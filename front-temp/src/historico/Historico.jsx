@@ -30,9 +30,8 @@ export const Historico = () => {
   return (
     
     <>
-    <Navbar />
-      
     <div className="full-container">
+    <Navbar />
         <div className="container">
           <section className="search">
             <div className='searcher'>

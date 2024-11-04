@@ -42,7 +42,6 @@ export function ValorProvider({ children }) {
         try {
             const res = await getValoresByPaginationRequest(page, search);
             if (res && res.data) {
-                console.log(res.data);
                 setValores(res.data.items);
                 setTotalPages(res.data.totalPages);
                 if (res.data.items.length === 0) {

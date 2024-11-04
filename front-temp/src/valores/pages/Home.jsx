@@ -1,5 +1,4 @@
-
-import Navbar from '../../components/NavBar';
+import '../../index.scss';
 import { ValoresPage } from './ValoresPage';
 
 
@@ -10,8 +9,10 @@ export const Home = () => {
   return (
     <>
         <div className="App">
-            <Navbar />
-            <ValoresPage />
+
+          <div className="full-container">
+              <ValoresPage />
+          </div>
         </div>
     </>
 
