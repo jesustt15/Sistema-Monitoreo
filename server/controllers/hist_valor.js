@@ -11,7 +11,7 @@ const getHistValues = async (req, res) => {
     try {
         const { rows: histValues, count } = await Hist_valor.findAndCountAll({
             where: {
-                '$valore.lugare.name$': {
+                '$Valore.Lugar.name$': {
                     [Op.like]: `%${search}%`
                 }
             },
@@ -25,7 +25,7 @@ const getHistValues = async (req, res) => {
             }],
             limit: limitInt,
             offset: (pageInt - 1) * limitInt,
-            order: [['valore', 'valueFecha', 'ASC']],
+            order: [['Valore', 'valueFecha', 'ASC']],
         });
 
         res.json({ 
@@ -42,4 +42,5 @@ const getHistValues = async (req, res) => {
 
 module.exports = {
     getHistValues,
-}
+};
+

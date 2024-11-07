@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import Navbar from '../components/NavBar';
 import '../index.scss';
 import { Table } from './Table';
-import {  useHistorico, useLugar, useValor } from '../context';
+import {  useHistorico, useLugar} from '../context';
 
 
 

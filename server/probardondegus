@@ -1,16 +1,17 @@
-//codigo del esp
 #include <WiFi.h>
 #include <HTTPClient.h>
-#include <DHT.h>
+#include <Wire.h>
+#include <Adafruit_AHT10.h>
 
-#define DHTPIN 4     // Pin donde está conectado el sensor DHT
-#define DHTTYPE DHT11   // Tipo de sensor DHT
+// Definir los pines del sensor AHT10
+#define SDA_PIN 21
+#define SCL_PIN 22
 
 const char* ssid = "tu_SSID";
 const char* password = "tu_contraseña";
 const char* serverName = "http://192.168.1.100:3000/sensor/valores"; // Cambia esto a la URL de tu servidor
 
-DHT dht(DHTPIN, DHTTYPE);
+Adafruit_AHT10 aht10;
 const char* espID = "ESP32_1"; // Identificador único para este ESP32
 
 void setup() {
@@ -23,7 +24,12 @@ void setup() {
   }
 
   Serial.println("Conectado a la red WiFi");
-  dht.begin();
+
+  // Inicializar el sensor AHT10
+  if (!aht10.begin(SDA_PIN, SCL_PIN)) {
+    Serial.println("No se pudo encontrar un sensor AHT10");
+    while (1) delay(10);
+  }
 }
 
 void loop() {
@@ -32,13 +38,16 @@ void loop() {
     http.begin(serverName);
     http.addHeader("Content-Type", "application/json");
 
-    float temperatura = dht.readTemperature();
-    if (isnan(temperatura)) {
-      Serial.println("Error al leer el sensor DHT");
+    sensors_event_t humidity, temp;
+    aht10.getEvent(&humidity, &temp);
+
+    if (isnan(temp.temperature) || isnan(humidity.relative_humidity)) {
+      Serial.println("Error al leer el sensor AHT10");
       return;
     }
 
-    String jsonPayload = "{\"temperaturas\": " + String(temperatura) + "}";
+    // Crear el payload JSON
+    String jsonPayload = "{\"lugar_id}\": \"" + String(espID) + "\", \"tempValue\": " + String(temp.temperature) + ", \"humValue\": " + String(humidity.relative_humidity) + "}";
     int httpResponseCode = http.POST(jsonPayload);
 
     if (httpResponseCode > 0) {
@@ -56,7 +65,8 @@ void loop() {
   }
 
   delay(60000); // Enviar datos cada minuto
-} 
+}
+
 
 //codigo del server
 const express = require('express');
