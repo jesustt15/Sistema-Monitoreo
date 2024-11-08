@@ -51,7 +51,7 @@ export const Table = () => {
                             <tbody id="table-body">
                                 {valores.map((data, i) => (
                                     <tr key={i}>
-                                        <td>{data.lugare.name}</td>
+                                        <td>{data.Lugar.name}</td>
                                         <td>{data.tempValue}°C</td>
                                         <td>{data.humValue}%</td>
                                         <td>{setFecha(data.valueFecha)}</td>

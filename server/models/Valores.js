@@ -1,4 +1,3 @@
-
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const Lugar = require('./Lugar');
@@ -16,16 +15,15 @@ const Valores = sequelize.define('Valores', {
             model: Lugar,
             key: 'lugar_id',
         },
-        onDelete: 'CASCADE', // Asegura la eliminación en cascada
+        onDelete: 'CASCADE',
     },
     tempValue: {
-        type: DataTypes.STRING,
+        type: DataTypes.FLOAT,
         allowNull: false,
     },
     humValue: {
-        type: DataTypes.STRING,
+        type: DataTypes.FLOAT,
         allowNull: false,
-        unique: true,
     },
     valueFecha: {
         type: DataTypes.DATE,
@@ -33,12 +31,10 @@ const Valores = sequelize.define('Valores', {
         allowNull: true,
     },
 }, {
-    tableName: 'valores', // Nombre de la tabla en la base de datos
+    tableName: 'valores',
 });
 
-// Relaciones
-Lugar.hasMany(Valores, { foreignKey: 'lugar_id', onDelete: 'CASCADE', hooks: true });
-Valores.belongsTo(Lugar, { foreignKey: 'lugar_id', onDelete: 'CASCADE', hooks: true });
+Lugar.hasMany(Valores, { foreignKey: 'lugar_id', onDelete: 'CASCADE' });
+Valores.belongsTo(Lugar, { foreignKey: 'lugar_id', onDelete: 'CASCADE' });
 
 module.exports = Valores;
-

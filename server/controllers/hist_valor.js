@@ -4,28 +4,30 @@ const Valores = require("../models/Valores");
 const { Op } = require('sequelize');
 
 const getHistValues = async (req, res) => {
-    const { page = 1, limit = 10, search = 'Guayana' } = req.query;
+    const { page = 1, limit = 10, search = '' } = req.query;
     const pageInt = parseInt(page, 10) || 1;
     const limitInt = parseInt(limit, 10) || 10;
 
     try {
         const { rows: histValues, count } = await Hist_valor.findAndCountAll({
-            where: {
-                '$Valore.Lugar.name$': {
-                    [Op.like]: `%${search}%`
-                }
-            },
             include: [{
                 model: Valores,
                 attributes: ['tempValue', 'humValue', 'valueFecha'],
+                required: true, // Ensure only records with associated values are included
                 include: [{
                     model: Lugar,
                     attributes: ['name'],
+                    where: {
+                        name: {
+                            [Op.like]: `%${search}%`
+                        }
+                    },
+                    required: true // Ensure only records with matching lugar name are included
                 }],
             }],
             limit: limitInt,
             offset: (pageInt - 1) * limitInt,
-            order: [['Valore', 'valueFecha', 'ASC']],
+            order: [[Valores, 'valueFecha', 'ASC']],
         });
 
         res.json({ 
@@ -43,4 +45,5 @@ const getHistValues = async (req, res) => {
 module.exports = {
     getHistValues,
 };
+
 

@@ -43,13 +43,13 @@ export const Table = () => {
                         <tbody id="table-body">
                             {historico.map((data, i) => (
                                 <tr key={i}>
-                                    <td>{data.valore.lugare.name}</td>
-                                    <td>{data.valore.tempValue}°C</td>
-                                    <td>{data.valore.humValue}%</td>
-                                    <td>{setFecha(data.valore.valueFecha)}</td>
+                                    <td>{data.Valore.Lugar.name}</td>
+                                    <td>{data.Valore.tempValue}°C</td>
+                                    <td>{data.Valore.humValue}%</td>
+                                    <td>{setFecha(data.Valore.valueFecha)}</td>
                                     <td className='hora'>
                                         <div className="container-hora">
-                                            {setHora(data.valore.valueFecha)}
+                                            {setHora(data.Valore.valueFecha)}
                                         </div>
                                     </td>
                                 </tr>

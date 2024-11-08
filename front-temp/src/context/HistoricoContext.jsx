@@ -24,6 +24,7 @@ export function HistoricoProvider({ children }) {
         try {
             const res = await getHistoricoRequest(page, search);
             if (res.data && res) {
+                console.log(res.data);
                 setHistorico(res.data.items);
                 setTotalPages(res.totalPages); 
                 if (res.data.items.length === 0) {
