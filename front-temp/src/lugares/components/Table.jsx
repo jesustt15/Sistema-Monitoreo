@@ -7,6 +7,11 @@ export const Table = () => {
   
     const {lugares, getLugares, deleteLugar} = useLugar();
     const [visibleItems, setVisibleItems] = useState({});
+    const [showPopup, setShowPopup] = useState(false);
+
+    const togglePopup = () => {
+        setShowPopup(!showPopup);
+    };
 
     const toggleVisibility = (id) => {
         setVisibleItems(prevState => ({ 
@@ -17,7 +22,7 @@ export const Table = () => {
 
     useEffect(() => {
         getLugares();
-    }, []);  
+    }, [lugares]);  
 
     useEffect(() => {
         const initialVisibility = {};

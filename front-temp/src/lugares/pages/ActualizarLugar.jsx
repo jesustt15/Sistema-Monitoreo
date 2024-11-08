@@ -8,7 +8,7 @@ import Navbar from "../../components/NavBar";
   
 
 
-export const ActualizarLugar = () => {
+export const ActualizarLugar = ({onClose}) => {
 
   const { id } = useParams();  
   const {getOneLugar,  updateLugar} =  useLugar();
