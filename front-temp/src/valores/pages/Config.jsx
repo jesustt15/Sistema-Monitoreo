@@ -3,6 +3,8 @@ import Navbar from "../../components/NavBar";
 import { useConfig } from "../../context";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Logo from "../../assets/masisa-logo.png";
+import Pasos from "../../assets/contrasenia-google.png";
 
 export const Config = () => {
 
@@ -39,40 +41,59 @@ export const Config = () => {
         <div className="full-container">
         <Navbar />
           <div className="container">
-                <p>Config</p>
-              <br></br>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div>
-                      <input
-                      type="email"
-                      placeholder="email"
-                      value={config.email}
-                      {...register("email")}
-                      ></input>
-                </div>
-                <div>
-                      <input
-                      type="password"
-                      placeholder="Contraseña"
-                      {...register("password")}
-                      ></input>
-                </div>
-                <div>
-                      <input
-                      type="email"
-                      placeholder="emailSend"
-                      {...register("emailSend")}
-                      ></input>
-                </div>
-                <div>
-                      <input
-                      type="submit"
-                      value="Actualizar"
-                      ></input>
-                </div>
-                <div>{config.email}</div>
-              </form>
-              <br />
+            <div className="general-container">
+              <div className="content-form">
+
+                  <div className="header">
+                        <img src={Logo} alt="masisa-logo" />
+                        <h2>Configuración de Alertas</h2>
+                    </div>
+                  <form  onSubmit={handleSubmit(onSubmit)}>
+                    <div className="content-div">
+                          <div className="header-label1">Correo de Configuración
+                          <i className="blue bi bi-gear"></i>
+                          </div>
+                          <label>Correo electrónico</label>
+                          <input
+                          type="email"
+                          placeholder="email"
+                          value={config.email}
+                          {...register("email")}
+                          ></input>
+
+                          <label>Contraseña</label>
+                            <input
+                          type="password"
+                          placeholder="Contraseña"
+                          {...register("password")}
+                          ></input>
+                    </div>
+                    <div>
+                          <div className="header-label">Correo de Alerta
+
+                          <i className="bi bi-bell"></i>
+                          </div>
+                          <label>Correo electrónico</label>
+                          <input
+                          type="email"
+                          placeholder="emailSend"
+                          {...register("emailSend")}
+                          ></input>
+                    </div>
+                    <div>
+                          <input
+                          className="btn-submit"
+                          type="submit"
+                          value="Actualizar"
+                          ></input>
+                    </div>
+                </form>
+              </div>
+              <div className="img-content">
+                  <img src="#"
+                   alt="pasitos" />
+              </div>
+            </div>
           </div>
         </div>  
     </>
