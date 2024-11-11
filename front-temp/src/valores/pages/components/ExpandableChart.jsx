@@ -32,7 +32,7 @@ export const ExpandableChart = ({ chartData, index }) => {
               label += ': ';
             }
             if (context.parsed.y !== null) {
-              label += context.parsed.y + ' °C'; // Personaliza el formato de la etiqueta
+              label += context.parsed.y; // Personaliza el formato de la etiqueta
             }
             return label;
           },

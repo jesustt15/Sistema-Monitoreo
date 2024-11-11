@@ -6,6 +6,7 @@ export const ConfirmationPopup = ({ message, onConfirm, onCancel }) => {
         <div className="popup-overlay">
             <div className="popup-confirmation">
                 <p>{message}</p>
+                <span>(Al eliminar se borraran TODOS los datos asociados a la localidad)</span>
                 <div className="buttons">
                     <button className="btn-confirm" onClick={onConfirm}>Si</button>
                     <button className="btn-cancel" onClick={onCancel}>No</button>
