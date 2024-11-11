@@ -41,13 +41,13 @@ const Navbar = () => {
         onClick={ () => handleClick('valores')}
         to="/">Valores</NavLink>
         <NavLink 
-        className={`nav-link ${active === 'config' ? 'active' : ''}`}
-        onClick={ () => handleClick('config')}
-        to="/config">Config</NavLink>
-        <NavLink 
         className={`nav-link ${active === 'lugares' ? 'active' : ''}`}
         onClick={ () => handleClick('lugares')}
         to="/lugares">Localidades</NavLink>
+        <NavLink 
+        className={`nav-link ${active === 'config' ? 'active' : ''}`}
+        onClick={ () => handleClick('config')}
+        to="/config">Configuración</NavLink>
         <NavLink 
         className={`nav-link ${active === 'hist' ? 'active' : ''}`}
         onClick={ () => handleClick('hist')}

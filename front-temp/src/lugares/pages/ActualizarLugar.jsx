@@ -1,18 +1,19 @@
+/* eslint-disable react/prop-types */
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import { useLugar } from "../../context";
 import { useForm } from "react-hook-form"
-import Navbar from "../../components/NavBar";
+import Logo from "../../assets/masisa-logo.png";
 
 
   
 
 
-export const ActualizarLugar = ({onClose}) => {
+export const ActualizarLugar = ({id, onClose}) => {
 
-  const { id } = useParams();  
+
   const {getOneLugar,  updateLugar} =  useLugar();
-  const { register, handleSubmit, setValue} = useForm();
+  const { register, handleSubmit, setValue, formState: { errors }} = useForm();
   const navigate = useNavigate();
 
     useEffect(() => {
@@ -37,10 +38,11 @@ export const ActualizarLugar = ({onClose}) => {
               if(parseFloat(data.tempMin) > parseFloat(data.tempMax) || parseFloat(data.humMin) > parseFloat(data.humMax)){
                  return alert('Los valores minimos no pueden ser mayores a los maximos');}
               alert('actualizado');
-              navigate('/lugares')
-          } else {
-            alert('No hay nada que actualizar')
-          }
+              onClose();
+              navigate('/lugares');
+
+
+          } 
         } catch (error) {
             console.log(error);
             // window.location.href = "/";
@@ -48,68 +50,91 @@ export const ActualizarLugar = ({onClose}) => {
  }
     
 
- const onBack = () => {
-    navigate('/lugares');
-  }
+
 return (
     <>
-    <Navbar />
-    <div className="full-container">
-        <div className="container">
-        <button onClick={onBack}>Atras</button>
-            <div>Actualizar Lugar</div>
+            <div className="popup-overlay">
+            <div className="popup-content">
+                <button className="close-button" onClick={onClose}>X</button>
+                <div className="header">
+                    <img src={Logo} alt="masisa-logo" />
+                    <h2>Nueva Localidad</h2>
+                </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="form-group mb-2">
-                        <input 
+                    <div className="localidad-name">
+                        <label>Nombre de la Localidad</label>
+                        <input
                             type="text"
-                            className="form-control"
-                            placeholder="name"
-                            {...register("name")}
+                            placeholder="Ingrese nombre de la localidad"
+                            {...register('name')}
                         />
                     </div>
-                    <div className="form-group mb-2">
-                        <input
-                            type="number"
-                            className="form-control"
-                            placeholder="Temperatura Minima"
-                            {...register("tempMin")}
-                        />
+                    <div className="localidad-values">
+                        <h4>Temperatura</h4>
+                        <div className="group">
+                            <div className="group-content">
+                                <label className="min">Minima  
+                                    <i className="bi bi-thermometer-snow"></i>
+                                </label>
+                                <div className="input">
+                                    <input
+                                        type="number"
+                                        placeholder="Temperatura Mín"
+                                        {...register('tempMin')}
+                                    />
+                                </div>
+                            </div>
+                           
+                            <div className="group-content">
+                                <label className="max">Máxima
+                                         <i className="bi bi-thermometer-high"></i>
+                                </label>
+                                <input
+                                    type="number"
+                                    placeholder="Temperatura Máx"
+                                    {...register('tempMax')}
+                                />
+                            </div>
+
+                            
+                        </div>
+                        <h4>Humedad</h4>
+                        <div className="group">
+
+                            <div className="group-content">
+                                    <label className="min">Minima  
+                                            <i className="bi bi-droplet-half"></i>
+                                        </label>
+                                        <input
+                                            type="number"
+                                            placeholder="Humedad Min"
+                                            {...register('humMin')}
+                                        />
+                            </div>
+
+                                <div className="group-content">
+                                    <label className="max">Máxima
+                                        <i className="bi bi-droplet-fill"></i>
+                                    </label>
+                                    <input
+                                        type="number"
+                                        placeholder="Humedad Máx"
+                                        {...register('humMax')}
+                                    />
+                                </div>
+                            </div>
+                                
+
                     </div>
-                    <div className="form-group mb-2">
-                        <input
-                            type="number"
-                            className="form-control"
-                            placeholder="Temperatura Maxima"
-                            {...register("tempMax")}
-                        />
-                    </div>
-                    <div className="form-group mb-2">
-                        <input
-                            type="number"
-                            className="form-control"
-                            placeholder="Humedad Minima"
-                            {...register("humMin")}
-                        />
-                    </div>
-                    <div className="form-group mb-2">
-                        <input
-                            type="number"
-                            className="form-control"
-                            placeholder="Humedad Maxima"
-                            {...register("humMax")}
-                        />
-                    </div> 
-                    {/* {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} */}
-                        <div className="d-grid gap-2">
-                        <input 
-                            type="submit"
-                            className="btnSubmit"
-                            value="Actualizar" 
-                        />
-                    </div>
+                    {errors.tempMax || errors.humMax && <span>Este campo es requerido</span>}
+                    <input
+                        className="btn-submit"
+                        type="submit"
+                        value="Agregar"
+                    />
                 </form>
+            </div>
         </div>
-    </div>
     </>
   
   )

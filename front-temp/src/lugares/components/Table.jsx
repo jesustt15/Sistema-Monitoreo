@@ -1,17 +1,15 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { useLugar } from "../../context";
 import '../../components/components.scss';
-import { Link } from "react-router-dom";
+import { ConfirmationPopup }  from "./ConfirmationPopup"  // Importamos el componente del popup de confirmación
 
-export const Table = () => {
+export const Table = ({ openEditPopup }) => {
   
-    const {lugares, getLugares, deleteLugar} = useLugar();
+    const { lugares, getLugares, deleteLugar } = useLugar();
     const [visibleItems, setVisibleItems] = useState({});
-    const [showPopup, setShowPopup] = useState(false);
-
-    const togglePopup = () => {
-        setShowPopup(!showPopup);
-    };
+    const [showConfirmation, setShowConfirmation] = useState(false);
+    const [selectedLugarId, setSelectedLugarId] = useState(null);
 
     const toggleVisibility = (id) => {
         setVisibleItems(prevState => ({ 
@@ -20,20 +18,34 @@ export const Table = () => {
         }));
     };
 
-    useEffect(() => {
-        getLugares();
-    }, [lugares]);  
+    const openConfirmationPopup = (id) => {
+        setSelectedLugarId(id);
+        setShowConfirmation(true);
+    };
+
+    const handleDelete = () => {
+        deleteLugar(selectedLugarId);
+        setShowConfirmation(false);
+    };
 
     useEffect(() => {
+        getLugares();
         const initialVisibility = {};
         lugares.forEach(lugar => {
             initialVisibility[lugar.lugar_id] = false;
         });
         setVisibleItems(initialVisibility);
-    }, [lugares]);  // Este efecto se ejecutará cada vez que cambien los lugares
+    }, []);
 
     return (
         <>
+            {showConfirmation && (
+                <ConfirmationPopup 
+                    message="¿Estás seguro?" 
+                    onConfirm={handleDelete} 
+                    onCancel={() => setShowConfirmation(false)} 
+                />
+            )}
             <table>
                 <thead>
                     <tr>
@@ -61,8 +73,14 @@ export const Table = () => {
                                 </button>
                             </td>
                             <td className="acciones">
-                                <button className="btn-delete" onClick={() => deleteLugar(data.lugar_id)}> Eliminar</button>
-                                <Link className="edit" to={`/lugares/${data.lugar_id}`}>Editar</Link>
+                                <button className="edit" onClick={() => openEditPopup(data.lugar_id)}>
+                                    <i className="bi bi-pencil-square"></i>
+                                    <span className="tooltiptext">Click Editar Lugar</span>
+                                </button>
+                                <button className="btn-delete" onClick={() => openConfirmationPopup(data.lugar_id)}>
+                                    <i className="bi bi-trash3"></i>
+                                    <span className="tooltiptext">Eliminar Lugar</span>
+                                </button>
                             </td>
                         </tr>
                     ))}
@@ -70,4 +88,4 @@ export const Table = () => {
             </table>
         </>
     );
-}
+};
