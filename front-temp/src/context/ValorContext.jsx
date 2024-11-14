@@ -21,6 +21,7 @@ export function ValorProvider({ children }) {
     const [activeChart, setActiveChart] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
     const [message, setMessage] = useState('');
+    const [timeFilter, setTimeFilter] = useState('');
 
     const handleClickOutside = (event) => {
         if (showMenu && !event.target.closest('.filter')) {
@@ -38,9 +39,9 @@ export function ValorProvider({ children }) {
         }
     }
 
-    const getValoresByPagination = async(page, search = 'Guayana') => {
+    const getValoresByPagination = async(page, search = 'Guayana', timeFilter) => {
         try {
-            const res = await getValoresByPaginationRequest(page, search);
+            const res = await getValoresByPaginationRequest(page, search,timeFilter);
             if (res && res.data) {
                 setValores(res.data.items);
                 setTotalPages(res.data.totalPages);
@@ -56,8 +57,8 @@ export function ValorProvider({ children }) {
     };
 
     useEffect(() => {
-        getValoresByPagination(page, search);
-    }, [page, search]);
+        getValoresByPagination(page, search, timeFilter);
+    }, [page, search, timeFilter]);
 
     const searcher = (e) => {
         setSearch(e.target.value);
@@ -84,12 +85,14 @@ export function ValorProvider({ children }) {
             searcher,
             toggleMenu,
             setPage,
+            setTimeFilter,
             showMenu,
             page,
             totalPages,
             activeChart,
             search ,
-            message // Asegúrate de incluir 'search' en el contexto
+            message,
+            timeFilter // Asegúrate de incluir 'search' en el contexto
         }}>
             {children}
         </ValorContext.Provider>

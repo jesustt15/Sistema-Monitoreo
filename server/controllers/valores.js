@@ -10,9 +10,11 @@ const { createTransporter, sendEmail } = require('../helpers/mailer');
 
 const saveValores = async (req, res = response) => {
     console.log(req.body);
+    const valueFecha = new Date(Date.now()); 
+    console.log(valueFecha);// Almacenar en UTC
     const { lugar_id, tempValue, humValue } = req.body;
     try {
-        const valores = await Valores.create({ lugar_id, tempValue, humValue });
+        const valores = await Valores.create({ lugar_id, tempValue, humValue, valueFecha });
         const lugar = await Lugar.findByPk(lugar_id);
         
         // Obtener los últimos 5 valores registrados
@@ -23,7 +25,7 @@ const saveValores = async (req, res = response) => {
                 model: Lugar,
                 attributes: ['name'],
                 where: {
-                     lugar_id
+                    lugar_id // Utilizar lugar_id en lugar de id
                 },
                 required: true
             }]
@@ -42,7 +44,7 @@ const saveValores = async (req, res = response) => {
                 alertaTipo = `La humedad ha alcanzado ${humValue}%.`;
             }
             
-            // Logica de guardar en historico
+            // Lógica de guardar en histórico
             try {
                 await Hist_valor.create({ value_id: valores.valor_id });
             } catch (error) {
@@ -94,11 +96,25 @@ const getValores = async (req, res = response) => {
 };
 
 const getValoresByPagination = async (req, res = response) => {
-    const { page = 1, limit = 10, search = 'Guayana' } = req.query;
+    const { page = 1, limit = 10, search = 'Guayana', timeFilter } = req.query;
     const pageInt = parseInt(page, 10) || 1;
     const limitInt = parseInt(limit, 10) || 10;
+
+    // Calcular el filtro de tiempo
+    let timeCondition = {};
+    if (timeFilter === '24h') {
+        timeCondition = { valueFecha: { [Op.gte]: new Date(new Date() - 24 * 60 * 60 * 1000) } };
+    } else if (timeFilter === '3h') {
+        timeCondition = { valueFecha: { [Op.gte]: new Date(new Date() - 3 * 60 * 60 * 1000) } };
+    } else if (timeFilter === '1w') {
+        timeCondition = { valueFecha: { [Op.gte]: new Date(new Date() - 7 * 24 * 60 * 60 * 1000) } };
+    }
+
     try {
         const { count, rows } = await Valores.findAndCountAll({
+            where: {
+                ...timeCondition
+            },
             include: [{
                 model: Lugar,
                 attributes: ['name'],
@@ -124,6 +140,7 @@ const getValoresByPagination = async (req, res = response) => {
         res.status(500).send('Error en cargar los valores');
     }
 };
+
 
 module.exports = {
     saveValores,

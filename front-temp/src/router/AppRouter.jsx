@@ -30,6 +30,7 @@ export const AppRouter = () => {
                             <Route path="/auth/*" element={<LoginPage />} />
                             <Route element={<RutaProtegida />}>
                                 <Route path="/" element={<Home />} />
+                                <Route path="/users" element={<Users />} />
                                 <Route path="/config" element={<Config />} />
                                 <Route path="/lugares" element={<Lugares />} />
                                 <Route path="/historico" element={<Historico />} />

@@ -85,3 +85,5 @@ app.post('/api/temperatura', (req, res) => {
 app.listen(port, () => {
   console.log(`Servidor escuchando en http://localhost:${port}`);
 });
+
+Dirección MAC de la ESP32: A0:DD:6C:85:AD:88

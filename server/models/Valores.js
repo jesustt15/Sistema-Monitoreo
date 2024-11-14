@@ -25,11 +25,11 @@ const Valores = sequelize.define('Valores', {
         type: DataTypes.FLOAT,
         allowNull: false,
     },
-    valueFecha: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-        allowNull: true,
-    },
+    valueFecha: { 
+        type: DataTypes.DATE, 
+        defaultValue: DataTypes.NOW, 
+        allowNull: false 
+    }
 }, {
     tableName: 'valores',
 });

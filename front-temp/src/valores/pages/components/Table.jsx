@@ -1,19 +1,10 @@
-import { useEffect } from "react";
+import  { useEffect } from "react";
 import { useValor } from "../../../context";
+import moment from 'moment-timezone';
 
 export const Table = () => {
     const { valores, getValoresByPagination, handleClickOutside, showMenu, 
         page, totalPages, setPage, search, message } = useValor();
-
-    const setFecha = (fecha) => {
-        const opciones = { year: 'numeric', month: 'numeric', day: 'numeric' };
-        return new Date(fecha).toLocaleDateString('es-ES', opciones);
-    };
-
-    const setHora = (fecha) => {
-        const opciones = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
-        return new Date(fecha).toLocaleTimeString('es-ES', opciones);
-    };
 
     useEffect(() => {
         window.addEventListener('click', handleClickOutside);
@@ -23,17 +14,24 @@ export const Table = () => {
     }, [showMenu]);
 
     useEffect(() => {
-        getValoresByPagination(page, search);
+        getValoresByPagination(page, search, 20); // Cambiar tamaño de página a 20
     }, [page, search]);
 
-    // Nuevo useEffect para actualizar la tabla automáticamente
     useEffect(() => {
         const intervalId = setInterval(() => {
-            getValoresByPagination(page, search);
-        }, 30000); // Actualizar cada 60 segundos
+            getValoresByPagination(page, search, 20); // Cambiar tamaño de página a 20
+        }, 20000); // Actualizar cada 60 segundos
 
         return () => clearInterval(intervalId); // Limpiar el intervalo al desmontar el componente
     }, [page, search, getValoresByPagination]);
+
+    const setFecha = (fecha) => {
+        return moment(fecha).tz('America/Caracas').format('YYYY-MM-DD'); // Convertir a fecha local en Caracas, Venezuela
+    };
+
+    const setHora = (fecha) => {
+        return moment(fecha).tz('America/Caracas').format('HH:mm:ss'); // Convertir a hora local en Caracas, Venezuela
+    };
 
     const pageNumbers = [];
     for (let i = 1; i <= totalPages; i++) {
@@ -63,11 +61,7 @@ export const Table = () => {
                                 <td>{data.tempValue}°C</td>
                                 <td>{data.humValue}%</td>
                                 <td>{setFecha(data.valueFecha)}</td>
-                                <td className='hora'>
-                                    <div className="container-hora">
-                                        {setHora(data.valueFecha)}
-                                    </div>
-                                </td>
+                                <td>{setHora(data.valueFecha)}</td>
                             </tr>
                         ))}
                     </tbody>
@@ -94,6 +88,8 @@ export const Table = () => {
         </>
     );
 };
+
+
 
 
 
