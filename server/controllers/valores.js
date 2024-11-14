@@ -9,11 +9,39 @@ const getConfigCredentials = require('../helpers/getConfigCredentials');
 const { createTransporter, sendEmail } = require('../helpers/mailer');
 
 const saveValores = async (req, res = response) => {
+    console.log(req.body);
     const { lugar_id, tempValue, humValue } = req.body;
     try {
-        const valores = await Valores.create(req.body);
+        const valores = await Valores.create({ lugar_id, tempValue, humValue });
         const lugar = await Lugar.findByPk(lugar_id);
+        
+        // Obtener los últimos 5 valores registrados
+        const ultimosValores = await Valores.findAll({
+            limit: 5,
+            order: [['valueFecha', 'DESC']],
+            include: [{
+                model: Lugar,
+                attributes: ['name'],
+                where: {
+                     lugar_id
+                },
+                required: true
+            }]
+        });
+
+        const valoresTexto = ultimosValores.map(valor => {
+            return `Fecha: ${valor.valueFecha}, Temperatura: ${valor.tempValue}°C, Humedad: ${valor.humValue}%`;
+        }).join('\n');
+
+        // Verificar si los valores están fuera de rango
         if (tempValue > lugar.tempMax || tempValue < lugar.tempMin || humValue > lugar.humMax || humValue < lugar.humMin) {
+            let alertaTipo = "";
+            if (tempValue > lugar.tempMax || tempValue < lugar.tempMin) {
+                alertaTipo = `La temperatura ha alcanzado ${tempValue}°C.`;
+            } else if (humValue > lugar.humMax || humValue < lugar.humMin) {
+                alertaTipo = `La humedad ha alcanzado ${humValue}%.`;
+            }
+            
             // Logica de guardar en historico
             try {
                 await Hist_valor.create({ value_id: valores.valor_id });
@@ -24,7 +52,10 @@ const saveValores = async (req, res = response) => {
             try {
                 const { email, password, emailSend } = await getConfigCredentials();
                 const transporter = createTransporter(email, password);
-                await sendEmail(transporter, emailSend, 'Alerta de Temperatura', `La temperatura ha alcanzado ${tempValue}°C. en ${lugar.name}`);
+                
+                const mensajeAlerta = `${alertaTipo} en ${lugar.name}\n\nÚltimos 5 valores registrados:\n${valoresTexto}`;
+                await sendEmail(transporter, emailSend, 'Alerta de Sensor', mensajeAlerta);
+
                 return res.status(201).send('Correo enviado');
             } catch (error) {
                 console.log(error);
@@ -63,7 +94,7 @@ const getValores = async (req, res = response) => {
 };
 
 const getValoresByPagination = async (req, res = response) => {
-    const { page = 1, limit = 5, search = 'Guayana' } = req.query;
+    const { page = 1, limit = 10, search = 'Guayana' } = req.query;
     const pageInt = parseInt(page, 10) || 1;
     const limitInt = parseInt(limit, 10) || 10;
     try {
@@ -80,7 +111,7 @@ const getValoresByPagination = async (req, res = response) => {
             }],
             limit: limitInt,
             offset: (pageInt - 1) * limitInt,
-            order: [['valueFecha', 'ASC']]
+            order: [['valueFecha', 'DESC']]
         });
         res.json({
             totalItems: count,
