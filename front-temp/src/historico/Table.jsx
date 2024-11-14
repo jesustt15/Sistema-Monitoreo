@@ -23,7 +23,6 @@ export const Table = () => {
         pageNumbers.push(i);
     }
 
-
     return (
         <>
             {message ? (
@@ -57,14 +56,22 @@ export const Table = () => {
                         </tbody>
                     </table>
                     <div className="pagination">
-                        <span>{page} - {totalPages} Pág</span>
-                        <button onClick={() => setPage(prev => Math.max(prev - 1, 1))} disabled={page === 1}>
+                        <button className="pass-page" onClick={() => setPage(prev => Math.max(prev - 1, 1))} disabled={page === 1}>
                             {"<"}
                         </button>
-                        <button onClick={() => setPage(prev => Math.min(prev + 1, totalPages))} disabled={page === totalPages}>
+                        {pageNumbers.map(number => (
+                            <button
+                                key={number}
+                                onClick={() => setPage(number)}
+                                className={`number ${number === page ? 'active' : ''}`}
+                            >
+                                {number}
+                            </button>
+                        ))}
+                        <button className="pass-page" onClick={() => setPage(prev => Math.min(prev + 1, totalPages))} disabled={page === totalPages}>
                             {">"}
                         </button>
-                    </div>
+                     </div>
                 </>
             )}
         </>

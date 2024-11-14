@@ -14,12 +14,12 @@ export const Table = () => {
     }, [showMenu]);
 
     useEffect(() => {
-        getValoresByPagination(page, search, 20); // Cambiar tamaño de página a 20
+        getValoresByPagination(page, search); // Cambiar tamaño de página a 20
     }, [page, search]);
 
     useEffect(() => {
         const intervalId = setInterval(() => {
-            getValoresByPagination(page, search, 20); // Cambiar tamaño de página a 20
+            getValoresByPagination(page, search); // Cambiar tamaño de página a 20
         }, 20000); // Actualizar cada 60 segundos
 
         return () => clearInterval(intervalId); // Limpiar el intervalo al desmontar el componente
