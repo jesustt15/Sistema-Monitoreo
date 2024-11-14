@@ -15,6 +15,18 @@ $primary: #008248;
     color: white;
   }
 
+  .nav-user{
+    text-decoration: none;
+    color: white;
+  }
+
+  .nav-user:hover{
+    cursor: pointer;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 1), /* Sombra intensa al hacer hover */
+              0 0 30px rgba(255, 255, 255, 0.8),
+              0 0 40px rgba(255, 255, 255, 0.6);
+  }
+
   .navbar-brand{
     display: flex;
     justify-content: space-between;

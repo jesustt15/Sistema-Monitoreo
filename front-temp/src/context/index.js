@@ -3,3 +3,4 @@ export * from './ValorContext';
 export * from './HistoricoContext';
 export * from './AuthContext';
 export * from './ConfigContext';
+export * from './UsersContext';

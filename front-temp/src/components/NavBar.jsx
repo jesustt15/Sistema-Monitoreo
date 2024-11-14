@@ -22,19 +22,21 @@ const Navbar = () => {
   
   return (
     <nav className="navbar">
-      <div className="usuario">
-          <div className="img-container">
-          <div className="img-halo">
-            <div className="user-img">
-                <img src={Profile} alt="profile" className="profile" />
-            </div>
+      <NavLink className='nav-user' to='/users'>
+        <div className="usuario">
+            <div className="img-container">
+            <div className="img-halo">
+              <div className="user-img">
+                  <img src={Profile} alt="profile" className="profile" />
+              </div>
+            </div> 
           </div> 
-        </div> 
-        <div className="user-info">
-          <div className="user-name">{user.name}</div>
-          <div className="user-email">{user.email}</div>
+          <div className="user-info">
+            <div className="user-name">{user.name}</div>
+            <div className="user-email">{user.email}</div>
+          </div>
         </div>
-      </div>
+      </NavLink>
       <div className="navbar-brand">
         <NavLink
         className={`nav-link ${active === 'valores' ? 'active' : ''}`}
