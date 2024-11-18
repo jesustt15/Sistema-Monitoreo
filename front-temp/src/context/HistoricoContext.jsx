@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
 import { createContext, useContext, useEffect, useState } from "react";
 import { getHistoricoRequest } from '../api';
@@ -28,7 +29,7 @@ export function HistoricoProvider({ children }) {
                 setHistorico(res.data.items);
                 setTotalPages(res.totalPages); 
                 if (res.data.items.length === 0) {
-                    setMessage('No existe esa localidad'); // Actualizar el mensaje si no hay resultados
+                    setMessage('No existe esa localidad o No hay Valores para mostrar'); // Actualizar el mensaje si no hay resultados
                 } else {
                     setMessage('');
                 }

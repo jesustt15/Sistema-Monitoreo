@@ -39,22 +39,33 @@ export function ValorProvider({ children }) {
         }
     }
 
-    const getValoresByPagination = async(page, search = 'Guayana', timeFilter) => {
+    const getValoresByPagination = async (page, search = 'Guayana', timeFilter) => {
         try {
-            const res = await getValoresByPaginationRequest(page, search,timeFilter);
+            const res = await getValoresByPaginationRequest(page, search, timeFilter);
             if (res && res.data) {
                 setValores(res.data.items);
                 setTotalPages(res.data.totalPages);
-                if (res.data.items.length === 0) {
-                    setMessage('No existe esa localidad'); // Actualizar el mensaje si no hay resultados
-                } else {
+    
+                // Verificar si la localidad existe pero no tiene valores
+                if (res.data.items.length === 0 && res.data.totalPages > 0) {
+                    setMessage('No existen valores para mostrar');
+                } 
+                // Verificar si la localidad no existe
+                else if (res.data.items.length === 0 && res.data.totalPages === 0) {
+                    setMessage('No existe esa localidad o No hay valores para mostrar');
+                } 
+                // Cuando hay resultados
+                else {
                     setMessage('');
                 }
             }
         } catch (error) {
             console.error('Error fetching paginated values:', error);
+            setMessage('Error Obteniendo los datos');
         }
     };
+    
+    
 
     useEffect(() => {
         getValoresByPagination(page, search, timeFilter);
