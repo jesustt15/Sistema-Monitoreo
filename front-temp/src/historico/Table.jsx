@@ -1,15 +1,14 @@
 import { useEffect } from "react";
 import { useHistorico } from "../context";
-import moment from 'moment-timezone';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
 export const Table = () => {
-    const { getHistorico, page, setPage, totalPages, historico, search, message } = useHistorico();
+    const { getHistorico, page, setPage, totalPages, historico, search, message, filter } = useHistorico();
 
     useEffect(() => {
-        getHistorico(page, search);
-    }, [page, search]);
+        getHistorico(page, search, filter);
+    }, [page, search, filter]);
 
     const setFecha = (fecha) => {
         const opciones = { year: 'numeric', month: 'numeric', day: 'numeric' };
@@ -53,7 +52,9 @@ export const Table = () => {
                 <p>{message}</p> // Mostrar mensaje si no hay resultados
             ) : (
                 <>
-                    <button onClick={handleDownloadPDF}>Generar PDF</button>
+                    <button className="pdf-btn" onClick={handleDownloadPDF}>
+                        <i className="bi bi-file-earmark-pdf-fill"></i>
+                    </button>
                     <div id="table-to-print">
                         <table>
                             <thead>

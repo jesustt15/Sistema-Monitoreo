@@ -332,7 +332,28 @@ input:focus {
 }
 
 
+.pdf-btn {
+    display: flex;
+    border: none;
+    align-self: flex-end;
+    padding: 1rem;
+    background-color: white;
+    margin-right: 0.3rem;
+    cursor: pointer;
 
+    i{
+      color: $primary;
+      font-size: 2rem;
+    }
+}
+
+.pdf-btn:hover{
+  
+  i{
+    color:white;
+    background-color: $primary;
+  }
+}
 
 
 

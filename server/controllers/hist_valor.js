@@ -1,19 +1,22 @@
 const Hist_valor = require("../models/Hist_valor");
 const Lugar = require("../models/Lugar");
 const Valores = require("../models/Valores");
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 
 const getHistValues = async (req, res) => {
-    const { page = 1, limit = 10, search = '' } = req.query;
+    const { page = 1, limit = 10, search = '', filterType, filterValue } = req.query;
     const pageInt = parseInt(page, 10) || 1;
     const limitInt = parseInt(limit, 10) || 10;
 
+    console.log('Request Query:', req.query); // Log para ver los parámetros de la solicitud
+
     try {
-        const { rows: histValues, count } = await Hist_valor.findAndCountAll({
+        // Base query with search filter
+        const query = {
             include: [{
                 model: Valores,
                 attributes: ['tempValue', 'humValue', 'valueFecha'],
-                required: true, // Ensure only records with associated values are included
+                required: true,
                 include: [{
                     model: Lugar,
                     attributes: ['name'],
@@ -22,13 +25,34 @@ const getHistValues = async (req, res) => {
                             [Op.like]: `%${search}%`
                         }
                     },
-                    required: true // Ensure only records with matching lugar name are included
+                    required: true
                 }],
+                where: {} // Añadir un lugar para los filtros de mes/año
             }],
             limit: limitInt,
             offset: (pageInt - 1) * limitInt,
-            order: [[Valores, 'valueFecha', 'ASC']],
-        });
+           
+        };
+
+        console.log('Query before filters:', JSON.stringify(query, null, 2)); // Log para ver la consulta antes de aplicar filtros
+
+        // Add filter for month or year if present
+        if (filterType && filterValue) {
+            console.log('Applying filter:', filterType, filterValue); // Log para ver el filtro aplicado
+            if (filterType === 'mes') {
+                query.include[0].where[Op.and] = [
+                    Sequelize.where(Sequelize.fn('EXTRACT', Sequelize.literal(`MONTH FROM "valueFecha"`)), filterValue)
+                ];
+            } else if (filterType === 'año') {
+                query.include[0].where[Op.and] = [
+                    Sequelize.where(Sequelize.fn('EXTRACT', Sequelize.literal(`YEAR FROM "valueFecha"`)), filterValue)
+                ];
+            }
+        }
+
+        console.log('Query after filters:', JSON.stringify(query, null, 2)); // Log para ver la consulta después de aplicar filtros
+
+        const { rows: histValues, count } = await Hist_valor.findAndCountAll(query);
 
         res.json({ 
             totalItems: count,
@@ -37,7 +61,7 @@ const getHistValues = async (req, res) => {
             items: histValues,
         });
     } catch (err) {
-        console.error(err);
+        console.error('Error in getHistValues:', err); // Log para capturar errores
         res.status(500).send('Error en cargar la tabla Historico');
     }
 };

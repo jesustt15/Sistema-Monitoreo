@@ -20,14 +20,16 @@ export function HistoricoProvider({ children }) {
     const [totalPages, setTotalPages] = useState(1);
     const [showMenu, setShowMenu] = useState(false);
     const [message, setMessage] = useState(''); // Estado para el mensaje
+    const [filter, setFilter] = useState({ type: '', value: '' });
 
-    const getHistorico = async (page, search = 'Guayana') => {
+    const getHistorico = async (page, search = 'Guayana', filter) => {
         try {
-            const res = await getHistoricoRequest(page, search);
-            if (res.data && res) {
-                console.log(res.data);
+            console.log('Fetching with filter:', filter); // Log para verificar los filtros
+            const res = await getHistoricoRequest(page, search, filter);
+            if (res && res.data) {
+                console.log('Response data:', res.data);
                 setHistorico(res.data.items);
-                setTotalPages(res.totalPages); 
+                setTotalPages(res.data.totalPages); 
                 if (res.data.items.length === 0) {
                     setMessage('No existe esa localidad o No hay Valores para mostrar'); // Actualizar el mensaje si no hay resultados
                 } else {
@@ -35,13 +37,13 @@ export function HistoricoProvider({ children }) {
                 }
             }
         } catch (error) {
-            console.log(error);
+            console.log('Error fetching historico:', error);
         }
     }
 
     useEffect(() => {
-        getHistorico(page, search);
-    }, [page, search]);
+        getHistorico(page, search, filter); // Incluir el filtro en la llamada
+    }, [page, search, filter]); // Dependencias actualizadas
 
     // buscador
     const searcher = (e) => {
@@ -68,15 +70,17 @@ export function HistoricoProvider({ children }) {
             historico,
             search,
             showMenu,
-            message, // Incluir el mensaje en el contexto
+            message,
+            filter, // Incluir el mensaje en el contexto
             // Métodos
             searcher,
             getHistorico,
             setPage,
             toggleMenu,
-            handleClickOutside
+            handleClickOutside,
+            setFilter
         }}>
             {children}
         </HistoricoContext.Provider>
-    )
+    );
 }
