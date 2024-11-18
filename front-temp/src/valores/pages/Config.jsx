@@ -4,13 +4,19 @@ import { useConfig } from "../../context";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/masisa-logo.png";
-import Pasos from "../../assets/contrasenia-google.png";
+import { SliderConfig } from "./components/SliderConfig";
+
 
 export const Config = () => {
 
     const {register , handleSubmit, setValue} = useForm();
     const {updateConfig, getConfig, config} = useConfig();
     const navigate = useNavigate();
+
+    const imageUrls =  [
+      {Logo},
+      '/front-temp/assets/pasos/2.jpg',
+    ]
 
     useEffect(() => {
       const loadConfig = async () => {
@@ -90,8 +96,7 @@ export const Config = () => {
                 </form>
               </div>
               <div className="img-content">
-                  <img src="#"
-                   alt="pasitos" />
+                      <SliderConfig images={imageUrls} />
               </div>
             </div>
           </div>
