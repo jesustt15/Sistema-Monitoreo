@@ -6,119 +6,120 @@ import { useLugar, useValor } from '../../../context';
 export const LineGraph = () => {
     const [charts, setCharts] = useState([]);
     const { getValores, valores, activeChart, search } = useValor();
-    const {getLugares, lugares} = useLugar();
+    const { getOneLugar, lugar } = useLugar(); // Usar lugar singular
 
     const setHora = (fecha) => {
         const opciones = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
         return new Date(fecha).toLocaleTimeString('es-ES', opciones);
     };
 
-
     useEffect(() => {
         getValores(search);
     }, [search]);
 
-    useEffect(() => {
-        getLugares();
-    }, [])
-    
+    useEffect(() => { 
+        if (valores.length > 0) {
+            getOneLugar(valores[0].lugar_id); // Usar el lugar_id del primer valor
+        }
+    }, [valores]);
 
     useEffect(() => {
         const labels = valores.map((data) => setHora(data.valueFecha));
         const data1 = valores.map((data) => data.tempValue);
         const data2 = valores.map((data) => data.humValue);
-        
-        // Suponiendo que tienes un lugar con los siguientes rangos
-        const tempMin = lugares.map((data) => data.tempMin); // Ejemplo
-        const tempMax = lugares.map((data) => data.tempMax);
-        const humMin = lugares.map((data) => data.humMin);
-        const humMax = lugares.map((data) => data.humMax);
 
-        setCharts([
-            {
-                data: {
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: 'Temperatura',
-                            data: data1,
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1,
-                            fill: true,
-                            tension: 0.1,
-                        },
-                        {
-                            label: 'Temp Min',
-                            data: Array(data1.length).fill(tempMin),
-                            borderColor: 'rgba(255, 0, 0, 1)',
-                            borderWidth: 1,
-                            pointRadius: 0,
-                            borderDash: [5, 5],
-                            fill: false
-                        },
-                        {
-                            label: 'Temp Max',
-                            data: Array(data1.length).fill(tempMax),
-                            borderColor: 'rgba(255, 0, 0, 1)',
-                            borderWidth: 1,
-                            pointRadius: 0,
-                            borderDash: [5, 5],
-                            fill: false
-                        }
-                    ],
-                },
-                options: {
-                    scales: {
-                        x: { grid: { display: false } },
-                        y: { beginAtZero: true, grid: { display: false } },
+        if (lugar) { // Asegúrate de que lugar no sea null
+            const tempMin = lugar.tempMin; // Obtener tempMin del lugar específico
+            const tempMax = lugar.tempMax;
+            const humMin = lugar.humMin;
+            const humMax = lugar.humMax;
+
+            setCharts([
+                {
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Temperatura',
+                                data: data1,
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 1,
+                                fill: true,
+                                tension: 0.1,
+                            },
+                            {
+                                label: 'Temp Min',
+                                data: Array(data1.length).fill(tempMin),
+                                borderColor: 'rgba(255, 0, 0, 1)',
+                                borderWidth: 1,
+                                pointRadius: 0,
+                                borderDash: [5, 5],
+                                fill: false
+                            },
+                            {
+                                label: 'Temp Max',
+                                data: Array(data1.length).fill(tempMax),
+                                borderColor: 'rgba(255, 0, 0, 1)',
+                                borderWidth: 1,
+                                pointRadius: 0,
+                                borderDash: [5, 5],
+                                fill: false
+                            }
+                        ],
                     },
-                    plugins: { legend: { position: 'top', align: 'end' } },
-                },
-            },
-            {
-                data: {
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: 'Humedad',
-                            data: data2,
-                            backgroundColor: 'rgba(51, 102, 255, 0.2)',
-                            borderColor: 'rgba(153, 102, 255, 1)',
-                            borderWidth: 1,
-                            fill: true,
-                            tension: 0.1,
+                    options: {
+                        scales: {
+                            x: { grid: { display: false } },
+                            y: { beginAtZero: true, grid: { display: false } },
                         },
-                        {
-                            label: 'Hum Min',
-                            data: Array(data2.length).fill(humMin),
-                            borderColor: 'rgba(255, 0, 0, 1)',
-                            borderWidth: 1,
-                            pointRadius: 0,
-                            borderDash: [5, 5],
-                            fill: false
-                        },
-                        {
-                            label: 'Hum Max',
-                            data: Array(data2.length).fill(humMax),
-                            borderColor: 'rgba(255, 0, 0, 1)',
-                            borderWidth: 1,
-                            pointRadius: 0,
-                            borderDash: [5, 5],
-                            fill: false
-                        }
-                    ],
-                },
-                options: {
-                    scales: {
-                        x: { grid: { display: false } },
-                        y: { beginAtZero: true, grid: { display: false } },
+                        plugins: { legend: { position: 'top', align: 'end' } },
                     },
-                    plugins: { legend: { position: 'top', align: 'end' } },
                 },
-            },
-        ]);
-    }, [valores]);
+                {
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Humedad',
+                                data: data2,
+                                backgroundColor: 'rgba(51, 102, 255, 0.2)',
+                                borderColor: 'rgba(153, 102, 255, 1)',
+                                borderWidth: 1,
+                                fill: true,
+                                tension: 0.1,
+                            },
+                            {
+                                label: 'Hum Min',
+                                data: Array(data2.length).fill(humMin),
+                                borderColor: 'rgba(255, 0, 0, 1)',
+                                borderWidth: 1,
+                                pointRadius: 0,
+                                borderDash: [5, 5],
+                                fill: false
+                            },
+                            {
+                                label: 'Hum Max',
+                                data: Array(data2.length).fill(humMax),
+                                borderColor: 'rgba(255, 0, 0, 1)',
+                                borderWidth: 1,
+                                pointRadius: 0,
+                                borderDash: [5, 5],
+                                fill: false
+                            }
+                        ],
+                    },
+                    options: {
+                        scales: {
+                            x: { grid: { display: false } },
+                            y: { beginAtZero: true, grid: { display: false } },
+                        },
+                        plugins: { legend: { position: 'top', align: 'end' } },
+                    },
+                },
+            ]);
+        }
+    }, [valores, lugar]); // Asegúrate de que este useEffect depende tanto de valores como de lugar
 
     return (
         <>
@@ -139,5 +140,4 @@ export const LineGraph = () => {
         </>
     );
 };
-
 

@@ -21,7 +21,7 @@ export const useLugar = () =>{
 
 export function LugarProvider ({children}) {
     const [lugares, setlugares] = useState([]);
-
+    const [lugar, setlugar] = useState([]);
     const createLugar = async(lugares) => {
 
         const res = await createLugarRequest(lugares);
@@ -59,6 +59,7 @@ export function LugarProvider ({children}) {
         try {
 
             const res = await getOneLugarRequest(id);
+            setlugar(res.data);
             return res.data;
             
         } catch (error) {
@@ -71,7 +72,8 @@ export function LugarProvider ({children}) {
 
 
     return (
-        <LugarContext.Provider value={{ lugares , 
+        <LugarContext.Provider value={{ lugares ,
+             lugar,
         createLugar,
         getLugares,
         deleteLugar,

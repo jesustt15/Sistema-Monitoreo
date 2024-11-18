@@ -20,7 +20,7 @@ export const Table = () => {
     useEffect(() => {
         const intervalId = setInterval(() => {
             getValoresByPagination(page, search); // Cambiar tamaño de página a 20
-        }, 20000); // Actualizar cada 60 segundos
+        }, 3000); // Actualizar cada 60 segundos
 
         return () => clearInterval(intervalId); // Limpiar el intervalo al desmontar el componente
     }, [page, search, getValoresByPagination]);
