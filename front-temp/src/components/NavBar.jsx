@@ -45,15 +45,15 @@ const Navbar = () => {
         <NavLink 
         className={`nav-link ${active === 'lugares' ? 'active' : ''}`}
         onClick={ () => handleClick('lugares')}
-        to="/lugares">Localidades</NavLink>
-        <NavLink 
-        className={`nav-link ${active === 'config' ? 'active' : ''}`}
-        onClick={ () => handleClick('config')}
-        to="/config">Configuración</NavLink>
+        to="/lugares">Localidades</NavLink>    
         <NavLink 
         className={`nav-link ${active === 'hist' ? 'active' : ''}`}
         onClick={ () => handleClick('hist')}
         to="/historico">Histórico</NavLink>
+        <NavLink 
+        className={`nav-link ${active === 'config' ? 'active' : ''}`}
+        onClick={ () => handleClick('config')}
+        to="/config">Configuración</NavLink>
         <button className='logout' onClick={handleLogout}>
           <i className="bi bi-box-arrow-right"></i>
         </button>

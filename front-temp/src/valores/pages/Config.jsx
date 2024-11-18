@@ -61,7 +61,7 @@ export const Config = () => {
                           {...register("email")}
                           ></input>
 
-                          <label>Contraseña</label>
+                          <label>Contraseña de Aplicación</label>
                             <input
                           type="password"
                           placeholder="Contraseña"
