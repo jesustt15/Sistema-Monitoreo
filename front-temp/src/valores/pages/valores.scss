@@ -92,6 +92,24 @@
     .filter .filter-content {
         display: block;
     }
+
+    select{
+        @include primary-font;
+        border: none;
+        background-color: $primary;
+        color: white;
+        width: 15rem;
+        height: 1.8rem;
+        padding-left: 1rem;
+        padding-right: 0.2rem;
+        box-shadow: 0px 4px 4px 0px #00000040;
+        border-radius: 1.8rem;
+        display: flex;
+        justify-content: space-around;
+        cursor: pointer;
+        align-items: center;
+        border: none;
+    }
         
 }
 
@@ -266,20 +284,20 @@ tr:hover {
 .general-container {
     width: 100%;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between; /* Asegúrate de que los elementos hijos se distribuyan correctamente */
     margin-top: 0.5rem;
 
 
     .content-form {
         @include poppins-font;
-        background: #fff;
-        padding: 3rem 3rem;
-        border-radius: 2rem;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        width: 30%; 
-        height: 80%; /* Ajusta el tamaño del popup */
-        display: flex;
-        flex-direction: column;
+        background: #fff; 
+        padding: 3rem; 
+        border-radius: 2rem; 
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+        width: 50%; /* Ajusta al 50% del ancho del contenedor */ 
+        height: auto; /* Ajusta automáticamente a su contenido */ 
+        display: flex; 
+        flex-direction: column; 
         gap: 0.5rem;
       
         form {
@@ -326,17 +344,24 @@ tr:hover {
           input {
             margin: 0.5rem 0rem;
           }
+        }
 
 
 
 
 
+    .img-content {
+        width: 50%; /* Ajusta al 50% del ancho del contenedor */ 
+        display: flex; 
+        justify-content: center; /* Centra el carrusel en su contenedor */ 
+        align-items: center; /* Centra verticalmente el carrusel */ 
+        overflow: hidden; /* Evita desbordamientos */
 
-          .carousel {
+        .carousel {
             position: relative;
             width: 100%;
-            max-width: 800px;
-            margin: auto;
+            height: 100%; /* Ajustar al 100% de la altura del contenedor */
+            max-width: 100%; /* Ajustado al 100% del contenedor padre */
             overflow: hidden;
             background: #333;
             border-radius: 10px;
@@ -346,11 +371,12 @@ tr:hover {
         .carousel-content {
             display: flex;
             transition: transform 0.5s ease-in-out;
+            height: 100%; /* Asegurarse de que el contenido ocupe todo el contenedor */
         }
         
         .slide {
             position: relative;
-            min-width: 100%;
+            flex: 0 0 100%;
             transition: opacity 0.5s ease-in-out;
             opacity: 0;
         }
@@ -359,15 +385,18 @@ tr:hover {
             opacity: 1;
         }
         
-        .carousel img {
-            width: 100%;
-            border-radius: 10px;
+        .carousel img { 
+            width: 100%; 
+            height: auto; 
+            max-width: 100px; /* Ajusta esto según sea necesario */ 
+            max-height: 200px; /* Ajusta esto según sea necesario */ 
+            object-fit: cover; /* Mantener la proporción de la imagen */ 
         }
         
-        button.prev, button.next {
+        .next {
             position: absolute;
             top: 50%;
-            transform: translateY(-50%);
+            transform: translateY(-60%);
             background-color: rgba(0, 0, 0, 0.5);
             border: none;
             color: white;
@@ -375,22 +404,24 @@ tr:hover {
             cursor: pointer;
             z-index: 10;
             border-radius: 50%;
-            padding: 10px;
+            padding: 3rem;
         }
         
         button.prev {
-            left: 20px;
+            left: 10px; /* Ajustar posición dentro del contenedor */
         }
         
         button.next {
-            right: 20px;
+            right: 10px; /* Ajustar posición dentro del contenedor */
         }
         
         button.prev:hover, button.next:hover {
             background-color: rgba(0, 0, 0, 0.8);
         }
         
-        }
+    
+    }
+    
     
 }
 }

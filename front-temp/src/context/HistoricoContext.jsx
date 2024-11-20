@@ -24,10 +24,8 @@ export function HistoricoProvider({ children }) {
 
     const getHistorico = async (page, search = 'Guayana', filter) => {
         try {
-            console.log('Fetching with filter:', filter); // Log para verificar los filtros
             const res = await getHistoricoRequest(page, search, filter);
             if (res && res.data) {
-                console.log('Response data:', res.data);
                 setHistorico(res.data.items);
                 setTotalPages(res.data.totalPages); 
                 if (res.data.items.length === 0) {

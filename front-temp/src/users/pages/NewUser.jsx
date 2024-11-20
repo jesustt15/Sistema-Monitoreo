@@ -10,19 +10,23 @@ export const NewUser = ({ onClose }) => {
     const { handleSubmit, register, watch, formState: { errors } } = useForm();
     const navigate = useNavigate();
     const { createUsers } = useUser();
-    const name = watch('name');
-    const email = watch('email');
+
     const password = watch('password');
-    const confirmPasword = watch('confirmPassword');
+    const confirmPassword = watch('confirmPassword');
+
+    const validatePassword = (value) => {
+        return value === password || "Las contraseñas no coinciden";
+    };
 
     const onHandleSubmit = async (data) => {
-        if (parseFloat(data.password) === parseFloat(data.confirmPasword)) {
-            alert('Las contraseñas no coinciden');
-        } else {
+        try {
             await createUsers({ ...data });
             alert('Datos agregados');
             onClose();
             navigate('/users');
+        } catch (error) {
+            console.error('Error al crear el usuario:', error);
+            alert('Hubo un error al crear el usuario');
         }
     };
 
@@ -40,32 +44,37 @@ export const NewUser = ({ onClose }) => {
                         <input
                             type="text"
                             placeholder="Ingrese nombre del usuario"
-                            {...register('name', { required: true })}
+                            {...register('name', { required: "Este campo es obligatorio" })}
                         />
-
+                        {errors.name && <span>{errors.name.message}</span>}
 
                         <label>Email</label>
                         <input
                             type="email"
                             placeholder="Ingrese email del usuario"
-                            {...register('email', { required: true })}
+                            {...register('email', { required: "Este campo es obligatorio" })}
                         />
+                        {errors.email && <span>{errors.email.message}</span>}
 
                         <label>Contraseña</label>
                         <input
                             type="password"
                             placeholder="Ingrese la contraseña"
-                            {...register('password', { required: true })}
+                            {...register('password', { required: "Este campo es obligatorio" })}
                         />
+                        {errors.password && <span>{errors.password.message}</span>}
 
                         <label>Confirmar Contraseña</label>
                         <input
                             type="password"
                             placeholder="Confirme la contraseña"
-                            {...register('confirmPassword', { required: true })}
+                            {...register('confirmPassword', {
+                                required: "Este campo es obligatorio",
+                                validate: validatePassword
+                            })}
                         />
+                        {errors.confirmPassword && <span>{errors.confirmPassword.message}</span>}
                     </div>
-                    {errors.password && <span>Este campo es requerido</span>}
                     <input
                         className="btn-submit"
                         type="submit"

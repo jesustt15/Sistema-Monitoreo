@@ -52,21 +52,19 @@ export const Historico = () => {
                                 </div>
                             )}
                         </div>
-                    </section>
-                    <section className="filter-options">
-                        <label>
-                            Filtrar por Mes:
+                        <div className="searcher">
+                                <input type="number" value={year} onChange={handleYearChange} placeholder="Ingrese Año" />
+                        </div>
+                        <div className="filter">
                             <select value={month} onChange={handleMonthChange}>
-                                <option value="">Seleccionar Mes</option>
+                                <option value="">Seleccionar</option>
                                 {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
                                     <option key={month} value={month}>{month}</option>
                                 ))}
-                            </select>
-                        </label>
-                        <label>
-                            Filtrar por Año:
-                            <input type="number" value={year} onChange={handleYearChange} placeholder="Ingrese Año" />
-                        </label>
+                            </select>          
+                        </div>
+                    </section>
+                    <section className="filter-options">
                     </section>
                     <section>
                         <Table />

@@ -68,6 +68,7 @@ const loginUsuario = async(req,res = response) => {
         //comparar password
         const validPassword =  await bcrypt.compare(password, usuario.password);
 
+
         if( !validPassword ){
             return res.status(400).json({
                 ok: false,

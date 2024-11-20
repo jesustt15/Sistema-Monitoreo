@@ -84,7 +84,6 @@ export const Config = () => {
                         </form>
                     </div>
                     <div className="img-content">
-                    <h1>Photo Carousel</h1> 
                     <PhotoCarousel images={imagesUrls} />
                     </div>
                 </div>

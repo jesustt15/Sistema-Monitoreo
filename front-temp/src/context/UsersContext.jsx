@@ -24,20 +24,32 @@ export function UsersProvider ({children}) {
 
     const createUsers = async(user) => {
 
-        const res = await createUsersRequest(user);
-        console.log(res);
+        try {
 
+         await createUsersRequest(user);
+         getUsers();
+            
+        } catch (error) {
+            console.error(error)
+        }
 
     }
     const getUsers = async() =>{
 
-          const res = await getUsersRequest();
-          setUsers(res.data);           
+        try {
+            const res = await getUsersRequest();
+            setUsers(res.data);   
+            
+        } catch (error) {
+            console.log(error);
+        }
+        
     }
 
     const updateUsers = async(id, user) =>{
         try {
             await updateUsersRequest(id, user);
+            getUsers();
           } catch (error) {
             console.error(error);
           }
@@ -47,8 +59,9 @@ export function UsersProvider ({children}) {
 
         try {
             const res = await deleteUsersRequest(id);
-            console.log("haciendo la verificacion");
             if (res.status === 204) setUsers(users.filter((user) => user._id !== id));
+            getUsers();
+            
           } catch (error) {
             console.log(error);
           }

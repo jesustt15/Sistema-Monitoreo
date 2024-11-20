@@ -2,28 +2,32 @@
 import { useEffect, useState } from "react";
 import { useUser } from "../../context";
 import '../../components/components.scss';
-import { ConfirmationPopup }  from "./ConfirmationPopup"  // Importamos el componente del popup de confirmación
+import { ConfirmationPopup } from "./ConfirmationPopup"; // Importamos el componente del popup de confirmación
 
 export const Table = ({ openEditPopup }) => {
   
     const { users, getUsers, deleteUsers } = useUser();
     const [showConfirmation, setShowConfirmation] = useState(false);
-    const [selectedLugarId, setSelectedLugarId] = useState(null);
-
+    const [selectedUserId, setSelectedUserId] = useState(null);
 
     const openConfirmationPopup = (id) => {
-        setSelectedLugarId(id);
+        setSelectedUserId(id);
         setShowConfirmation(true);
     };
 
-    const handleDelete = () => {
-        deleteUsers(selectedLugarId);
+    const handleDelete = async () => {
+        await deleteUsers(selectedUserId); // Espera a que se complete la eliminación
         setShowConfirmation(false);
     };
 
     useEffect(() => {
         getUsers();
     }, []);
+
+    useEffect(() => {
+        // Observa cambios en la lista de usuarios
+        getUsers(); 
+    }, [users]);
 
     return (
         <>
@@ -39,7 +43,6 @@ export const Table = ({ openEditPopup }) => {
                     <tr>
                         <th>Nombre</th>
                         <th>Email</th>
-                        <th>Password</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -48,7 +51,6 @@ export const Table = ({ openEditPopup }) => {
                         <tr key={i}>
                             <td>{data.name}</td>
                             <td>{data.email}</td>
-                            <td>{data.password}</td>
                             <td className="acciones">
                                 <button className="edit" onClick={() => openEditPopup(data.user_id)}>
                                     <i className="bi bi-pencil-square"></i>
