@@ -1,5 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
-/* eslint-disable react/prop-types */
 import { createContext, useContext, useEffect, useState } from "react";
 import { getHistoricoRequest } from '../api';
 
@@ -11,7 +9,7 @@ export const useHistorico = () => {
         throw new Error('useHistorico debe estar en el contexto');
     }
     return context;
-}
+};
 
 export function HistoricoProvider({ children }) {
     const [historico, setHistorico] = useState([]);
@@ -19,7 +17,8 @@ export function HistoricoProvider({ children }) {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [showMenu, setShowMenu] = useState(false);
-    const [message, setMessage] = useState(''); // Estado para el mensaje
+    const [showMenuMonth, setShowMenuMonth] = useState(false);
+    const [message, setMessage] = useState('');
     const [filter, setFilter] = useState({ type: '', value: '' });
 
     const getHistorico = async (page, search = 'Guayana', filter) => {
@@ -29,7 +28,7 @@ export function HistoricoProvider({ children }) {
                 setHistorico(res.data.items);
                 setTotalPages(res.data.totalPages); 
                 if (res.data.items.length === 0) {
-                    setMessage('No existe esa localidad o No hay Valores para mostrar'); // Actualizar el mensaje si no hay resultados
+                    setMessage('No existe esa localidad o No hay Valores para mostrar');
                 } else {
                     setMessage('');
                 }
@@ -37,13 +36,12 @@ export function HistoricoProvider({ children }) {
         } catch (error) {
             console.log('Error fetching historico:', error);
         }
-    }
+    };
 
     useEffect(() => {
-        getHistorico(page, search, filter); // Incluir el filtro en la llamada
-    }, [page, search, filter]); // Dependencias actualizadas
+        getHistorico(page, search, filter);
+    }, [page, search, filter]);
 
-    // buscador
     const searcher = (e) => {
         setSearch(e.target.value);
         setPage(1);
@@ -52,11 +50,23 @@ export function HistoricoProvider({ children }) {
     const toggleMenu = (event) => {
         event.preventDefault();
         setShowMenu(!showMenu);
+        if (showMenuMonth) setShowMenuMonth(false); // Asegúrate de cerrar el otro menú
+    };
+
+    const toggleMenuMonth = (event) => {
+        event.preventDefault();
+        setShowMenuMonth(!showMenuMonth);
+        if (showMenu) setShowMenu(false); // Asegúrate de cerrar el otro menú
+    };
+
+    const handleClickOutsideMonth = (event) => {
+        if (showMenuMonth && !event.target.closest('.filter-month')) {
+            setShowMenuMonth(false);
+        }
     };
 
     const handleClickOutside = (event) => {
         if (showMenu && !event.target.closest('.filter')) {
-            setPage(1);
             setShowMenu(false);
         }
     };
@@ -64,19 +74,21 @@ export function HistoricoProvider({ children }) {
     return (
         <HistoricoContext.Provider value={{
             page,
-            totalPages, 
+            totalPages,
             historico,
             search,
             showMenu,
+            showMenuMonth,
             message,
-            filter, // Incluir el mensaje en el contexto
-            // Métodos
+            filter,
             searcher,
             getHistorico,
             setPage,
             toggleMenu,
+            toggleMenuMonth,
             handleClickOutside,
-            setFilter
+            handleClickOutsideMonth,
+            setFilter,
         }}>
             {children}
         </HistoricoContext.Provider>

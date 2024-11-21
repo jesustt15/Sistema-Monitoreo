@@ -20,7 +20,7 @@ export const Table = () => {
     useEffect(() => {
         const intervalId = setInterval(() => {
             getValoresByPagination(page, search);
-        }, 120000); // Actualizar cada 60 segundos
+        }, 10000); // Actualizar cada 60 segundos
 
         return () => clearInterval(intervalId);
     }, [page, search, getValoresByPagination]);

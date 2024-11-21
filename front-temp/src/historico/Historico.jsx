@@ -6,7 +6,7 @@ import { Table } from './Table';
 import { useHistorico, useLugar } from '../context';
 
 export const Historico = () => {
-    const { searcher, handleClickOutside, showMenu, toggleMenu, search, setFilter } = useHistorico();
+    const { searcher, handleClickOutside, handleClickOutsideMonth, showMenu, showMenuMonth, toggleMenu, toggleMenuMonth, search, setFilter } = useHistorico();
     const { lugares, getLugares } = useLugar();
     const [month, setMonth] = useState('');
     const [year, setYear] = useState('');
@@ -21,6 +21,13 @@ export const Historico = () => {
             window.removeEventListener('click', handleClickOutside);
         };
     }, [showMenu]);
+
+    useEffect(() => {
+        window.addEventListener('click', handleClickOutsideMonth);
+        return () => {
+            window.removeEventListener('click', handleClickOutsideMonth);
+        };
+    }, [showMenuMonth]);
 
     const handleMonthChange = (e) => {
         setMonth(e.target.value);
@@ -38,34 +45,44 @@ export const Historico = () => {
                 <Navbar />
                 <div className="container">
                     <section className="search">
-                        <div className='searcher'>
+                        <div className="searcher">
                             <i className="bi bi-search"></i>
-                            <input type="text" placeholder='Buscar' onChange={searcher} />
+                            <input type="text" placeholder="Buscar" onChange={searcher} />
+                        </div>
+                        <div className="filter-container">
+                            
                         </div>
                         <div className="filter">
-                            <button className='btn-filter' onClick={toggleMenu}>Filtrar: {search} </button>
+                            <button className="btn-filter" onClick={toggleMenu}>Filtrar: {search}</button>
                             {showMenu && (
                                 <div className="filter-content">
                                     {lugares.map((lugar, i) => (
-                                        <button className='options' key={i} value={lugar.name} onClick={searcher}>{lugar.name}</button>
+                                        <button className="options" key={i} value={lugar.name} onClick={searcher}>{lugar.name}</button>
                                     ))}
                                 </div>
                             )}
                         </div>
-                        <div className="searcher">
-                                <input type="number" value={year} onChange={handleYearChange} placeholder="Ingrese Año" />
+                        <div className="filter-month">
+                            <div className='month-label'>
+                                Mes
+                            </div>
+                            <button className="btn-filter-month" onClick={toggleMenuMonth}>
+                                {month}</button>
+                            {showMenuMonth && (
+                                <div className="filter-content-month">
+                                    {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
+                                        <button className="options" key={month} value={month} onClick={handleMonthChange}>{month}</button>
+                                    ))}
+                                </div>
+                            )}
                         </div>
-                        <div className="filter">
-                            <select value={month} onChange={handleMonthChange}>
-                                <option value="">Seleccionar</option>
-                                {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
-                                    <option key={month} value={month}>{month}</option>
-                                ))}
-                            </select>          
+                        <div className="searcher-year">
+                            <div className="month-label">Año</div>
+                            <input type="number" value={year} onChange={handleYearChange} placeholder="Ingrese Año" />
                         </div>
+                        
                     </section>
-                    <section className="filter-options">
-                    </section>
+                    <section className="filter-options"></section>
                     <section>
                         <Table />
                     </section>
@@ -74,4 +91,3 @@ export const Historico = () => {
         </>
     );
 };
-
