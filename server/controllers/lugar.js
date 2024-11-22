@@ -3,42 +3,43 @@ const Lugar = require('../models/Lugar');
 const pool = require('../config/database');
 
 
- const saveLugar = async (req , res = response) =>{
-    
-    const {name, tempMin,tempMax, humMax, humMin} = req.body;
-    try {
+const saveLugar = async (req, res = response) => {
+   const { name, tempMin, tempMax, humMax, humMin } = req.body;
+   try {
+       // Convertir el nombre de la localidad a minúsculas
+       const normalizedName = name.toLowerCase();
 
-         let localidad =  await Lugar.findOne({where: {name: name}})
+       let localidad = await Lugar.findOne({ where: { name: normalizedName } });
 
-         if(localidad){
-            return res.status(400).json({
+       if (localidad) {
+           return res.status(400).json({
                ok: false,
                msg: 'La localidad ya se encuentra agregada'
-            })
-         }
+           });
+       }
 
-        const lugar = await Lugar.create(req.body);
+       // Crear la localidad con el nombre normalizado
+       const lugar = await Lugar.create({ ...req.body, name: normalizedName });
 
+       res.status(201).json({
+           name: lugar.name,
+           tempMin: lugar.tempMin,
+           tempMax: lugar.tempMax,
+           humMin: lugar.humMin,
+           humMax: lugar.humMax,
+           mensaje: 'DATOS CALIDAD'
+       });
 
-        res.status(201).json({
-            name: lugar.name,
-            tempMin: lugar.tempMin, 
-            tempMax: lugar.tempMax, 
-            humMin: lugar.humMin,
-            humMax: lugar.humMax,
-            mensaje: 'DATOS CALIDAD'});
+   } catch (error) {
+       if (error.name === 'SequelizeValidationError') {
+           res.status(400).json({ error: error.message });
+       } else {
+           console.log(error);
+           res.status(500).json({ error });
+       }
+   }
+};
 
-        
-    } catch (error) {
-      if (error.name === 'SequelizeValidationError') {
-         res.status(400).json({ error: error.message });
-      }else {
-         console.log(error);
-         res.status(500).json({error});
-      }
-
-    }
- };
 
 
  const getLugar = async (req, res = response) =>{

@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable react/prop-types */
 import { createContext, useContext, useEffect, useState } from "react";
 import { getHistoricoRequest } from '../api';
 
@@ -13,7 +15,7 @@ export const useHistorico = () => {
 
 export function HistoricoProvider({ children }) {
     const [historico, setHistorico] = useState([]);
-    const [search, setSearch] = useState("Guayana");
+    const [search, setSearch] = useState("guayana");
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [showMenu, setShowMenu] = useState(false);
@@ -21,9 +23,9 @@ export function HistoricoProvider({ children }) {
     const [message, setMessage] = useState('');
     const [filter, setFilter] = useState({ type: '', value: '' });
 
-    const getHistorico = async (page, search = 'Guayana', filter) => {
+    const getHistorico = async (page, search = 'guayana', filter) => {
         try {
-            const res = await getHistoricoRequest(page, search, filter);
+            const res = await getHistoricoRequest(page, search.toLocaleLowerCase(), filter);
             if (res && res.data) {
                 setHistorico(res.data.items);
                 setTotalPages(res.data.totalPages); 

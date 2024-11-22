@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 import { useHistorico } from "../context";
 import jsPDF from 'jspdf';
@@ -24,6 +25,11 @@ export const Table = () => {
     for (let i = 1; i <= totalPages; i++) {
         pageNumbers.push(i);
     }
+
+    const capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+
 
     const handleDownloadPDF = async () => {
         const input = document.getElementById('table-to-print');
@@ -69,7 +75,7 @@ export const Table = () => {
                             <tbody id="table-body">
                                 {historico.map((data, i) => (
                                     <tr key={i}>
-                                        <td>{data.Valore.Lugar.name}</td>
+                                        <td>{capitalizeFirstLetter(data.Valore.Lugar.name)}</td>
                                         <td>{data.Valore.tempValue}°C</td>
                                         <td>{data.Valore.humValue}%</td>
                                         <td>{setFecha(data.Valore.valueFecha)}</td>

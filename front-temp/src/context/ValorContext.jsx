@@ -15,7 +15,7 @@ export const useValor = () => {
 
 export function ValorProvider({ children }) {
     const [valores, setValores] = useState([]);
-    const [search, setSearch] = useState("Guayana"); // Default search value
+    const [search, setSearch] = useState("guayana"); // Default search value
     const [showMenu, setShowMenu] = useState(false);
     const [page, setPage] = useState(1);
     const [activeChart, setActiveChart] = useState(0);
@@ -30,9 +30,9 @@ export function ValorProvider({ children }) {
         }
     };
 
-    const getValores = async (search = 'Guayana' ) => {
+    const getValores = async (search = 'guayana') => {
         try {
-            const res = await getValoresRequest(search);
+            const res = await getValoresRequest(search.toLowerCase()); // Convertir a minúsculas
             setValores(res.data);
         } catch (error) {
             console.log(error);
@@ -41,19 +41,19 @@ export function ValorProvider({ children }) {
 
     const getValoresByPagination = async (page, search = 'Guayana', timeFilter) => {
         try {
-            const res = await getValoresByPaginationRequest(page, search, timeFilter);
+            const res = await getValoresByPaginationRequest(page, search.toLowerCase(), timeFilter); // Convertir a minúsculas
             if (res && res.data) {
                 setValores(res.data.items);
                 setTotalPages(res.data.totalPages);
-    
+
                 // Verificar si la localidad existe pero no tiene valores
                 if (res.data.items.length === 0 && res.data.totalPages > 0) {
                     setMessage('No existen valores para mostrar');
-                } 
+                }
                 // Verificar si la localidad no existe
                 else if (res.data.items.length === 0 && res.data.totalPages === 0) {
                     setMessage('No existe esa localidad o No hay valores para mostrar');
-                } 
+                }
                 // Cuando hay resultados
                 else {
                     setMessage('');
@@ -64,8 +64,6 @@ export function ValorProvider({ children }) {
             setMessage('Error Obteniendo los datos');
         }
     };
-    
-    
 
     useEffect(() => {
         getValoresByPagination(page, search, timeFilter);
@@ -101,7 +99,7 @@ export function ValorProvider({ children }) {
             page,
             totalPages,
             activeChart,
-            search ,
+            search,
             message,
             timeFilter // Asegúrate de incluir 'search' en el contexto
         }}>
@@ -109,4 +107,5 @@ export function ValorProvider({ children }) {
         </ValorContext.Provider>
     );
 }
+
 

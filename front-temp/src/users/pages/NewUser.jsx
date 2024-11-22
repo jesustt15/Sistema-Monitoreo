@@ -26,7 +26,11 @@ export const NewUser = ({ onClose }) => {
             navigate('/users');
         } catch (error) {
             console.error('Error al crear el usuario:', error);
-            alert('Hubo un error al crear el usuario');
+            if (error.message === 'User with this email already exists.') {
+                alert('Ya existe un usuario con este correo electrónico.');
+            } else {
+                alert('Hubo un error al crear el usuario');
+            }
         }
     };
 

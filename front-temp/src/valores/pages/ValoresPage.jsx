@@ -44,6 +44,11 @@ export const ValoresPage = () => {
     getValoresByPagination(1, event.target.value, timeFilter); // Aplicar búsqueda y filtro de tiempo
   };
 
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
+
   return (
     <>
         <Navbar />
@@ -57,11 +62,11 @@ export const ValoresPage = () => {
                 <input type="text" placeholder='Buscar' onChange={handleSearchChange}/>
               </div>
               <div className="filter">
-                <button className='btn-filter' onClick={toggleMenu}>Filtrar: {search}</button>
+                <button className='btn-filter' onClick={toggleMenu}>Filtrar: {capitalizeFirstLetter(search)}</button>
                 {showMenu && (
                     <div className="filter-content">
                       {lugares.map((lugar, i) => (
-                        <button className='options' key={i} value={lugar.name} onClick={handleSearchChange}>{lugar.name}</button>
+                        <button className='options' key={i} value={lugar.name} onClick={handleSearchChange}>{capitalizeFirstLetter(lugar.name)}</button>
                       ))}
                     </div>
                 )}

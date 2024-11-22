@@ -28,6 +28,11 @@ export const Table = ({ openEditPopup }) => {
         setShowConfirmation(false);
     };
 
+    const capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+
+
     useEffect(() => {
         getLugares();
         const initialVisibility = {};
@@ -36,6 +41,11 @@ export const Table = ({ openEditPopup }) => {
         });
         setVisibleItems(initialVisibility);
     }, []);
+
+    useEffect(() => {
+        getLugares(); //useEfectt para actualizar
+    }, [lugares]);
+    
 
     return (
         <>
@@ -61,7 +71,7 @@ export const Table = ({ openEditPopup }) => {
                 <tbody id="table-body">
                     {lugares.map((data, i) => (
                         <tr key={i}>
-                            <td>{data.name}</td>
+                            <td>{capitalizeFirstLetter(data.name)}</td>
                             <td>{data.tempMax}°C</td>
                             <td>{data.tempMin}°C</td>
                             <td>{data.humMax}%</td>

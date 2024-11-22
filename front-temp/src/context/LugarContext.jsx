@@ -38,6 +38,7 @@ export function LugarProvider ({children}) {
     const updateLugar = async(id, lugar) =>{
         try {
             await updateLugarRequest(id, lugar);
+            getLugares();
           } catch (error) {
             console.error(error);
           }
@@ -49,6 +50,7 @@ export function LugarProvider ({children}) {
             const res = await deleteLugarRequest(id);
             console.log("haciendo la verificacion");
             if (res.status === 204) setlugares(lugares.filter((lugar) => lugar._id !== id));
+            getLugares();
           } catch (error) {
             console.log(error);
           }

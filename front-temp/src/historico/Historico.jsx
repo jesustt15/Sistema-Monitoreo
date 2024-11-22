@@ -39,6 +39,10 @@ export const Historico = () => {
         setFilter({ type: 'año', value: e.target.value });
     };
 
+    const capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+
     return (
         <>
             <div className="full-container">
@@ -53,11 +57,11 @@ export const Historico = () => {
                             
                         </div>
                         <div className="filter">
-                            <button className="btn-filter" onClick={toggleMenu}>Filtrar: {search}</button>
+                            <button className="btn-filter" onClick={toggleMenu}>Filtrar: {capitalizeFirstLetter(search)}</button>
                             {showMenu && (
                                 <div className="filter-content">
                                     {lugares.map((lugar, i) => (
-                                        <button className="options" key={i} value={lugar.name} onClick={searcher}>{lugar.name}</button>
+                                        <button className="options" key={i} value={lugar.name} onClick={searcher}>{capitalizeFirstLetter(lugar.name)}</button>
                                     ))}
                                 </div>
                             )}
