@@ -73,7 +73,7 @@ const saveValores = async (req, res = response) => {
 };
 
 const getValores = async (req, res = response) => {
-    const { search = 'Guayana' } = req.query;
+    const { search = 'guayana' } = req.query;
     try {
         const valores = await Valores.findAll({
             include: [{
@@ -96,7 +96,7 @@ const getValores = async (req, res = response) => {
 };
 
 const getValoresByPagination = async (req, res = response) => {
-    const { page = 1, limit = 10, search = 'Guayana', timeFilter } = req.query;
+    const { page = 1, limit = 10, search = 'guayana', timeFilter } = req.query;
     const pageInt = parseInt(page, 10) || 1;
     const limitInt = parseInt(limit, 10) || 10;
 

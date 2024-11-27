@@ -27,6 +27,7 @@ const getHistValues = async (req, res) => {
                     },
                     required: true
                 }],
+                order: [['valueFecha', 'DESC']],
                 where: {} // Añadir un lugar para los filtros de mes/año
             }],
             limit: limitInt,

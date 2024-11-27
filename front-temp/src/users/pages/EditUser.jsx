@@ -57,7 +57,7 @@ return (
                 <button className="close-button" onClick={onClose}>X</button>
                 <div className="header">
                     <img src={Logo} alt="masisa-logo" />
-                    <h2>Nuevo Usuario</h2>
+                    <h2>Editar Usuario</h2>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="localidad-name">
@@ -94,7 +94,7 @@ return (
                     <input
                         className="btn-submit"
                         type="submit"
-                        value="Agregar"
+                        value="Editar"
                     />
                 </form>
             </div>

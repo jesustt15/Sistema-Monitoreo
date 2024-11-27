@@ -6,6 +6,8 @@ export const Table = () => {
     const { valores, getValoresByPagination, handleClickOutside, showMenu, 
         page, totalPages, setPage, search, message } = useValor();
 
+    const pagesToShow = 5; // Número de páginas a mostrar a la vez
+
     useEffect(() => {
         window.addEventListener('click', handleClickOutside);
         return () => {
@@ -20,7 +22,7 @@ export const Table = () => {
     useEffect(() => {
         const intervalId = setInterval(() => {
             getValoresByPagination(page, search);
-        }, 10000); // Actualizar cada 60 segundos
+        }, 540000); // Actualizar cada 60 segundos
 
         return () => clearInterval(intervalId);
     }, [page, search, getValoresByPagination]);
@@ -37,10 +39,19 @@ export const Table = () => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     };
 
-    const pageNumbers = [];
-    for (let i = 1; i <= totalPages; i++) {
-        pageNumbers.push(i);
-    }
+    const calculatePageNumbers = (currentPage, totalPages, pagesToShow) => {
+        const startPage = Math.max(1, currentPage - Math.floor(pagesToShow / 2));
+        const endPage = Math.min(totalPages, startPage + pagesToShow - 1);
+        const adjustedStartPage = Math.max(1, endPage - pagesToShow + 1);
+
+        const pageNumbers = [];
+        for (let i = adjustedStartPage; i <= endPage; i++) {
+            pageNumbers.push(i);
+        }
+        return pageNumbers;
+    };
+
+    const pageNumbers = calculatePageNumbers(page, totalPages, pagesToShow);
 
     return (
         <>
