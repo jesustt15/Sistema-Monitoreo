@@ -37,6 +37,7 @@ body {
   flex-direction: column;
   align-items: center;
   overflow: auto;
+  overflow-x: hidden;
 
 }
 input {
@@ -62,9 +63,11 @@ input:focus {
   width: 96%;
   height: 100%;
   overflow: auto;
+  overflow-x: hidden;
   background-color: white;
   margin-top: 0.8rem;
   border-radius: 3%;
+
 }
 
 .add-btn {

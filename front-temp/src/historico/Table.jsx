@@ -7,6 +7,8 @@ import html2canvas from 'html2canvas';
 export const Table = () => {
     const { getHistorico, page, setPage, totalPages, historico, search, message, filter } = useHistorico();
 
+    const pagesToShow = 5;
+
     useEffect(() => {
         getHistorico(page, search, filter);
     }, [page, search, filter]);
@@ -20,11 +22,21 @@ export const Table = () => {
         const opciones = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
         return new Date(fecha).toLocaleTimeString('es-ES', opciones); 
     };
+    //logica paginacion
+    const calculatePageNumbers = (currentPage, totalPages, pagesToShow) => {
+        const startPage = Math.max(1, currentPage - Math.floor(pagesToShow / 2));
+        const endPage = Math.min(totalPages, startPage + pagesToShow - 1);
+        const adjustedStartPage = Math.max(1, endPage - pagesToShow + 1);
 
-    const pageNumbers = [];
-    for (let i = 1; i <= totalPages; i++) {
-        pageNumbers.push(i);
-    }
+        const pageNumbers = [];
+        for (let i = adjustedStartPage; i <= endPage; i++) {
+            pageNumbers.push(i);
+        }
+        return pageNumbers;
+    };
+
+    const pageNumbers = calculatePageNumbers(page, totalPages, pagesToShow);
+
 
     const capitalizeFirstLetter = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);

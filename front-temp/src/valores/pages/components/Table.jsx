@@ -59,7 +59,7 @@ export const Table = () => {
             <p>{message}</p>
         ) : (
             <>
-                <table>
+                <table id="histable">
                     <thead>
                         <tr>
                             <th>Lugar</th>

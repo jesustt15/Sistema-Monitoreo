@@ -96,9 +96,9 @@ const getValores = async (req, res = response) => {
 };
 
 const getValoresByPagination = async (req, res = response) => {
-    const { page = 1, limit = 10, search = 'guayana', timeFilter } = req.query;
-    const pageInt = parseInt(page, 10) || 1;
-    const limitInt = parseInt(limit, 10) || 10;
+    const { page = 1, limit = 15, search = 'guayana', timeFilter } = req.query;
+    const pageInt = parseInt(page, 15) || 1;
+    const limitInt = parseInt(limit, 15) || 15;
 
     // Calcular el filtro de tiempo
     let timeCondition = {};
